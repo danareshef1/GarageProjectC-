@@ -22,13 +22,23 @@ namespace Ex03.GarageLogic
         public eCarStatus CarStatus { get { return m_CarStatus; } set { m_CarStatus = value; } }
         public Engine Engine { get { return m_Engine; } set { m_Engine = value; } }
 
-        public Vehicle(string i_ModelName, float i_PrecentOfRemainingEnergy, string i_OwnerName, 
-            string i_OwnerPhoneNumber)
+        public Vehicle(string i_ModelName, float i_PrecentOfRemainingEnergy, string i_OwnerName,
+                   string i_OwnerPhoneNumber, List<float> i_TirePressures)
         {
             m_ModelName = i_ModelName;
             m_PrecentOfRemainingEnergy = i_PrecentOfRemainingEnergy;
             m_OwnerName = i_OwnerName;
             m_OwnerPhoneNumber = i_OwnerPhoneNumber;
+
+            if (i_TirePressures.Count != m_Tires.Count)
+            {
+                //throw new ArgumentException("Number of tire pressures does not match number of tires.");
+            }
+
+            for (int i = 0; i < m_Tires.Count; i++)
+            {
+                m_Tires[i].Infaltion(i_TirePressures[i]);
+            }
         }
 
 
@@ -38,7 +48,9 @@ namespace Ex03.GarageLogic
             private float m_TirePressure;
             private float m_MaxTirePressure;
 
-            public float MaxTirePressue { get { return m_MaxTirePressure; } }
+            public string ManufacturerName { get { return m_ManufacturerName; } set { m_ManufacturerName = value; } }
+            public float TirePressure { get { return m_TirePressure; } set { m_TirePressure = value; } }
+            public float MaxTirePressue { get { return m_MaxTirePressure; } set { m_MaxTirePressure = value; } }
             public void Infaltion(float i_HowManyAirToAdd)
             {
                 //ToDo - change and check valid 
