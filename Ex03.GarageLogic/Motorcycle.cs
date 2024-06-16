@@ -15,12 +15,14 @@ namespace Ex03.GarageLogic
         private const float k_MaxFuelAmountInLiter = 5.5f;
         private const float k_MaxBatteryTime = 2.5f;
 
+
         private eLicenseType m_LicenseType;
         private int m_EngineCapacity;
 
         public Motorcycle(eLicenseType i_LicenseType, int i_EngineCapacity, string i_ModelName, float i_PrecentOfRemainingEnergy,
                 string i_OwnerName, string i_OwnerPhoneNumber, List<float> i_IndividualTirePressures)
-         : base(i_ModelName, i_PrecentOfRemainingEnergy, i_OwnerName, i_OwnerPhoneNumber, i_IndividualTirePressures)
+         : base(i_ModelName, i_PrecentOfRemainingEnergy, i_OwnerName, i_OwnerPhoneNumber, i_IndividualTirePressures,
+               k_TireAmount, k_MaxAirPressure)
         {
             m_LicenseType = i_LicenseType;
             m_EngineCapacity = i_EngineCapacity;
