@@ -21,6 +21,8 @@ namespace Ex03.GarageLogic
         {
         }
 
+        public override float MaxBatteryTime => throw new NotImplementedException();
+
         public bool IsMoveHazardMaterials { get { return m_IsMoveHazardMaterials; } }
         public float CargoCapacity
         {
@@ -49,6 +51,10 @@ namespace Ex03.GarageLogic
 
             if (float.TryParse(m_SpecieficDetailsForEachKind[m_CargoCapacityIndex], out cargoCapacity))
             {
+                if (cargoCapacity < 0)
+                {
+                    throw new ArgumentException("The cargo capacity should be positive");
+                }
                 m_CargoCapacity = cargoCapacity;
             }
             else

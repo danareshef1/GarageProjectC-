@@ -69,7 +69,7 @@ namespace Ex03.GarageLogic
 
         public override string[] SpecificData()
         {
-            return new string[] { "Car Color", "How Many Doors" };
+            return new string[] { "Car Color (Black, White, Black, Yellow)", "How Many Doors (2-5)" };
         }
 
     }

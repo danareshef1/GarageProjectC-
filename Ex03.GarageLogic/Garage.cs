@@ -53,14 +53,14 @@ namespace Ex03.GarageLogic
             m_Vehicles[i_LicenseNumber].Vehicle.Engine.FillEngine(i_MinutesToCharge, eFuelType.None);
         }
 
-        public bool CheckIfTheVehicleIsInGarage(string i_LicenseNumber)
+        public Vehicle CheckIfTheVehicleIsInGarage(string i_LicenseNumber)
         {
-            bool isInGarage = false;
+            Vehicle existVehicle = null;
             if (m_Vehicles.ContainsKey(i_LicenseNumber))
             {
-                isInGarage = true;
+                existVehicle = m_Vehicles[i_LicenseNumber].Vehicle;
             }
-            return isInGarage;
+            return existVehicle;
         }
 
         public void AddVehicle(Vehicle i_Vehicle, string i_OwnerName, string i_OwnerPhoneNumber)
@@ -68,7 +68,7 @@ namespace Ex03.GarageLogic
             m_Vehicles[i_Vehicle.LicenseNumber] = new VehicleDataInGarage(i_Vehicle, i_OwnerName, i_OwnerPhoneNumber);
         }
 
-        public void changeVehicleStatusToInRepair(string i_LicenseNumber)
+        public void ChangeVehicleStatusToInRepair(string i_LicenseNumber)
         {
             m_Vehicles[i_LicenseNumber].CarStatus = eCarStatus.InRepair;
         }

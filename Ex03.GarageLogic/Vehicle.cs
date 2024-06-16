@@ -15,6 +15,7 @@ namespace Ex03.GarageLogic
         protected List<string> m_SpecieficDetailsForEachKind = new List<string>();
         private float m_PrecentOfRemainingEnergy;
 
+        public float PrecentOfRemainingEnergy { get { return m_PrecentOfRemainingEnergy; } set { m_PrecentOfRemainingEnergy = value; } }
         public string ModelName { get { return m_ModelName; } set { m_ModelName = value; } }
         public string LicenseNumber { get { return m_LicenseNumber; } }
         public List<Tire> Tires

@@ -19,6 +19,9 @@ namespace Ex03.GarageLogic
         private eLicenseType m_LicenseType;
         private int m_EngineCapacity;
 
+        public eLicenseType LicenseType { get { return m_LicenseType; } }
+        public int EngineCapacity { get { return m_EngineCapacity; } }
+
         public Motorcycle(string i_LicenseNumber) : base(i_LicenseNumber)
         {
         }
@@ -45,6 +48,10 @@ namespace Ex03.GarageLogic
 
             if (int.TryParse(m_SpecieficDetailsForEachKind[k_EngineCapacityIndex], out engineCapacity))
             {
+                if(engineCapacity < 0)
+                {
+                    throw new ArgumentException("The engine capacity should be positive");
+                }
                 m_EngineCapacity = engineCapacity;
             }
             else
@@ -55,7 +62,7 @@ namespace Ex03.GarageLogic
 
         public override string[] SpecificData()
         {
-            return new string[] { "License Type", "Engine Capacity" };
+            return new string[] { "License Type (A1,AA,B1,A) ", "Engine Capacity" };
         }
     }
 
