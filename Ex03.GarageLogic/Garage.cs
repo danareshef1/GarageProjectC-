@@ -51,17 +51,25 @@ namespace Ex03.GarageLogic
             m_Vehicles[i_LicenseNumber].Engine.FillEngine(i_MinutesToCharge, eFuelType.None);
         }
 
+        public bool CheckIfTheVehicleIsInGarage(string i_LicenseNumber)
+        {
+            bool isInGarage = false;
+            if(m_Vehicles.ContainsKey(i_LicenseNumber))
+            {
+                isInGarage = true;
+            }
+            return isInGarage;
+        }
+        
         public void AddVehicle(Vehicle i_Vehicle)
         {
-            if(m_Vehicles.ContainsKey(i_Vehicle.LicenseNumber))
-            {
-                throw new ArgumentException("Vehicle found in the garage, We will use the existed car.");
-            }
-            else
-            {
-                m_Vehicles[i_Vehicle.LicenseNumber] = i_Vehicle;
-            }
-            m_Vehicles[i_Vehicle.LicenseNumber].CarStatus = eCarStatus.InRepair;
+            m_Vehicles[i_Vehicle.LicenseNumber] = i_Vehicle;
+        }
+
+        public void changeVehicleStatusToInRepair(string i_LicenseNumber)
+        {
+            m_Vehicles[i_LicenseNumber].CarStatus = eCarStatus.InRepair;
+
         }
     }
 

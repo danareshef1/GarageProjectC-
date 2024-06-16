@@ -13,7 +13,8 @@ namespace Ex03.GarageLogic
         private const eFuelType k_FuelType = eFuelType.Octan95;
         private const float k_MaxFuelAmountInLiter = 45f;
         private const float k_MaxBatteryTime = 3.5f;
-
+        private readonly int r_MinDoorAmount = 2;
+        private readonly int r_MaxDoorAmount = 5;
         private eCarColor m_CarColor;
         private int m_HowManyDoors;
 
@@ -21,23 +22,51 @@ namespace Ex03.GarageLogic
         public int HowManyDoors { get { return m_HowManyDoors; } }
 
 
-        public Car(eCarColor i_CarColor, int i_HowManyDoors, string i_ModelName, float i_PrecentOfRemainingEnergy,
-                   string i_OwnerName, string i_OwnerPhoneNumber, List<float> i_IndividualTirePressures)
-            : base(i_ModelName, i_PrecentOfRemainingEnergy, i_OwnerName, i_OwnerPhoneNumber, i_IndividualTirePressures,
-                  k_TireAmount,k_MaxAirPressure)
+        public Car(string i_LicenseNumber) : base(i_LicenseNumber)
         {
-            m_CarColor = i_CarColor;
-            m_HowManyDoors = i_HowManyDoors;
 
-            if (m_Engine is FuelEngine)
+        }
+
+        public override eFuelType FuelType { get { return k_FuelType; } }
+        public override float MaxFuelAmount { get { return k_MaxFuelAmountInLiter; } }
+        public override float MaxBatteryTime { get { return k_MaxBatteryTime; } }
+        public override int NumberOfTires { get { return k_TireAmount; } }
+        public override float MaxTireAirPressure { get { return k_MaxAirPressure; } }
+
+        public override void CheckAndInsertSpecificData()
+        {
+            int doorsNum;
+            eCarColor carColor;
+
+            if (int.TryParse(m_SpecieficDetailsForEachKind[0], out doorsNum))
             {
-                ((FuelEngine)m_Engine).FuelType = k_FuelType;
-                ((FuelEngine)m_Engine).MaxFuelAmountInLiter = k_MaxFuelAmountInLiter;
+                if (doorsNum > r_MinDoorAmount || doorsNum < r_MaxDoorAmount)
+                {
+                    //  throw new ValueOutOfRangeException("Amount of doors is not valid.");
+                }
+                else
+                {
+                    m_HowManyDoors = doorsNum;
+                }
             }
             else
             {
-                ((ElectricEngine)m_Engine).MaxBatteryTime = k_MaxBatteryTime;
+                  throw new FormatException("Door amount should be a number.");
             }
+
+            if (eCarColor.TryParse(m_SpecieficDetailsForEachKind[1], out carColor))
+            {
+                m_CarColor = carColor;
+            }
+            else
+            {
+                throw new FormatException("Not valid color.");
+            }
+        }
+
+        public override string[] SpecificData()
+        {
+            return new string[] { "Car Color", "How Many Doors" };
         }
 
     }

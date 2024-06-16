@@ -10,39 +10,37 @@ namespace Ex03.GarageLogic
     {
         private string m_ModelName;
         private string m_LicenseNumber;
-        private float m_PrecentOfRemainingEnergy;
         private List<Tire> m_Tires = new List<Tire>();
         protected Engine m_Engine;
-        private string m_OwnerName;
-        private string m_OwnerPhoneNumber;
-        private eCarStatus m_CarStatus = eCarStatus.InRepair;
+        protected List<string> m_SpecieficDetailsForEachKind = new List<string>();
+        private float m_PrecentOfRemainingEnergy;
 
-        public List<Tire> Tires { get { return m_Tires; } }
-        public string LicenseNumber { get { return m_LicenseNumber; } set { m_LicenseNumber = value; } }
-        public eCarStatus CarStatus { get { return m_CarStatus; } set { m_CarStatus = value; } }
-        public Engine Engine { get { return m_Engine; } set { m_Engine = value; } }
-
-        public Vehicle(string i_ModelName, float i_PrecentOfRemainingEnergy, string i_OwnerName,
-                       string i_OwnerPhoneNumber, List<float> i_TirePressures, int i_NumOfTires, float i_MaxAirPressure)
+        public string ModelName { get { return m_ModelName; } set { m_ModelName = value; } }
+        public string LicenseNumber { get { return m_LicenseNumber; } }
+        public List<Tire> Tires
         {
-            m_ModelName = i_ModelName;
-            m_PrecentOfRemainingEnergy = i_PrecentOfRemainingEnergy;
-            m_OwnerName = i_OwnerName;
-            m_OwnerPhoneNumber = i_OwnerPhoneNumber;
-
-            if (i_NumOfTires != i_TirePressures.Count)
+            get
             {
-                //throw new ArgumentException("Number of tire pressures does not match number of tires.");
+                return m_Tires;
             }
-
-            for (int i = 0; i < i_NumOfTires; i++)
+            set
             {
-                m_Tires[i].Infaltion(i_TirePressures[i]);
-                m_Tires[i].MaxTirePressue = i_MaxAirPressure;
+                if (!IsNumberOfTiresMatchVehicle(value))
+                {
+                    throw new ArgumentException("Invalid number of tires according to the vehicle");
+                }
+                IsTiresPressureMatchVehicleMax(value);
+                m_Tires = value;
 
             }
         }
 
+        public Engine Engine { get { return m_Engine; } set { m_Engine = value; } }
+
+        public Vehicle(string i_LicenseNumber)
+        { 
+            m_LicenseNumber = i_LicenseNumber;
+        }
 
         public class Tire
         {
@@ -60,8 +58,32 @@ namespace Ex03.GarageLogic
 
         }
 
+        public abstract float MaxTireAirPressure { get; }
+        public abstract int NumberOfTires { get; }
 
+        public abstract float MaxFuelAmount { get; }
 
+        public abstract float MaxBatteryTime { get; }
 
+        public abstract eFuelType FuelType { get; }
+
+        protected bool IsNumberOfTiresMatchVehicle(List<Tire> i_Tires)
+        {
+            return i_Tires.Count == NumberOfTires;
+        }
+        protected void IsTiresPressureMatchVehicleMax(List<Tire> i_Tires) //check
+        {
+            foreach (Tire tire in i_Tires)
+            {
+                if (tire.MaxTirePressue != MaxTireAirPressure)
+                {
+                    throw new ArgumentException("Tire pressure is not in maximum pressure");
+                }
+            }
+        }
+
+        public abstract void CheckAndInsertSpecificData();
+
+        public abstract string[] SpecificData();
     }
 }

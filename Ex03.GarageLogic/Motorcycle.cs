@@ -7,37 +7,55 @@ using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    public class Motorcycle: Vehicle
+    public class Motorcycle : Vehicle
     {
         private const int k_TireAmount = 2;
         private const int k_MaxAirPressure = 33;
         private const eFuelType k_FuelType = eFuelType.Octan98;
         private const float k_MaxFuelAmountInLiter = 5.5f;
         private const float k_MaxBatteryTime = 2.5f;
-
-
         private eLicenseType m_LicenseType;
         private int m_EngineCapacity;
 
-        public Motorcycle(eLicenseType i_LicenseType, int i_EngineCapacity, string i_ModelName, float i_PrecentOfRemainingEnergy,
-                string i_OwnerName, string i_OwnerPhoneNumber, List<float> i_IndividualTirePressures)
-         : base(i_ModelName, i_PrecentOfRemainingEnergy, i_OwnerName, i_OwnerPhoneNumber, i_IndividualTirePressures,
-               k_TireAmount, k_MaxAirPressure)
+        public Motorcycle(string i_LicenseNumber) : base(i_LicenseNumber)
         {
-            m_LicenseType = i_LicenseType;
-            m_EngineCapacity = i_EngineCapacity;
+        }
 
-            if (m_Engine is FuelEngine)
+        public override eFuelType FuelType { get { return k_FuelType; } }
+        public override float MaxFuelAmount { get { return k_MaxFuelAmountInLiter; } }
+        public override float MaxBatteryTime { get { return k_MaxBatteryTime; } }
+        public override int NumberOfTires { get { return k_TireAmount; } }
+        public override float MaxTireAirPressure { get { return k_MaxAirPressure; } }
+
+        public override void CheckAndInsertSpecificData()
+        {
+            eLicenseType licenseType;
+            int engineCapacity;
+
+            if (eLicenseType.TryParse(m_SpecieficDetailsForEachKind[0], out licenseType))
             {
-                ((FuelEngine)m_Engine).FuelType = k_FuelType;
-                ((FuelEngine)m_Engine).MaxFuelAmountInLiter = k_MaxFuelAmountInLiter;
+                m_LicenseType = licenseType;
             }
             else
             {
-                ((ElectricEngine)m_Engine).MaxBatteryTime = k_MaxBatteryTime;
+                throw new FormatException("License type is not valid.");
             }
 
-            
+            if (int.TryParse(m_SpecieficDetailsForEachKind[1], out engineCapacity))
+            {
+                m_EngineCapacity = engineCapacity;
+            }
+            else
+            {
+                throw new FormatException("Egine capacity should be a number.");
+            }
+        }
+
+        public override string[] SpecificData()
+        {
+            return new string[] { "License Type", "Engine Capacity" };
         }
     }
+
+
 }

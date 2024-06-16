@@ -12,20 +12,47 @@ namespace Ex03.GarageLogic
         private const int k_MaxAirPressure = 28;
         private const eFuelType k_FuelType = eFuelType.Soler;
         private const float k_MaxFuelAmountInLiter = 120f;
-
         private bool m_IsMoveHazardMaterials;
         private float m_CargoCapacity;
 
-        public Truck(bool i_IsMoveHazardMaterials, float i_CargoCapacity, string i_ModelName, float i_PrecentOfRemainingEnergy,
-              string i_OwnerName, string i_OwnerPhoneNumber, List<float> i_IndividualTirePressures)
-       : base(i_ModelName, i_PrecentOfRemainingEnergy, i_OwnerName, i_OwnerPhoneNumber, i_IndividualTirePressures,
-             k_TireAmount,k_MaxAirPressure)
+        public Truck(string i_LicenseNumber) : base(i_LicenseNumber)
         {
-            m_IsMoveHazardMaterials = i_IsMoveHazardMaterials;
-            m_CargoCapacity = i_CargoCapacity;
-
-            ((FuelEngine)m_Engine).FuelType = k_FuelType;
-            ((FuelEngine)m_Engine).MaxFuelAmountInLiter = k_MaxFuelAmountInLiter;
         }
+
+        public override eFuelType FuelType { get { return k_FuelType; } }
+        public override float MaxFuelAmount { get { return k_MaxFuelAmountInLiter; } }
+        public override int NumberOfTires { get { return k_TireAmount; } }
+        public override float MaxTireAirPressure { get { return k_MaxAirPressure; } }
+
+        public override void CheckAndInsertSpecificData()
+        {
+            bool isMoveHazardMaterials;
+            float cargoCapacity;
+
+            if (bool.TryParse(m_SpecieficDetailsForEachKind[0], out isMoveHazardMaterials))
+            {
+                m_IsMoveHazardMaterials = isMoveHazardMaterials;
+            }
+            else
+            {
+                throw new FormatException("Move hazard materials should be true/false.");
+            }
+
+            if (float.TryParse(m_SpecieficDetailsForEachKind[1], out cargoCapacity))
+            {
+                m_CargoCapacity = cargoCapacity;
+            }
+            else
+            {
+                throw new FormatException("Capacity should be a number.");
+            }
+        }
+
+        public override string[] SpecificData()
+        {
+            return new string[] { "Is MoveHazard Materials", "Cargo Capacity" };
+        }
+
+
     }
 }
