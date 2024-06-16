@@ -8,6 +8,8 @@ namespace Ex03.GarageLogic
 {
     public class Truck : Vehicle
     {
+        private const int k_IsMoveHazardMaterialsIndex = 0;
+        private const int m_CargoCapacityIndex = 1;
         private const int k_TireAmount = 12;
         private const int k_MaxAirPressure = 28;
         private const eFuelType k_FuelType = eFuelType.Soler;
@@ -19,6 +21,13 @@ namespace Ex03.GarageLogic
         {
         }
 
+        public bool IsMoveHazardMaterials { get { return m_IsMoveHazardMaterials; } }
+        public float CargoCapacity
+        {
+            get { return m_CargoCapacity; }
+        }
+
+
         public override eFuelType FuelType { get { return k_FuelType; } }
         public override float MaxFuelAmount { get { return k_MaxFuelAmountInLiter; } }
         public override int NumberOfTires { get { return k_TireAmount; } }
@@ -29,7 +38,7 @@ namespace Ex03.GarageLogic
             bool isMoveHazardMaterials;
             float cargoCapacity;
 
-            if (bool.TryParse(m_SpecieficDetailsForEachKind[0], out isMoveHazardMaterials))
+            if (bool.TryParse(m_SpecieficDetailsForEachKind[k_IsMoveHazardMaterialsIndex], out isMoveHazardMaterials))
             {
                 m_IsMoveHazardMaterials = isMoveHazardMaterials;
             }
@@ -38,7 +47,7 @@ namespace Ex03.GarageLogic
                 throw new FormatException("Move hazard materials should be true/false.");
             }
 
-            if (float.TryParse(m_SpecieficDetailsForEachKind[1], out cargoCapacity))
+            if (float.TryParse(m_SpecieficDetailsForEachKind[m_CargoCapacityIndex], out cargoCapacity))
             {
                 m_CargoCapacity = cargoCapacity;
             }

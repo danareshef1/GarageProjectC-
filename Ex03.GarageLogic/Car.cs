@@ -8,6 +8,8 @@ namespace Ex03.GarageLogic
 {
     public class Car : Vehicle
     {
+        private const int k_CarColorIndex = 1;
+        private const int k_HowManyDoorsIndex = 0;
         private const int k_TireAmount = 5;
         private const int k_MaxAirPressure = 31;
         private const eFuelType k_FuelType = eFuelType.Octan95;
@@ -17,6 +19,7 @@ namespace Ex03.GarageLogic
         private readonly int r_MaxDoorAmount = 5;
         private eCarColor m_CarColor;
         private int m_HowManyDoors;
+
 
         public eCarColor CarColor { get { return m_CarColor; } }
         public int HowManyDoors { get { return m_HowManyDoors; } }
@@ -38,7 +41,7 @@ namespace Ex03.GarageLogic
             int doorsNum;
             eCarColor carColor;
 
-            if (int.TryParse(m_SpecieficDetailsForEachKind[0], out doorsNum))
+            if (int.TryParse(m_SpecieficDetailsForEachKind[k_HowManyDoorsIndex], out doorsNum))
             {
                 if (doorsNum > r_MinDoorAmount || doorsNum < r_MaxDoorAmount)
                 {
@@ -54,7 +57,7 @@ namespace Ex03.GarageLogic
                   throw new FormatException("Door amount should be a number.");
             }
 
-            if (eCarColor.TryParse(m_SpecieficDetailsForEachKind[1], out carColor))
+            if (eCarColor.TryParse(m_SpecieficDetailsForEachKind[k_CarColorIndex], out carColor))
             {
                 m_CarColor = carColor;
             }

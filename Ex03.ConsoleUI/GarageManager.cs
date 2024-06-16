@@ -11,7 +11,7 @@ namespace Ex03.ConsoleUI
     {
         private Garage m_Garage = new Garage();
 
-        public void GetVehicle()
+        /*public void GetVehicle()
         {
             Console.Write("Please Enter your car license: ");
             string carLicense = Console.ReadLine();
@@ -31,7 +31,7 @@ namespace Ex03.ConsoleUI
             Console.WriteLine(": ");
 
         }
-
+        */
 
     }
 }

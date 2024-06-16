@@ -15,7 +15,7 @@ namespace Ex03.GarageLogic
             Motorcycle,
             Truck
         }
-
+        /*
         public Vehicle CreateObject(eVehicleType i_VehicleType)
         {
             switch(i_VehicleType)
@@ -24,5 +24,6 @@ namespace Ex03.GarageLogic
                     return new Car();
             }
         }
+        */
     }
 }
