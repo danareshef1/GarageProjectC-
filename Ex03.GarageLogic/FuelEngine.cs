@@ -12,7 +12,7 @@ namespace Ex03.GarageLogic
         private float m_FuelAmountInLiters;
         private float m_MaxFuelAmountInLiters;
 
-        public void AddFuel(int i_LitersAmount, eFuelType i_FuelType)
+        public override void FillEngine(float i_HowMuchToAdd, eFuelType i_WhatToAdd)
         {
             //ToDo - change the amount and check
         }

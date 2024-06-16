@@ -25,7 +25,32 @@ namespace Ex03.GarageLogic
             return vehiclesByStatus;
         }
 
-        public void ChangeVehicleStatus()
+        public void ChangeVehicleStatus(string i_LicenseNumber, eCarStatus i_NewCarStatus)
+        {
+            //ToDo = check if no vehicle in the garage
+            m_Vehicles[i_LicenseNumber].CarStatus = i_NewCarStatus;
+        }
+
+        public void InfaltionToMax(string i_LicenseNumber)
+        {
+            //ToDo = check if no vehicle in the garage
+            foreach (Vehicle.Tire tire in m_Vehicles[i_LicenseNumber].Tires)
+            {
+                tire.Infaltion(tire.MaxTirePressue);
+            }
+        }
+
+
+        public void FuelingVehicle(string i_LicenseNumber, eFuelType i_FuelType, float i_FuelAmount)
+        {
+            m_Vehicles[i_LicenseNumber].Engine.FillEngine(i_FuelAmount, i_FuelType);
+        }
+
+        public void ChargeVehicle(string i_LicenseNumber, float i_MinutesToCharge)
+        {
+            m_Vehicles[i_LicenseNumber].Engine.FillEngine(i_MinutesToCharge, eFuelType.None);
+        }
+
         public void AddVehicle(Vehicle i_Vehicle)
         {
             if(m_Vehicles.ContainsKey(i_Vehicle.LicenseNumber))

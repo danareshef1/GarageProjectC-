@@ -12,13 +12,15 @@ namespace Ex03.GarageLogic
         private string m_LicenseNumber;
         private float m_PrecentOfRemainingEnergy;
         private List<Tire> m_Tires = new List<Tire>();
-        private Engine m_Engine;
+        protected Engine m_Engine;
         private string m_OwnerName;
         private string m_OwnerPhoneNumber;
         private eCarStatus m_CarStatus = eCarStatus.InRepair;
 
+        public List<Tire> Tires { get { return m_Tires; } }
         public string LicenseNumber { get { return m_LicenseNumber; } set { m_LicenseNumber = value; } }
         public eCarStatus CarStatus { get { return m_CarStatus; } set { m_CarStatus = value; } }
+        public Engine Engine { get { return m_Engine; } set { m_Engine = value; } }
 
         public Vehicle(string i_ModelName, float i_PrecentOfRemainingEnergy, string i_OwnerName, 
             string i_OwnerPhoneNumber)
@@ -29,12 +31,14 @@ namespace Ex03.GarageLogic
             m_OwnerPhoneNumber = i_OwnerPhoneNumber;
         }
 
-        internal class Tire
+
+        public class Tire
         {
             private string m_ManufacturerName;
-            private float m_TyrePressure;
-            private float m_MaxTyrePressure;
+            private float m_TirePressure;
+            private float m_MaxTirePressure;
 
+            public float MaxTirePressue { get { return m_MaxTirePressure; } }
             public void Infaltion(float i_HowManyAirToAdd)
             {
                 //ToDo - change and check valid 

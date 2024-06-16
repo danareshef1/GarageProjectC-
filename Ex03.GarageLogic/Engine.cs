@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    public class Engine
+    public abstract class Engine
     {
+        public abstract void FillEngine(float i_HowMuchToAdd, eFuelType i_WhatToAdd);
+
     }
 }

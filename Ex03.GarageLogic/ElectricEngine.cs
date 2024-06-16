@@ -11,9 +11,9 @@ namespace Ex03.GarageLogic
 
         private float m_RemainingBatteryTime;
         private float m_MaxBatteryTime;
-        
 
-        public void BatteryCharge(float i_HoursToAdd)
+
+        public override void FillEngine(float i_HowMuchToAdd, eFuelType i_WhatToAdd)
         {
             //ToDo 
         }
