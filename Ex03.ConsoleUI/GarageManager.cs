@@ -508,17 +508,20 @@ your choice: ");
                 {
                     string vehicleLicense = GetLicenseNumberFromUser();
 
+                    Console.WriteLine("Pay attantion - your vehicle fuel type is {0}", r_Garage.Vehicles[vehicleLicense].Vehicle.FuelType);
                     Console.Write("Please enter your fuel type: ");
                     printEnumOptions<eFuelType>();
                     string fuelType = Console.ReadLine();
-                    isValidChoice(fuelType, 1, Enum.GetValues(typeof(eFuelType)).Length - 1);
 
+                    isValidChoice(fuelType, 1, Enum.GetValues(typeof(eFuelType)).Length - 1);
                     Console.Write("Please enter how much fuel you want to add: ");
                     string fuelAmount = Console.ReadLine();
+
                     float vehicleFuelAmount;
                     checkIfNumber(fuelAmount, out vehicleFuelAmount);
                     r_Garage.FuelingVehicle(vehicleLicense, (eFuelType)int.Parse(fuelType), vehicleFuelAmount);
                     Console.WriteLine("Vehicle with {0} license - added {1} fuel successfully", vehicleLicense,vehicleFuelAmount);
+                    Console.WriteLine();
                     notValid = false;
                 }
                 catch (Exception ex)
@@ -529,7 +532,7 @@ your choice: ");
             }
         }
 
-
+       
         /// 6
 
         public void ChargeYourVehicle()
@@ -552,6 +555,7 @@ your choice: ");
 
                     r_Garage.ChargeVehicle(vehicleLicense, hoursToCharge);
                     Console.WriteLine("Vehicle with {0} license - added {1} battery minutes successfully", vehicleLicense, minutesToCharge);
+                    Console.WriteLine();
                     notValid = false;
                 }
                 catch (Exception ex)
