@@ -12,6 +12,7 @@ namespace Ex03.ConsoleUI
         private readonly Garage r_Garage = new Garage();
         private readonly VehicleBuilder r_VehicleBuilder = new VehicleBuilder();
 
+
         public void GarageMenu()
         {
             Console.WriteLine(@"(1) Add new vehicle to the garage
@@ -26,7 +27,7 @@ namespace Ex03.ConsoleUI
         public void GetVehicle()
         {
             List<string> specificData = new List<string>();
-            Console.Write("Please Enter your car license: ");
+            Console.Write("Please Enter your vehicle license: ");
             string carLicense = Console.ReadLine();
 
             Vehicle vehicle = r_Garage.CheckIfTheVehicleIsInGarage(carLicense);
@@ -51,17 +52,96 @@ namespace Ex03.ConsoleUI
 
                 for (int i = 0; i < newVehicle.SpecificData().Length; i++)
                 {
-                    Console.Write("please enter {i} ", newVehicle.SpecificData()[i]);
+                    Console.Write("please enter {0} ", newVehicle.SpecificData()[i]);
                     specificData.Add(Console.ReadLine());
                 }
                 newVehicle.SpecieficDetailsForEachKind = specificData;
 
 
-                Console.Write("Please enter the owner phone: ");
+                Console.Write("Please enter the current {0} situation in your car: ", vehicleModel[0]);
+                string remainingEnergy = Console.ReadLine();
+                float energyRemaining;
+                checkIfNumber(remainingEnergy, out energyRemaining);
+                newVehicle.Engine.EnergyRemaining = energyRemaining;
 
+                Console.Write(@"Do you want to add tire air pressure of all the tires together?
+                                (1) yes
+                                (2) no");
+                string userTirePressureChoice = Console.ReadLine();
+
+                isValidChoice(userTirePressureChoice, 1, 2);
+                Console.WriteLine("Please enter tire manufactor name:");
+                string tireManufactorName = Console.ReadLine();
+
+                List<Vehicle.Tire> tiresList = getTiresPressure(newVehicle, isGetAllTirePressureTogether(userTirePressureChoice));
+
+                foreach(Vehicle.Tire tire in tiresList)
+                {
+                    tire.ManufacturerName = tireManufactorName;
+                }
+
+                newVehicle.Tires = tiresList;
 
             }
 
+        }
+
+        private bool isGetAllTirePressureTogether(string i_UserTirePressureChoice)
+        {
+            return (i_UserTirePressureChoice == "1");
+        }
+
+        private List<Vehicle.Tire> getTiresPressure(Vehicle i_Vehicle, bool i_IsGetAllTirePressureTogether)
+        {
+            List<Vehicle.Tire> tiresList = new List<Vehicle.Tire>();
+            float tireAirPressuerNumber;
+
+            Console.WriteLine("Please enter tires air pressure: ");
+            if (i_IsGetAllTirePressureTogether)
+            {
+                checkIfNumber(Console.ReadLine(), out tireAirPressuerNumber);
+                Vehicle.Tire newTire = new Vehicle.Tire();
+                newTire.TirePressure = tireAirPressuerNumber;
+                tiresList.Add(newTire);
+            }
+            else
+            {
+                List<float> tirePressure = new List<float>();
+                for (int i = 0; i < i_Vehicle.NumberOfTires; i++)
+                {
+                    Console.Write("Please enter tire number {0} pressure:", i);
+                    checkIfNumber(Console.ReadLine(), out tireAirPressuerNumber);
+                    tirePressure.Add(tireAirPressuerNumber);
+                    Vehicle.Tire newTire = new Vehicle.Tire();
+                    newTire.TirePressure = tireAirPressuerNumber;
+                    tiresList.Add(newTire);
+                }
+            }
+            return tiresList;
+
+
+        }
+        private void checkIfNumber(string i_userInput, out float o_UserInput)
+        {
+            if (!float.TryParse(Console.ReadLine(), out o_UserInput))
+            {
+                throw new FormatException("should be a number");
+            }
+        }
+        private void isValidChoice(string i_UserInput, int i_MinOption, int i_MaxOption)
+        {
+            int userInput;
+            if (int.TryParse(i_UserInput, out userInput))
+            {
+                if (userInput < i_MinOption || userInput > i_MaxOption)
+                {
+                    throw new ValueOutOfRangeException(i_MaxOption, i_MinOption);
+                }
+            }
+            else
+            {
+                throw new FormatException("Value should be a number.");
+            }
         }
     }
 }

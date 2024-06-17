@@ -66,6 +66,7 @@ namespace Ex03.GarageLogic
         }
 
         public abstract float MaxTireAirPressure { get; }
+
         public abstract int NumberOfTires { get; }
 
         public abstract float MaxFuelAmount { get; }
