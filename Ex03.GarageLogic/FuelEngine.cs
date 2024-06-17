@@ -18,7 +18,7 @@ namespace Ex03.GarageLogic
         {
             if (i_HowMuchToAdd + m_EnergyRemaining > r_MaxEnergy)
             {
-                //  throw new ValueOutOfRangeException("Amount of fuel is bigger than the max capacity.");
+                throw new ValueOutOfRangeException(r_MaxEnergy, 0);
             }
             if (i_WhatToAdd != m_FuelType)
             {

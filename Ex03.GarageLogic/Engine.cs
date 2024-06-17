@@ -27,7 +27,7 @@ namespace Ex03.GarageLogic
                 }
                 else
                 {
-                    throw new ValueOutOfRangeException(r_MaxEnergy,0);
+                    throw new ValueOutOfRangeException(r_MaxEnergy, 0);
                 }
             }
         }

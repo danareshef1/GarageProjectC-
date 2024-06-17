@@ -24,8 +24,8 @@ namespace Ex03.GarageLogic
 
         public Motorcycle(string i_LicenseNumber) : base(i_LicenseNumber)
         {
-        }
 
+        }
         public override eFuelType FuelType { get { return k_FuelType; } }
         public override float MaxFuelAmount { get { return k_MaxFuelAmountInLiter; } }
         public override float MaxBatteryTime { get { return k_MaxBatteryTime; } }
