@@ -14,39 +14,11 @@ namespace Ex03.GarageLogic
         public string[] VehicleOptionalTypes { get { return vehicleOptionalTypes; } }
         public enum eVehicleType
         {
-            FuelCar =1,
+            FuelCar = 1,
             FuelMotorcycle,
             ElectricCar,
             ElectricMotorcycle,
             Truck
-        }
-
-        public eVehicleType CheckWhichkVehicleType(string i_VehicleType)
-        {
-            i_VehicleType = i_VehicleType.ToLower();
-            eVehicleType vehicleType;
-            switch (i_VehicleType)
-            {
-                case "fuel car":
-                    vehicleType = eVehicleType.FuelCar;
-                    break;
-                case "electric car":
-                    vehicleType = eVehicleType.ElectricCar;
-                    break;
-                case "fuel motorcycle":
-                    vehicleType = eVehicleType.FuelMotorcycle;
-                    break;
-                case "electric motorcycle":
-                    vehicleType = eVehicleType.ElectricMotorcycle;
-                    break;
-                case "truck":
-                    vehicleType = eVehicleType.Truck;
-                    break;
-                default:
-                    throw new FormatException("Invalid vehicle type");
-
-            }
-            return vehicleType;
         }
         public Vehicle CreateVehicleObject(eVehicleType i_VehicleType, string i_LicenseNumber)
         {
@@ -73,9 +45,10 @@ namespace Ex03.GarageLogic
                     vehicle = new Truck(i_LicenseNumber);
                     vehicle.Engine = new FuelEngine(vehicle.MaxFuelAmount);
                     break;
-               default:
-                        throw new FormatException("Vehicle type is not valid.");
+                default:
+                    throw new FormatException("Vehicle type is not valid.");
             }
+
             return vehicle;
         }
     }

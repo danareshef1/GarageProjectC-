@@ -53,8 +53,7 @@ namespace Ex03.GarageLogic
 
         public void AddNewTireToTireList(string i_ManufacturerName, float i_TirePressure)
         {
-            Tire newTire = new Tire();
-            newTire.TirePressure = i_TirePressure;
+            Tire newTire = new Tire(i_ManufacturerName, i_TirePressure);
             IsTiresPressureMatchVehicleMax(newTire);
             newTire.ManufacturerName = i_ManufacturerName;
             m_Tires.Add(newTire);
@@ -64,6 +63,13 @@ namespace Ex03.GarageLogic
             private string m_ManufacturerName;
             private float m_TirePressure;
             private float m_MaxTirePressure;
+
+            public Tire(string i_ManufacturerName, float i_TirePressure)
+            {
+                m_ManufacturerName = i_ManufacturerName;
+                m_TirePressure = i_TirePressure;
+                m_MaxTirePressure = MaxTirePressue;
+            }
 
             public string ManufacturerName { get { return m_ManufacturerName; } set { m_ManufacturerName = value; } }
             public float TirePressure { get { return m_TirePressure; } set { m_TirePressure = value; } }
@@ -92,12 +98,15 @@ namespace Ex03.GarageLogic
 
         public abstract eFuelType FuelType { get; }
 
-        public void checkIfTireNumberMatchVehicle()
+        public bool checkIfTireNumberMatchVehicle()
         {
+            bool isTireNumberMatch = true;
             if (!IsNumberOfTiresMatchVehicle(m_Tires))
             {
+                isTireNumberMatch = false;
                 throw new ArgumentException("Invalid number of tires according to the vehicle");
             }
+            return isTireNumberMatch;
         }
         protected bool IsNumberOfTiresMatchVehicle(List<Tire> i_Tires)
         {

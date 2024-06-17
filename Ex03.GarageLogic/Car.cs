@@ -36,6 +36,13 @@ namespace Ex03.GarageLogic
         public override int NumberOfTires { get { return k_TireAmount; } }
         public override float MaxTireAirPressure { get { return k_MaxAirPressure; } }
 
+        public enum eCarColor
+        {
+            Yellow = 1,
+            White,
+            Red,
+            Black
+        }
         public override void CheckAndInsertSpecificData()
         {
             int doorsNum;
@@ -56,7 +63,7 @@ namespace Ex03.GarageLogic
             {
                   throw new FormatException("Door amount should be a number.");
             }
-            if (!Enum.TryParse<eCarColor>(m_SpecieficDetailsForEachKind[k_CarColorIndex], out carColor))
+            if (Enum.TryParse<eCarColor>(m_SpecieficDetailsForEachKind[k_CarColorIndex], out carColor))
             {
                 m_CarColor = carColor;
             }

@@ -19,12 +19,20 @@ namespace Ex03.GarageLogic
         private eLicenseType m_LicenseType;
         private int m_EngineCapacity;
 
-        public eLicenseType LicenseType { get { return m_LicenseType; } }
-        public int EngineCapacity { get { return m_EngineCapacity; } }
-
         public Motorcycle(string i_LicenseNumber) : base(i_LicenseNumber)
         {
 
+        }
+
+        public eLicenseType LicenseType { get { return m_LicenseType; } }
+        public int EngineCapacity { get { return m_EngineCapacity; } }
+
+        public enum eLicenseType
+        {
+            AA = 1,
+            A1,
+            A,
+            B1
         }
         public override eFuelType FuelType { get { return k_FuelType; } }
         public override float MaxFuelAmount { get { return k_MaxFuelAmountInLiter; } }

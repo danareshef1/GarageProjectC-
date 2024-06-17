@@ -14,7 +14,8 @@ namespace Ex03.ConsoleUI
         InfalteTires,
         AddGas,
         ChargeBattery,
-        PresentFullDetails
+        PresentFullDetails,
+        Exit
 
     }
 }

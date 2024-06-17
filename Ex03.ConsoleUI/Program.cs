@@ -10,10 +10,8 @@ namespace Ex03.ConsoleUI
     {
         public static void Main()
         {
-       GarageManager garageManager = new GarageManager();
-            garageManager.GarageMenu();
-         eMenuOptions userInput = (eMenuOptions)int.Parse(Console.ReadLine());
-            garageManager.MenuChoice(userInput);
+            GarageManager garageManager = new GarageManager();
+            garageManager.StartGarageWork();
         }
     }
 }
