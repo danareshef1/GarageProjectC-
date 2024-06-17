@@ -45,14 +45,19 @@ namespace Ex03.GarageLogic
         }
         public override void CheckAndInsertSpecificData()
         {
+            checkDoorsNum();
+            checkCarColor();
+        }
+
+        public void checkDoorsNum()
+        {
             int doorsNum;
-            eCarColor carColor;
 
             if (int.TryParse(m_SpecieficDetailsForEachKind[k_HowManyDoorsIndex], out doorsNum))
             {
                 if (doorsNum < k_MinDoorAmount || doorsNum > k_MaxDoorAmount)
                 {
-                     throw new ValueOutOfRangeException(k_MaxDoorAmount, k_MinDoorAmount);
+                    throw new ValueOutOfRangeException(k_MaxDoorAmount, k_MinDoorAmount);
                 }
                 else
                 {
@@ -61,8 +66,13 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                  throw new FormatException("Door amount should be a number.");
+                throw new FormatException("Door amount should be a number.");
             }
+        }
+
+        private void checkCarColor()
+        {
+            eCarColor carColor;
 
             string colorOfCar = ConvertInputToEnumFormat(m_SpecieficDetailsForEachKind[k_CarColorIndex]);
 
@@ -74,16 +84,6 @@ namespace Ex03.GarageLogic
             {
                 throw new FormatException("Not valid color.");
             }
-        }
-
-        public string ConvertInputToEnumFormat(string i_Input)
-        {
-            string sentence = i_Input.ToLower();
-
-            sentence = sentence.Substring(1);
-            string firstLetter = i_Input[0].ToString().ToUpper();
-
-            return firstLetter + sentence;
         }
         public override string[] SpecificData()
         {

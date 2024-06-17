@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using static Ex03.GarageLogic.Motorcycle;
 
 namespace Ex03.GarageLogic
 {
@@ -42,8 +43,13 @@ namespace Ex03.GarageLogic
 
         public override void CheckAndInsertSpecificData()
         {
+            checkLicenseType();
+            checkEngineCapacity();
+        }
+
+        private void checkLicenseType()
+        {
             eLicenseType licenseType;
-            int engineCapacity;
 
             if (eLicenseType.TryParse(m_SpecieficDetailsForEachKind[k_LicenseTypeIndex], out licenseType))
             {
@@ -53,20 +59,24 @@ namespace Ex03.GarageLogic
             {
                 throw new FormatException("License type is not valid.");
             }
+        }
+
+        private void checkEngineCapacity()
+        {
+            int engineCapacity;
+
             if (int.TryParse(m_SpecieficDetailsForEachKind[k_EngineCapacityIndex], out engineCapacity))
             {
-                if(engineCapacity < 0)
+                if (engineCapacity < 0)
                 {
                     throw new ArgumentException("The engine capacity should be positive");
                 }
-
             }
             else
             {
                 throw new FormatException("Egine capacity should be a number.");
             }
         }
-
         public override string[] SpecificData()
         {
             return new string[] { $"License Type, options are: " +
@@ -74,6 +84,4 @@ namespace Ex03.GarageLogic
                                 "Engine Capacity" };
         }
     }
-
-
 }

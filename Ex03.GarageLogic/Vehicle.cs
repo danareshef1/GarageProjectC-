@@ -124,8 +124,16 @@ namespace Ex03.GarageLogic
         public abstract void CheckAndInsertSpecificData();
 
         public abstract string[] SpecificData();
- 
-    }
 
+        protected string ConvertInputToEnumFormat(string i_Input)
+        {
+            string sentence = i_Input.ToLower();
+
+            sentence = sentence.Substring(1);
+            string firstLetter = i_Input[0].ToString().ToUpper();
+
+            return firstLetter + sentence;
+        }
+    }
 
 }

@@ -15,15 +15,9 @@ namespace Ex03.ConsoleUI
 
         public void StartGarageWork()
         {
-            r_Garage.AddVehicle(new Car("123"), "noy", "0532707630");
-            r_Garage.AddVehicle(new Car("456"), "dana", "1234567");
-            r_Garage.AddVehicle(new Car("789"), "guy ronen", "000000");
-            r_Garage.AddVehicle(new Car("666"), "romina zigdon", "666");
-
-
-            bool stayInTheGarage = true; 
+            bool stayInTheGarage = true;
             Console.WriteLine("Welcome to our garage!");
-            while(stayInTheGarage)
+            while (stayInTheGarage)
             {
                 PresentGarageMenu();
                 eMenuOptions userInput = (eMenuOptions)int.Parse(Console.ReadLine());
@@ -45,6 +39,7 @@ namespace Ex03.ConsoleUI
 (6) Charge your vehicle - if you have an electric vehicle
 (7) Present full details about a vehicle
 (8) Exit");
+            Console.Write("Your choice is: ");
         }
 
         public void MenuChoice(eMenuOptions i_UserInput, ref bool io_Exit)
@@ -92,7 +87,7 @@ namespace Ex03.ConsoleUI
         {
             for (int i = 0; i < Enum.GetValues(typeof(T)).Length; i++)
             {
-                Console.WriteLine("({0}) {1}", i + 1, Enum.GetName(typeof(T), i+1));
+                Console.WriteLine("({0}) {1}", i + 1, Enum.GetName(typeof(T), i + 1));
             }
         }
 
@@ -145,7 +140,7 @@ namespace Ex03.ConsoleUI
             {
                 Console.WriteLine("({0}) {1}", i + 1, r_VehicleBuilder.VehicleOptionalTypes[i]);
             }
-            Console.Write("Your choice is: ");
+            Console.WriteLine("Your choice is: ");
 
         }
 
@@ -206,7 +201,7 @@ your choice: ");
         }
         private string getManufacturerNameTires()
         {
-            Console.Write("Please enter tire manufactor name: ");
+            Console.Write("Please enter tire manufacturer name: ");
             string tireManufacturerName = Console.ReadLine();
             return tireManufacturerName;
         }
@@ -325,25 +320,14 @@ your choice: ");
             {
                 try
                 {
-                    if (r_Garage.Vehicles.Count == 0)
-                    {
-                        throw new ArgumentException("There are no vehicles in the garage");
-                    }
-                    Console.WriteLine("Here are all the cars we have in the garage right now:");
-                    foreach (var vehicle in r_Garage.Vehicles)
-                    {
-                        Console.WriteLine(vehicle.Key);
-                    }
-                    Console.Write(@"Do you want to filter them by status?
+                    Console.WriteLine(@"Do you want to filter them by status?
 (1) yes
 (2) no");
-                    Console.Write("Your choice: ");
+                    Console.WriteLine("Your choice: ");
                     string filterBYChoice = Console.ReadLine();
 
                     isValidChoice(filterBYChoice, 1, 2);
-                    int toFilterBy = int.Parse(filterBYChoice);
-
-                    if (toFilterBy == 1)
+                    if (int.Parse(filterBYChoice) == 1)
                     {
                         eVehicleStatus chosenStatus;
                         chosenStatus = ChooseFilter();
@@ -414,6 +398,7 @@ your choice: ");
                 Console.WriteLine("{0}. {1} ", i, vehicle.Key);
                 i++;
             }
+            Console.WriteLine(" ");
         }
 
         private eVehicleStatus getVehicleStatus()
@@ -507,20 +492,28 @@ your choice: ");
                 try
                 {
                     string vehicleLicense = GetLicenseNumberFromUser();
+                    if (r_Garage.Vehicles[vehicleLicense].Vehicle.Engine.GetType() == typeof(FuelEngine))
+                    {
+                        Console.WriteLine("Please choose your fuel type: ");
+                        printEnumOptions<eFuelType>();
+                        string fuelType = Console.ReadLine();
+                        isValidChoice(fuelType, 1, Enum.GetValues(typeof(eFuelType)).Length - 1);
 
-                    Console.Write("Please enter your fuel type: ");
-                    printEnumOptions<eFuelType>();
-                    string fuelType = Console.ReadLine();
-                    isValidChoice(fuelType, 1, Enum.GetValues(typeof(eFuelType)).Length - 1);
+                        Console.Write("Please enter how much fuel you want to add: ");
+                        string fuelAmount = Console.ReadLine();
+                        float vehicleFuelAmount;
 
-                    Console.Write("Please enter how much fuel you want to add: ");
-                    string fuelAmount = Console.ReadLine();
-                    float vehicleFuelAmount;
-                    checkIfNumber(fuelAmount, out vehicleFuelAmount);
-                    r_Garage.FuelingVehicle(vehicleLicense, (eFuelType)int.Parse(fuelType), vehicleFuelAmount);
-                    Console.WriteLine("Vehicle with {0} license - added {1} fuel successfully", vehicleLicense,vehicleFuelAmount);
+                        checkIfNumber(fuelAmount, out vehicleFuelAmount);
+                        r_Garage.FuelingVehicle(vehicleLicense, (eFuelType)int.Parse(fuelType), vehicleFuelAmount);
+                        Console.WriteLine("Vehicle with {0} license - added {1} fuel successfully", vehicleLicense, vehicleFuelAmount);
+                    }
+                    else
+                    {
+                        throw new ArgumentException("You cant add fuel to a vehicle that have electirc engine.");
+                    }
                     notValid = false;
                 }
+
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
@@ -529,9 +522,7 @@ your choice: ");
             }
         }
 
-
         /// 6
-
         public void ChargeYourVehicle()
         {
             checkIfGarageIsEmpty();
@@ -542,16 +533,22 @@ your choice: ");
                 try
                 {
                     string vehicleLicense = GetLicenseNumberFromUser();
+                    if (r_Garage.Vehicles[vehicleLicense].Vehicle.Engine.GetType() == typeof(ElectricEngine))
+                    {
+                        Console.Write("Please enter the time you want to charge in minutes:");
+                        string minuesAmount = Console.ReadLine();
 
-                    Console.Write("Please enter the time you want to charge in minutes:");
-                    string minuesAmount = Console.ReadLine();
+                        float minutesToCharge;
+                        checkIfNumber(minuesAmount, out minutesToCharge);
+                        float hoursToCharge = ConvertMinutesToHours(minutesToCharge);
 
-                    float minutesToCharge;
-                    checkIfNumber(minuesAmount, out minutesToCharge);
-                    float hoursToCharge = ConvertMinutesToHours(minutesToCharge);
-
-                    r_Garage.ChargeVehicle(vehicleLicense, hoursToCharge);
-                    Console.WriteLine("Vehicle with {0} license - added {1} battery minutes successfully", vehicleLicense, minutesToCharge);
+                        r_Garage.ChargeVehicle(vehicleLicense, hoursToCharge);
+                        Console.WriteLine("Vehicle with {0} license - added {1} battery minutes successfully", vehicleLicense, minutesToCharge);
+                    }
+                    else
+                    {
+                        throw new ArgumentException("You cant charge vehicle that have fuel engine.");
+                    }
                     notValid = false;
                 }
                 catch (Exception ex)
@@ -563,12 +560,10 @@ your choice: ");
         }
         public float ConvertMinutesToHours(float i_Minutes)
         {
-            return i_Minutes / 60;
+            return i_Minutes / 60f;
         }
 
         /// 7
-
-
         public void PresentAllVehicleDetails()
         {
             checkIfGarageIsEmpty();

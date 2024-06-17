@@ -37,18 +37,31 @@ namespace Ex03.GarageLogic
 
         public override void CheckAndInsertSpecificData()
         {
-            bool isMoveHazardMaterials;
-            float cargoCapacity;
+            checkIsMoveHazard();
+            checkCargoCapacity();
+        }
 
-            if (bool.TryParse(m_SpecieficDetailsForEachKind[k_IsMoveHazardMaterialsIndex], out isMoveHazardMaterials))
+        private void checkIsMoveHazard()
+        {
+            string isMoveHazard = ConvertInputToEnumFormat(SpecieficDetailsForEachKind[k_IsMoveHazardMaterialsIndex]);
+            if (isMoveHazard == "Yes")
             {
-                m_IsMoveHazardMaterials = isMoveHazardMaterials;
+                m_IsMoveHazardMaterials = true;
+            }
+            else if (isMoveHazard == "No")
+            {
+                m_IsMoveHazardMaterials = false;
+
             }
             else
             {
-                throw new FormatException("Move hazard materials should be true/false.");
+                throw new FormatException("Move hazard materials should be yes/no.");
             }
+        }
 
+        private void checkCargoCapacity()
+        {
+            float cargoCapacity;
             if (float.TryParse(m_SpecieficDetailsForEachKind[m_CargoCapacityIndex], out cargoCapacity))
             {
                 if (cargoCapacity < 0)
@@ -62,7 +75,6 @@ namespace Ex03.GarageLogic
                 throw new FormatException("Capacity should be a number.");
             }
         }
-
         public override string[] SpecificData()
         {
             return new string[] { "Is MoveHazard Materials", "Cargo Capacity" };
