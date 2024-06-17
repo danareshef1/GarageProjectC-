@@ -79,7 +79,6 @@ namespace Ex03.ConsoleUI
             catch (Exception ex)
             {
                 Console.WriteLine("Error: {0}. Please try again.", ex.Message);
-
             }
 
         }
@@ -87,7 +86,7 @@ namespace Ex03.ConsoleUI
         {
             for (int i = 0; i < Enum.GetValues(typeof(T)).Length; i++)
             {
-                Console.WriteLine("({0}) {1}", i + 1, Enum.GetName(typeof(T), i));
+                Console.WriteLine("({0}) {1}", i + 1, Enum.GetName(typeof(T), i + 1));
             }
         }
 
@@ -128,6 +127,7 @@ namespace Ex03.ConsoleUI
             {
                 getNewVehicle(carLicense);
                 Console.WriteLine("Vehicle {0} added to the grage! ", carLicense);
+                Console.WriteLine();
             }
         }
 
@@ -194,6 +194,7 @@ your choice: ");
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                    Console.WriteLine();
                 }
             }
         }
@@ -319,6 +320,7 @@ your choice: ");
                 {
                     if (r_Garage.Vehicles.Count == 0)
                     {
+                        notValid = false;
                         throw new ArgumentException("There are no vehicles in the garage");
                     }
                     Console.WriteLine("Here are all the cars we have in the garage right now:");
@@ -346,6 +348,7 @@ your choice: ");
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                    Console.WriteLine();
                 }
 
             }
@@ -381,24 +384,43 @@ your choice: ");
         {
             bool notValid = true;
 
-            while (notValid)
+            bool emptyGrage = IsGrageEmpty();
+
+            while (notValid && !emptyGrage)
             {
                 try
                 {
                     string vehicleLicense = GetLicenseNumberFromUser();
 
+                    r_Garage.CheckIfTheVehicleIsInGarage(vehicleLicense);
                     eVehicleStatus vehicleStatus = getVehicleStatus();
+
                     r_Garage.ChangeVehicleStatus(vehicleLicense, vehicleStatus);
+                    Console.WriteLine("This vehicle status as cahnged to {0}", vehicleStatus);
+                    Console.WriteLine();
                     notValid = false;
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                    Console.WriteLine();
                 }
 
             }
         }
+        public bool IsGrageEmpty()
+        {
+            bool isEmpty = false;
 
+            if (r_Garage.Vehicles.Count == 0)
+            {
+                Console.WriteLine("The garage have no cars inside yet");
+                Console.WriteLine();
+                isEmpty = true;
+            }
+
+            return isEmpty;
+        }
         public string GetLicenseNumberFromUser()
         {
             Console.Write("Please Enter your vehicle license number: ");
@@ -435,6 +457,7 @@ your choice: ");
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                    Console.WriteLine();
                 }
             }
         }
@@ -466,6 +489,7 @@ your choice: ");
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                    Console.WriteLine();
                 }
             }
         }
@@ -496,6 +520,7 @@ your choice: ");
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                    Console.WriteLine();
                 }
             }
         }
@@ -552,6 +577,7 @@ your choice: ");
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                    Console.WriteLine();
                 }
 
             }
