@@ -54,7 +54,7 @@ namespace Ex03.GarageLogic
         public void AddNewTireToTireList(string i_ManufacturerName, float i_TirePressure)
         {
             Tire newTire = new Tire(i_ManufacturerName, i_TirePressure, MaxTireAirPressure);
-            IsTiresPressureMatchVehicleMax(newTire);
+            IsLowerThanTireAirPressureeMax(newTire);
             newTire.ManufacturerName = i_ManufacturerName;
             m_Tires.Add(newTire);
         }
@@ -113,11 +113,11 @@ namespace Ex03.GarageLogic
         {
             return i_Tires.Count == NumberOfTires;
         }
-        protected void IsTiresPressureMatchVehicleMax(Tire i_Tire) 
+        protected void IsLowerThanTireAirPressureeMax(Tire i_Tire) 
         {
-                if (i_Tire.TirePressure != MaxTireAirPressure)
+                if (i_Tire.TirePressure > MaxTireAirPressure)
                 {
-                    throw new ArgumentException("Tire pressure is not in maximum pressure");
+                    throw new ValueOutOfRangeException(MaxTireAirPressure,0);
                 }
         }
 

@@ -12,7 +12,7 @@ namespace Ex03.GarageLogic
 
         public Dictionary<string, VehicleDataInGarage> Vehicles { get { return m_Vehicles; } }
 
-        public Dictionary<string, VehicleDataInGarage> GetLicenseNumberList(eVehicleStatus i_StatusToPresentBy)
+        public Dictionary<string, VehicleDataInGarage> GetLicenseNumberListByStatus(eVehicleStatus i_StatusToPresentBy)
         {
             Dictionary<string, VehicleDataInGarage> vehiclesByStatus = new Dictionary<string, VehicleDataInGarage>();
 
@@ -23,7 +23,6 @@ namespace Ex03.GarageLogic
                     vehiclesByStatus[vehicle.Key] = vehicle.Value;
                 }
             }
-
             return vehiclesByStatus;
         }
 

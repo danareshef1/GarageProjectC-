@@ -15,6 +15,12 @@ namespace Ex03.ConsoleUI
 
         public void StartGarageWork()
         {
+            r_Garage.AddVehicle(new Car("123"), "noy", "0532707630");
+            r_Garage.AddVehicle(new Car("456"), "dana", "1234567");
+            r_Garage.AddVehicle(new Car("789"), "guy ronen", "000000");
+            r_Garage.AddVehicle(new Car("666"), "romina zigdon", "666");
+
+
             bool stayInTheGarage = true; 
             Console.WriteLine("Welcome to our garage!");
             while(stayInTheGarage)
@@ -87,7 +93,7 @@ namespace Ex03.ConsoleUI
         {
             for (int i = 0; i < Enum.GetValues(typeof(T)).Length; i++)
             {
-                Console.WriteLine("({0}) {1}", i + 1, Enum.GetName(typeof(T), i));
+                Console.WriteLine("({0}) {1}", i + 1, Enum.GetName(typeof(T), i+1));
             }
         }
 
@@ -121,13 +127,13 @@ namespace Ex03.ConsoleUI
 
             if (r_Garage.CheckIfTheVehicleIsInGarage(carLicense))
             {
-                Console.Write("Vehicle license {0} is already exist in the garage!", carLicense);
+                Console.WriteLine("Vehicle license {0} is already exist in the garage!", carLicense);
                 r_Garage.ChangeVehicleStatusToInRepair(carLicense);
             }
             else
             {
                 getNewVehicle(carLicense);
-                Console.WriteLine("Vehicle {0} added to the grage! ", carLicense);
+                Console.WriteLine("Vehicle with {0} license added to the garage successfully! ", carLicense);
             }
         }
 
@@ -180,7 +186,7 @@ namespace Ex03.ConsoleUI
                 try
                 {
 
-                    Console.Write(@"Do you want to add tire air pressure of all the tires together?
+                    Console.WriteLine(@"Do you want to add tire air pressure of all the tires together?
 (1) yes
 (2) no
 your choice: ");
@@ -283,7 +289,6 @@ your choice: ");
                     if (i_IsGetAllTirePressureTogether)
                     {
                         checkIfNumber(Console.ReadLine(), out tireAirPressuerNumber);
-
                         for (int i = 0; i < i_Vehicle.NumberOfTires; i++)
                         {
                             i_Vehicle.AddNewTireToTireList(i_ManufacturerName, tireAirPressuerNumber);
@@ -311,22 +316,16 @@ your choice: ");
         ///2
         public void PresentLicenseNumbersInTheGarage()
         {
+            checkIfGarageIsEmpty();
+            presentAllVehiclesInTheGarage();
             bool notValid = true;
 
             while (notValid)
             {
                 try
                 {
-                    if (r_Garage.Vehicles.Count == 0)
-                    {
-                        throw new ArgumentException("There are no vehicles in the garage");
-                    }
-                    Console.WriteLine("Here are all the cars we have in the garage right now:");
-                    foreach (var vehicle in r_Garage.Vehicles)
-                    {
-                        Console.WriteLine(vehicle.Key);
-                    }
-                    Console.Write(@"Do you want to filter them by status?
+
+                    Console.WriteLine(@"Do you want to filter them by status?
 (1) yes
 (2) no");
                     Console.Write("Your choice: ");
@@ -348,22 +347,62 @@ your choice: ");
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
                 }
 
+
             }
         }
+        private void checkIfGarageIsEmpty()
+        {
+            bool notValid = true;
+            while (notValid)
+            {
+                try
+                {
+                    if (r_Garage.Vehicles.Count == 0)
+                    {
+                        notValid = false;
+                        throw new ArgumentException("There are no vehicles in the garage");
+                    }
+                    notValid = false;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                }
+            }
+        }
+        private void presentAllVehiclesInTheGarage()
+        {
+            Console.WriteLine("Here are all the cars we have in the garage right now:");
+            printVeihcles(r_Garage.Vehicles);
+        }
+
         public eVehicleStatus ChooseFilter()
         {
-            Console.Write("By which status you would like to filter by? ");
+            Console.WriteLine("By which status you would like to filter by? ");
             return getVehicleStatus();
         }
         private void PresentLicenseNumbersInTheGarageFiltered(eVehicleStatus i_CarStatus)
         {
-            Console.WriteLine("Here are all the cars we have in the garage right now in the status you chose:");
-            foreach (var vehicle in r_Garage.Vehicles)
+            Dictionary<string, VehicleDataInGarage> newListSortedByStatus = r_Garage.GetLicenseNumberListByStatus(i_CarStatus);
+            if (newListSortedByStatus.Count == 0)
             {
-                if (vehicle.Value.VehicleStatus == i_CarStatus)
-                {
-                    Console.WriteLine(vehicle.Key);
-                }
+                Console.WriteLine("There is no vehicles in the garage in {0} status", i_CarStatus);
+            }
+            else
+            {
+                Console.WriteLine("Here are all the vehicles we have in the garage right now in {0} status:", i_CarStatus);
+                printVeihcles(newListSortedByStatus);
+            }
+
+        }
+
+        private void printVeihcles(Dictionary<string, VehicleDataInGarage> i_Vehicles)
+        {
+            int i = 1;
+            foreach (var vehicle in i_Vehicles)
+            {
+                Console.WriteLine("{0}. {1} ", i, vehicle.Key);
+                i++;
             }
         }
 
@@ -379,6 +418,8 @@ your choice: ");
         /// 3
         public void ChangeVehicleStatus()
         {
+            checkIfGarageIsEmpty();
+
             bool notValid = true;
 
             while (notValid)
@@ -389,6 +430,7 @@ your choice: ");
 
                     eVehicleStatus vehicleStatus = getVehicleStatus();
                     r_Garage.ChangeVehicleStatus(vehicleLicense, vehicleStatus);
+                    Console.WriteLine("Vehicle with {0} license - vehicle status changed to {1} successfully", vehicleLicense, vehicleStatus);
                     notValid = false;
                 }
                 catch (Exception ex)
@@ -409,7 +451,6 @@ your choice: ");
 
         public eVehicleStatus GetVehicleStatusFromTheUser()
         {
-
             Console.Write("Please enter the new status for the car: ");
             printEnumOptions<eVehicleStatus>();
             string whichStatus = Console.ReadLine();
@@ -421,6 +462,7 @@ your choice: ");
         /// 4
         public void InfalteTiresToMax()
         {
+            checkIfGarageIsEmpty();
             bool notValid = true;
 
             while (notValid)
@@ -430,6 +472,7 @@ your choice: ");
                     string vehicleLicense = GetLicenseNumberFromUser();
 
                     r_Garage.InfaltionToMax(vehicleLicense);
+                    Console.WriteLine("Vehicle with {0} license - the tires were successfully inflated", vehicleLicense);
                     notValid = false;
                 }
                 catch (Exception ex)
@@ -442,6 +485,7 @@ your choice: ");
         /// 5
         public void AddFuelToVehicle()
         {
+            checkIfGarageIsEmpty();
             bool notValid = true;
 
             while (notValid)
@@ -457,10 +501,10 @@ your choice: ");
 
                     Console.Write("Please enter how much fuel you want to add: ");
                     string fuelAmount = Console.ReadLine();
-
                     float vehicleFuelAmount;
                     checkIfNumber(fuelAmount, out vehicleFuelAmount);
                     r_Garage.FuelingVehicle(vehicleLicense, (eFuelType)int.Parse(fuelType), vehicleFuelAmount);
+                    Console.WriteLine("Vehicle with {0} license - added {1} fuel successfully", vehicleLicense,vehicleFuelAmount);
                     notValid = false;
                 }
                 catch (Exception ex)
@@ -475,6 +519,7 @@ your choice: ");
 
         public void ChargeYourVehicle()
         {
+            checkIfGarageIsEmpty();
             bool notValid = true;
 
             while (notValid)
@@ -491,6 +536,7 @@ your choice: ");
                     float hoursToCharge = ConvertMinutesToHours(minutesToCharge);
 
                     r_Garage.ChargeVehicle(vehicleLicense, hoursToCharge);
+                    Console.WriteLine("Vehicle with {0} license - added {1} battery minutes successfully", vehicleLicense, minutesToCharge);
                     notValid = false;
                 }
                 catch (Exception ex)
@@ -509,6 +555,7 @@ your choice: ");
 
         public void PresentAllVehicleDetails()
         {
+            checkIfGarageIsEmpty();
             bool notValid = true;
 
             while (notValid)
