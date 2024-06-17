@@ -85,7 +85,6 @@ namespace Ex03.ConsoleUI
             catch (Exception ex)
             {
                 Console.WriteLine("Error: {0}. Please try again.", ex.Message);
-
             }
 
         }
@@ -134,6 +133,7 @@ namespace Ex03.ConsoleUI
             {
                 getNewVehicle(carLicense);
                 Console.WriteLine("Vehicle with {0} license added to the garage successfully! ", carLicense);
+                Console.WriteLine();
             }
         }
 
@@ -200,6 +200,7 @@ your choice: ");
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                    Console.WriteLine();
                 }
             }
         }
@@ -324,8 +325,16 @@ your choice: ");
             {
                 try
                 {
-
-                    Console.WriteLine(@"Do you want to filter them by status?
+                    if (r_Garage.Vehicles.Count == 0)
+                    {
+                        throw new ArgumentException("There are no vehicles in the garage");
+                    }
+                    Console.WriteLine("Here are all the cars we have in the garage right now:");
+                    foreach (var vehicle in r_Garage.Vehicles)
+                    {
+                        Console.WriteLine(vehicle.Key);
+                    }
+                    Console.Write(@"Do you want to filter them by status?
 (1) yes
 (2) no");
                     Console.Write("Your choice: ");
@@ -345,6 +354,7 @@ your choice: ");
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                    Console.WriteLine();
                 }
 
 
@@ -422,20 +432,26 @@ your choice: ");
 
             bool notValid = true;
 
-            while (notValid)
+            bool emptyGrage = IsGrageEmpty();
+
+            while (notValid && !emptyGrage)
             {
                 try
                 {
                     string vehicleLicense = GetLicenseNumberFromUser();
 
+                    r_Garage.CheckIfTheVehicleIsInGarage(vehicleLicense);
                     eVehicleStatus vehicleStatus = getVehicleStatus();
+
                     r_Garage.ChangeVehicleStatus(vehicleLicense, vehicleStatus);
                     Console.WriteLine("Vehicle with {0} license - vehicle status changed to {1} successfully", vehicleLicense, vehicleStatus);
+                    Console.WriteLine();
                     notValid = false;
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                    Console.WriteLine();
                 }
 
             }
@@ -478,6 +494,7 @@ your choice: ");
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                    Console.WriteLine();
                 }
             }
         }
@@ -510,6 +527,7 @@ your choice: ");
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                    Console.WriteLine();
                 }
             }
         }
@@ -542,6 +560,7 @@ your choice: ");
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                    Console.WriteLine();
                 }
             }
         }
@@ -599,6 +618,7 @@ your choice: ");
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                    Console.WriteLine();
                 }
 
             }

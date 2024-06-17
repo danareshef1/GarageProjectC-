@@ -28,7 +28,6 @@ namespace Ex03.GarageLogic
 
         public void ChangeVehicleStatus(string i_LicenseNumber, eVehicleStatus i_NewCarStatus)
         {
-
             if (CheckIfTheVehicleIsInGarage(i_LicenseNumber))
             {
                 m_Vehicles[i_LicenseNumber].VehicleStatus = i_NewCarStatus;
@@ -41,7 +40,6 @@ namespace Ex03.GarageLogic
 
         public void InfaltionToMax(string i_LicenseNumber)
         {
-
             if (CheckIfTheVehicleIsInGarage(i_LicenseNumber))
             {
                 foreach (Vehicle.Tire tire in m_Vehicles[i_LicenseNumber].Vehicle.Tires)
@@ -54,8 +52,6 @@ namespace Ex03.GarageLogic
                 throw new ArgumentException("There is no such vehicle in the garage");
             }
         }
-
-
         public void FuelingVehicle(string i_LicenseNumber, eFuelType i_FuelType, float i_FuelAmount)
         {
             if (CheckIfTheVehicleIsInGarage(i_LicenseNumber))
