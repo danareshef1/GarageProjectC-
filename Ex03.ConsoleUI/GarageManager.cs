@@ -126,7 +126,7 @@ namespace Ex03.ConsoleUI
             else
             {
                 getNewVehicle(carLicense);
-                Console.Write("Vehicle {0} added to the grage! ", carLicense);
+                Console.WriteLine("Vehicle {0} added to the grage! ", carLicense);
             }
         }
 
@@ -172,12 +172,12 @@ namespace Ex03.ConsoleUI
         private void setTires(Vehicle i_NewVehicle)
         {
             bool notValid = true;
+            string manufacturerName = getManufacturerNameTires();
 
             while (notValid)
             {
                 try
                 {
-                    string manufacturerName = getManufacturerNameTires();
 
                     Console.Write(@"Do you want to add tire air pressure of all the tires together?
 (1) yes
@@ -353,11 +353,7 @@ your choice: ");
         {
 
             Console.Write("By which status you would like to filter by? ");
-            printEnumOptions<eVehicleStatus>();
-            string whichStatus = Console.ReadLine();
-
-            isValidChoice(whichStatus, 1, Enum.GetValues(typeof(eVehicleStatus)).Length);
-            return (eVehicleStatus)int.Parse(whichStatus);
+            return getVehicleStatus();
         }
         private void PresentLicenseNumbersInTheGarageFiltered(eVehicleStatus i_CarStatus)
         {
@@ -371,6 +367,14 @@ your choice: ");
             }
         }
 
+        private eVehicleStatus getVehicleStatus()
+        {
+            printEnumOptions<eVehicleStatus>();
+            string whichStatus = Console.ReadLine();
+
+            isValidChoice(whichStatus, 1, Enum.GetValues(typeof(eVehicleStatus)).Length);
+            return (eVehicleStatus)int.Parse(whichStatus);
+        }
 
         /// 3
         public void ChangeVehicleStatus()
@@ -383,8 +387,7 @@ your choice: ");
                 {
                     string vehicleLicense = GetLicenseNumberFromUser();
 
-                    eVehicleStatus vehicleStatus = GetVehicleStatusFromTheUser();
-
+                    eVehicleStatus vehicleStatus = getVehicleStatus();
                     r_Garage.ChangeVehicleStatus(vehicleLicense, vehicleStatus);
                     notValid = false;
                 }
@@ -408,20 +411,11 @@ your choice: ");
         {
 
             Console.Write("Please enter the new status for the car: ");
-            string vehicleStatus = Console.ReadLine();
+            printEnumOptions<eVehicleStatus>();
+            string whichStatus = Console.ReadLine();
 
-            eVehicleStatus chosenCarStatus;
-            checkIfCarStatus(vehicleStatus, out chosenCarStatus);
-
-            return chosenCarStatus;
-        }
-
-        private void checkIfCarStatus(string i_CarStatus, out eVehicleStatus o_UserInput)
-        {
-            if (!eVehicleStatus.TryParse(i_CarStatus, out o_UserInput))
-            {
-                throw new ArgumentException("should be a valid car status");
-            }
+            isValidChoice(whichStatus, 1, Enum.GetValues(typeof(eVehicleStatus)).Length);
+            return (eVehicleStatus)int.Parse(whichStatus);
         }
 
         /// 4
@@ -444,8 +438,8 @@ your choice: ");
                 }
             }
         }
-        /// 5
 
+        /// 5
         public void AddFuelToVehicle()
         {
             bool notValid = true;
@@ -457,29 +451,22 @@ your choice: ");
                     string vehicleLicense = GetLicenseNumberFromUser();
 
                     Console.Write("Please enter your fuel type: ");
+                    printEnumOptions<eFuelType>();
                     string fuelType = Console.ReadLine();
+                    isValidChoice(fuelType, 1, Enum.GetValues(typeof(eFuelType)).Length - 1);
 
-                    eFuelType vehicleFuleType;
-                    checkIfFuelType(fuelType, out vehicleFuleType);
                     Console.Write("Please enter how much fuel you want to add: ");
                     string fuelAmount = Console.ReadLine();
 
                     float vehicleFuelAmount;
                     checkIfNumber(fuelAmount, out vehicleFuelAmount);
-                    r_Garage.FuelingVehicle(vehicleLicense, vehicleFuleType, vehicleFuelAmount);
+                    r_Garage.FuelingVehicle(vehicleLicense, (eFuelType)int.Parse(fuelType), vehicleFuelAmount);
                     notValid = false;
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
                 }
-            }
-        }
-        private void checkIfFuelType(string i_FuelType, out eFuelType o_UserInput)
-        {
-            if (!eFuelType.TryParse(i_FuelType, out o_UserInput))
-            {
-                throw new ArgumentException("should be a valid fuel type");
             }
         }
 

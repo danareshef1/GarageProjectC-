@@ -9,8 +9,9 @@ namespace Ex03.GarageLogic
     public class FuelEngine : Engine
     {
         private eFuelType m_FuelType;
-        public FuelEngine(float i_MaxEnergy) : base(i_MaxEnergy)
+        public FuelEngine(float i_MaxEnergy, eFuelType i_FuelType) : base(i_MaxEnergy)
         {
+            m_FuelType = i_FuelType;
 
         }
         public eFuelType FuelType { get { return m_FuelType; } set { m_FuelType = value; } }

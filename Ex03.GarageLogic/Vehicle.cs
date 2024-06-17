@@ -53,7 +53,7 @@ namespace Ex03.GarageLogic
 
         public void AddNewTireToTireList(string i_ManufacturerName, float i_TirePressure)
         {
-            Tire newTire = new Tire(i_ManufacturerName, i_TirePressure);
+            Tire newTire = new Tire(i_ManufacturerName, i_TirePressure, MaxTireAirPressure);
             IsTiresPressureMatchVehicleMax(newTire);
             newTire.ManufacturerName = i_ManufacturerName;
             m_Tires.Add(newTire);
@@ -64,16 +64,16 @@ namespace Ex03.GarageLogic
             private float m_TirePressure;
             private float m_MaxTirePressure;
 
-            public Tire(string i_ManufacturerName, float i_TirePressure)
+            public Tire(string i_ManufacturerName, float i_TirePressure, float i_MaxTirePressure)
             {
                 m_ManufacturerName = i_ManufacturerName;
                 m_TirePressure = i_TirePressure;
-                m_MaxTirePressure = MaxTirePressue;
+                m_MaxTirePressure = i_MaxTirePressure;
             }
 
             public string ManufacturerName { get { return m_ManufacturerName; } set { m_ManufacturerName = value; } }
             public float TirePressure { get { return m_TirePressure; } set { m_TirePressure = value; } }
-            public float MaxTirePressue { get { return m_MaxTirePressure; } set { m_MaxTirePressure = value; } }
+            public float MaxTirePressure { get { return m_MaxTirePressure; } set { m_MaxTirePressure = value; } }
             public void Infaltion(float i_HowManyAirToAdd)
             {
                 if(m_TirePressure + i_HowManyAirToAdd < m_MaxTirePressure)
@@ -95,6 +95,7 @@ namespace Ex03.GarageLogic
         public abstract float MaxFuelAmount { get; }
 
         public abstract float MaxBatteryTime { get; }
+
 
         public abstract eFuelType FuelType { get; }
 

@@ -9,8 +9,8 @@ namespace Ex03.GarageLogic
 {
     public class Motorcycle : Vehicle
     {
-        private const int k_LicenseTypeIndex = 1;
-        private const int k_EngineCapacityIndex = 0;
+        private const int k_LicenseTypeIndex = 0;
+        private const int k_EngineCapacityIndex = 1;
         private const int k_TireAmount = 2;
         private const int k_MaxAirPressure = 33;
         private const eFuelType k_FuelType = eFuelType.Octan98;
@@ -53,14 +53,13 @@ namespace Ex03.GarageLogic
             {
                 throw new FormatException("License type is not valid.");
             }
-
             if (int.TryParse(m_SpecieficDetailsForEachKind[k_EngineCapacityIndex], out engineCapacity))
             {
                 if(engineCapacity < 0)
                 {
                     throw new ArgumentException("The engine capacity should be positive");
                 }
-                m_EngineCapacity = engineCapacity;
+
             }
             else
             {
@@ -70,7 +69,8 @@ namespace Ex03.GarageLogic
 
         public override string[] SpecificData()
         {
-            return new string[] { $"License Type, options are: {eLicenseType.B1}, {eLicenseType.A1},  {eLicenseType.AA}, {eLicenseType.A}" ,
+            return new string[] { $"License Type, options are: " +
+                                $"{eLicenseType.B1}, {eLicenseType.A1},  {eLicenseType.AA}, {eLicenseType.A}" ,
                                 "Engine Capacity" };
         }
     }

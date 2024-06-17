@@ -47,7 +47,7 @@ namespace Ex03.GarageLogic
             {
                 foreach (Vehicle.Tire tire in m_Vehicles[i_LicenseNumber].Vehicle.Tires)
                 {
-                    tire.Infaltion(tire.MaxTirePressue);
+                    tire.Infaltion(tire.MaxTirePressure);
                 }
             }
             else
