@@ -53,7 +53,7 @@ namespace Ex03.ConsoleUI
                     ChargeYourVhicle();
                     break;
                 case eMenuOptions.PresentFullDetails:
-              //      PresentAllVehicleDetails();
+                    PresentAllVehicleDetails();
                     break;
             }
         }
@@ -198,28 +198,35 @@ your choice: ");
       
         public void PresentLicenseNumbersInTheGarage()
         {
-            Console.WriteLine("Here are all the cars we have in the garage right now:");
-            foreach (var vehicle in r_Garage.Vehicles)
+            if (r_Garage.Vehicles.Count != 0)
             {
-                Console.WriteLine(vehicle.Key);
-            }
-            Console.WriteLine(@"Do you want to filter them by status?
+                Console.WriteLine("Here are all the cars we have in the garage right now:");
+                foreach (var vehicle in r_Garage.Vehicles)
+                {
+                    Console.WriteLine(vehicle.Key);
+                }
+                Console.WriteLine(@"Do you want to filter them by status?
 (1) yes
 (2) no");
-            string filterBYChoice = Console.ReadLine();
+                string filterBYChoice = Console.ReadLine();
 
-            isValidChoice(filterBYChoice, 1, 2);
-            int toFilterBy = int.Parse(filterBYChoice);
+                isValidChoice(filterBYChoice, 1, 2);
+                int toFilterBy = int.Parse(filterBYChoice);
 
-            if (toFilterBy == 1)
-            {
-                eVehicleStatus chosenStatus;
-                chosenStatus = ChooseFilter();
-                PresentLicenseNumbersInTheGarageFiltered(chosenStatus);
+                if (toFilterBy == 1)
+                {
+                    eVehicleStatus chosenStatus;
+                    chosenStatus = ChooseFilter();
+                    PresentLicenseNumbersInTheGarageFiltered(chosenStatus);
+                }
+                else
+                {
+                    GarageMenu();
+                }
             }
             else
             {
-                GarageMenu();
+                throw new ArgumentException("There are no vehicles in the garage");
             }
         }
         public eVehicleStatus ChooseFilter()
@@ -365,7 +372,7 @@ your choice: ");
         
         public void ChargeYourVhicle()
         {
-            string carLicense = GetLicenseNumberFromUser();
+            string vehicleLicense = GetLicenseNumberFromUser();
 
             Console.WriteLine("Please enter the time you want to charge in minutes:");
             string minuesAmount = Console.ReadLine();
@@ -374,7 +381,7 @@ your choice: ");
             checkIfNumber(minuesAmount, out minutesToCharge);
             float hoursToCharge = ConvertMinutesToHours(minutesToCharge);
 
-            r_Garage.ChargeVehicle(carLicense, hoursToCharge);
+            r_Garage.ChargeVehicle(vehicleLicense, hoursToCharge);
         }
         public float ConvertMinutesToHours(float i_Minutes)
         {
@@ -383,29 +390,39 @@ your choice: ");
 
         /// 7
         
-        public void PresentAllVehicleDetails(string i_LicenseNumber)
+
+        public void PresentAllVehicleDetails()
         {
-            Vehicle vehicle = r_Garage.Vehicles[i_LicenseNumber].Vehicle;
+            string vehicleLicense = GetLicenseNumberFromUser();
 
-            Console.WriteLine("The vehicle you chose: {0}", vehicle.LicenseNumber);
-            Console.WriteLine("Here are all the details about this vehicle:");
-            Console.WriteLine(vehicle.ModelName);
-            foreach (var detail in vehicle.Tires)
+            if (r_Garage.CheckIfTheVehicleIsInGarage(vehicleLicense))
             {
-                Console.WriteLine(detail);
-            }
+                Vehicle vehicle = r_Garage.Vehicles[vehicleLicense].Vehicle;
 
-            Console.WriteLine(vehicle.Engine);
-            Console.WriteLine(vehicle.FuelType);
-            Console.WriteLine(vehicle.PrecentOfRemainingEnergy);
-            foreach (var detail in vehicle.SpecieficDetailsForEachKind)
+                Console.WriteLine("The vehicle you chose: {0}", vehicle.LicenseNumber);
+                Console.WriteLine("Here are all the details about this vehicle:");
+                Console.WriteLine(vehicle.ModelName);
+                foreach (var detail in vehicle.Tires)
+                {
+                    Console.WriteLine(detail);
+                }
+
+                Console.WriteLine(vehicle.Engine);
+                Console.WriteLine(vehicle.FuelType);
+                Console.WriteLine(vehicle.PrecentOfRemainingEnergy);
+                foreach (var detail in vehicle.SpecieficDetailsForEachKind)
+                {
+                    Console.WriteLine(detail);
+                }
+
+                Console.WriteLine(r_Garage.Vehicles[vehicleLicense].OwnerName);
+                Console.WriteLine(r_Garage.Vehicles[vehicleLicense].OwnerPhoneNumber);
+                Console.WriteLine(r_Garage.Vehicles[vehicleLicense].CarStatus);
+            }
+            else
             {
-                Console.WriteLine(detail);
+                throw new ArgumentException("There is no such vehicle in the garage");
             }
-
-            Console.WriteLine(r_Garage.Vehicles[i_LicenseNumber].OwnerName);
-            Console.WriteLine(r_Garage.Vehicles[i_LicenseNumber].OwnerPhoneNumber);
-            Console.WriteLine(r_Garage.Vehicles[i_LicenseNumber].CarStatus);
         }
     }
 }
