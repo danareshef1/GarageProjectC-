@@ -25,6 +25,10 @@ namespace Ex03.GarageLogic
                 CheckAndInsertSpecificData();
             } }
 
+        public void calculatePrecentRemainingEnergy()
+        {
+            m_PrecentOfRemainingEnergy = m_Engine.EnergyRemaining / m_Engine.MaxEnergy;
+        }
         public List<Tire> Tires
         {
             get
@@ -85,7 +89,7 @@ namespace Ex03.GarageLogic
         {
             return i_Tires.Count == NumberOfTires;
         }
-        protected void IsTiresPressureMatchVehicleMax(Tire i_Tire) //check
+        protected void IsTiresPressureMatchVehicleMax(Tire i_Tire)
         {
                 if (i_Tire.TirePressure != MaxTireAirPressure)
                 {

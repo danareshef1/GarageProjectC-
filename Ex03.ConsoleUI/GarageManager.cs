@@ -40,16 +40,28 @@ namespace Ex03.ConsoleUI
                 case eMenuOptions.PresentAllLicense:
                     PresentLicenseNumbersInTheGarage();
                     break;
-
-
-
+                case eMenuOptions.ChangeVehicleStatus:
+                    ChangeVehicleStatus();
+                    break;
+                case eMenuOptions.InfalteTires:
+                    InfalteTiresToMax();
+                    break;
+                case eMenuOptions.AddGas:
+                    AddFuelToVehicle();
+                    break;
+                case eMenuOptions.ChargeBattery:
+                    ChargeYourVhicle();
+                    break;
+                case eMenuOptions.PresentFullDetails:
+              //      PresentAllVehicleDetails();
+                    break;
             }
         }
         private void printOptionalVehicleTypes()
         {
             Console.WriteLine("Choose a vehicle type option:");
 
-            for (int i = 1; i < r_VehicleBuilder.VehicleOptionalTypes.Length +1; i++)
+            for (int i = 0; i < r_VehicleBuilder.VehicleOptionalTypes.Length; i++)
             {
                 Console.WriteLine("({0}) {1}", i + 1, r_VehicleBuilder.VehicleOptionalTypes[i]);
             }
@@ -59,15 +71,15 @@ namespace Ex03.ConsoleUI
 
         private void printEnumOptions<T>()
         {
-            for (int i = 1; i < Enum.GetValues(typeof(T)).Length+1; i++)
+            for (int i = 0; i < Enum.GetValues(typeof(T)).Length; i++)
             {
-                Console.WriteLine("({0}) {1}", i, Enum.GetName(typeof(T), i));
+                Console.WriteLine("({0}) {1}", i+1 , Enum.GetName(typeof(T), i));
             }
         }
         public void GetVehicleAndAddToTheGarage()
         {
-            Console.Write("Please Enter your vehicle license: ");
-            string carLicense = Console.ReadLine();
+            string carLicense = GetLicenseNumberFromUser();
+
             if (r_Garage.CheckIfTheVehicleIsInGarage(carLicense))
             {
                 Console.Write("Car license {0} is already exist in the garage!", carLicense);
@@ -77,7 +89,6 @@ namespace Ex03.ConsoleUI
             {
                 getNewVehicle(carLicense);
             }
-
         }
 
         private void getNewVehicle(string i_CarLicense)
@@ -105,7 +116,6 @@ your choice: ");
             string userTirePressureChoice = Console.ReadLine();
 
             isValidChoice(userTirePressureChoice, 1, 2);
-
             setTiresPressure(i_NewVehicle, isGetAllTirePressureTogether(userTirePressureChoice), manufacturerName);
         }
 
@@ -124,9 +134,12 @@ your choice: ");
             Console.Write("Please enter the current energy situation in your car: ");
             string remainingEnergy = Console.ReadLine();
             float energyRemaining;
+
             checkIfNumber(remainingEnergy, out energyRemaining);
             i_NewVehicle.Engine.EnergyRemaining = energyRemaining;
+            i_NewVehicle.calculatePrecentRemainingEnergy();
         }
+
 
         private void setSpesicifVehicleData(Vehicle i_NewVehicle)
         {
@@ -191,8 +204,8 @@ your choice: ");
                 Console.WriteLine(vehicle.Key);
             }
             Console.WriteLine(@"Do you want to filter them by status?
-                              (1) yes
-                              (2) no");
+(1) yes
+(2) no");
             string filterBYChoice = Console.ReadLine();
 
             isValidChoice(filterBYChoice, 1, 2);
@@ -212,9 +225,9 @@ your choice: ");
         public eVehicleStatus ChooseFilter()
         {
             Console.WriteLine(@"By which status you would like to see?
-                              (1) fixed
-                              (2) inRepair
-                              (3) paid");
+(1) fixed
+(2) inRepair
+(3) paid");
             string whichStatus = Console.ReadLine();
 
             isValidChoice(whichStatus, 1, 3);

@@ -27,11 +27,12 @@ namespace Ex03.GarageLogic
                 }
                 else
                 {
-                    //throw new ValueOutOfRangeException("Amount of fuel is bigger than the max capacity.");
+                    throw new ValueOutOfRangeException(r_MaxEnergy,0);
                 }
             }
         }
-        public float MaxEnergyRemaining { get { return m_EnergyRemaining; } }
+
+        public float MaxEnergy { get { return m_EnergyRemaining; } }
         public bool ValueIsUnderMax(float i_ValueEnergy)
         {
             return i_ValueEnergy < r_MaxEnergy;

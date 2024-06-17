@@ -56,10 +56,9 @@ namespace Ex03.GarageLogic
             {
                   throw new FormatException("Door amount should be a number.");
             }
-
-            if (Enum.IsDefined(typeof(eCarColor),m_SpecieficDetailsForEachKind[k_CarColorIndex]))
+            if (!Enum.TryParse<eCarColor>(m_SpecieficDetailsForEachKind[k_CarColorIndex], out carColor))
             {
-              //  m_CarColor = 
+                m_CarColor = carColor;
             }
             else
             {
@@ -70,7 +69,7 @@ namespace Ex03.GarageLogic
         public override string[] SpecificData()
         {
             return new string[] {$"How Many Doors from ({k_MinDoorAmount} - {k_MaxDoorAmount})",
-                $"Car Color, options are ( {eCarColor.White}, {eCarColor.Red}, {eCarColor.Yellow}, {eCarColor.Black})" };
+                $"Car Color, options are {eCarColor.White}, {eCarColor.Red}, {eCarColor.Yellow}, {eCarColor.Black}" };
         }
 
     }
