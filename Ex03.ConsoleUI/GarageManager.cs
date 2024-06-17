@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ex03.GarageLogic.VehicleBuilder;
 
 namespace Ex03.ConsoleUI
 {
@@ -62,6 +63,74 @@ namespace Ex03.ConsoleUI
 
             }
 
+        }
+        public void PresentLicenseNumbersInTheGarage()
+        {
+            Console.WriteLine("Here are all the cars we have in the garage right now:");
+            foreach (var vehicle in r_Garage.Vehicles)
+            {
+                Console.WriteLine(vehicle.Key);
+            }
+
+            Console.WriteLine(@"Do you want to filter them by status?
+                              (1) yes
+                              (2) no");
+            string filterBYChoice = Console.ReadLine();
+
+            isValidChoice(filterBYChoice, 1, 2);
+            int toFilterBy = int.Parse(filterBYChoice);
+
+            if(toFilterBy == 1)
+            {
+                eCarStatus chosenStatus;
+                chosenStatus = ChooseFilter();
+                PresentLicenseNumbersInTheGarageFiltered(chosenStatus);
+            }
+            else
+            {
+                GarageMenu();
+            }
+        }
+        public eCarStatus ChooseFilter()
+        {
+            Console.WriteLine(@"By which status you would like to see?
+                              (1) fixed
+                              (2) inRepair
+                              (3) paid");
+            string whichStatus = Console.ReadLine();
+
+            isValidChoice(whichStatus, 1, 3);
+            int whichStatusChoice = int.Parse(whichStatus);
+
+            eCarStatus ChosenStatus;
+            switch (whichStatusChoice)
+            {
+                case 1:
+                    ChosenStatus = eCarStatus.Fixed;
+                    break;
+                case 2:
+                    ChosenStatus = eCarStatus.InRepair;
+                    break;
+                case 3:
+                    ChosenStatus = eCarStatus.Paid;
+                    break;
+                default:
+                    throw new FormatException("Invalid status type");
+
+            }
+
+            return ChosenStatus;
+        }
+        private void PresentLicenseNumbersInTheGarageFiltered(eCarStatus i_CarStatus)
+        {
+            Console.WriteLine("Here are all the cars we have in the garage right now in the status you chose:");
+            foreach (var vehicle in r_Garage.Vehicles)
+            {
+                if (vehicle.Value.CarStatus == i_CarStatus)
+                {
+                    Console.WriteLine(vehicle.Key);
+                }
+            }
         }
     }
 }
