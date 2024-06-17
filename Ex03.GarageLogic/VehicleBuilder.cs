@@ -8,34 +8,38 @@ namespace Ex03.GarageLogic
 {
     public class VehicleBuilder
     {
-
+        private string[] vehicleOptionalTypes = {"Fuel car", "Fuel motorcycle",
+                                                "Electric car", "Electric motorcycle",
+                                                 "Truck"};
+        public string[] VehicleOptionalTypes { get { return vehicleOptionalTypes; } }
         public enum eVehicleType
         {
-            ElectricCar,
-            FuelCar,
-            ElectricMotorcycle,
+            FuelCar =1,
             FuelMotorcycle,
+            ElectricCar,
+            ElectricMotorcycle,
             Truck
         }
 
         public eVehicleType CheckWhichkVehicleType(string i_VehicleType)
         {
+            i_VehicleType = i_VehicleType.ToLower();
             eVehicleType vehicleType;
             switch (i_VehicleType)
             {
-                case "Fuel car":
+                case "fuel car":
                     vehicleType = eVehicleType.FuelCar;
                     break;
-                case "Electric car":
+                case "electric car":
                     vehicleType = eVehicleType.ElectricCar;
                     break;
-                case "Fuel motorcycle":
+                case "fuel motorcycle":
                     vehicleType = eVehicleType.FuelMotorcycle;
                     break;
-                case "Electric motorcycle":
+                case "electric motorcycle":
                     vehicleType = eVehicleType.ElectricMotorcycle;
                     break;
-                case "Truck":
+                case "truck":
                     vehicleType = eVehicleType.Truck;
                     break;
                 default:
@@ -44,7 +48,7 @@ namespace Ex03.GarageLogic
             }
             return vehicleType;
         }
-        public Vehicle CreateObject(eVehicleType i_VehicleType, string i_LicenseNumber)
+        public Vehicle CreateVehicleObject(eVehicleType i_VehicleType, string i_LicenseNumber)
         {
             Vehicle vehicle;
             switch (i_VehicleType)

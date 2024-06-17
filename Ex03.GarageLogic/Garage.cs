@@ -12,7 +12,7 @@ namespace Ex03.GarageLogic
 
         public Dictionary<string, VehicleDataInGarage> Vehicles { get { return m_Vehicles; } }
 
-        public Dictionary<string, VehicleDataInGarage> GetLicenseNumberList(eCarStatus i_StatusToPresentBy)
+        public Dictionary<string, VehicleDataInGarage> GetLicenseNumberList(eVehicleStatus i_StatusToPresentBy)
         {
             Dictionary<string, VehicleDataInGarage> vehiclesByStatus = new Dictionary<string, VehicleDataInGarage>();
 
@@ -27,7 +27,7 @@ namespace Ex03.GarageLogic
             return vehiclesByStatus;
         }
 
-        public void ChangeVehicleStatus(string i_LicenseNumber, eCarStatus i_NewCarStatus)
+        public void ChangeVehicleStatus(string i_LicenseNumber, eVehicleStatus i_NewCarStatus)
         {
             //ToDo = check if no vehicle in the garage
             m_Vehicles[i_LicenseNumber].CarStatus = i_NewCarStatus;
@@ -53,14 +53,9 @@ namespace Ex03.GarageLogic
             m_Vehicles[i_LicenseNumber].Vehicle.Engine.FillEngine(i_MinutesToCharge, eFuelType.None);
         }
 
-        public Vehicle CheckIfTheVehicleIsInGarage(string i_LicenseNumber)
+        public bool CheckIfTheVehicleIsInGarage(string i_LicenseNumber)
         {
-            Vehicle existVehicle = null;
-            if (m_Vehicles.ContainsKey(i_LicenseNumber))
-            {
-                existVehicle = m_Vehicles[i_LicenseNumber].Vehicle;
-            }
-            return existVehicle;
+            return (m_Vehicles.ContainsKey(i_LicenseNumber));
         }
 
         public void AddVehicle(Vehicle i_Vehicle, string i_OwnerName, string i_OwnerPhoneNumber)
@@ -70,8 +65,9 @@ namespace Ex03.GarageLogic
 
         public void ChangeVehicleStatusToInRepair(string i_LicenseNumber)
         {
-            m_Vehicles[i_LicenseNumber].CarStatus = eCarStatus.InRepair;
+            m_Vehicles[i_LicenseNumber].CarStatus = eVehicleStatus.InRepair;
         }
+
     }
 
 }

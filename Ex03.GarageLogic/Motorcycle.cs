@@ -62,7 +62,8 @@ namespace Ex03.GarageLogic
 
         public override string[] SpecificData()
         {
-            return new string[] { "License Type (A1,AA,B1,A) ", "Engine Capacity" };
+            return new string[] { $"License Type, options are: {eLicenseType.B1}, {eLicenseType.A1},  {eLicenseType.AA}, {eLicenseType.A}" ,
+                                "Engine Capacity" };
         }
     }
 

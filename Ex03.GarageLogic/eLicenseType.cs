@@ -8,7 +8,7 @@ namespace Ex03.GarageLogic
 {
     public enum eLicenseType
     {
-        AA,
+        AA=1,
         A1,
         A,
         B1

@@ -42,7 +42,7 @@
     <Compile Include="Car.cs" />
     <Compile Include="ValueOutOfRangeException.cs" />
     <Compile Include="eCarColor.cs" />
-    <Compile Include="eCarStatus.cs" />
+    <Compile Include="eVehicleStatus.cs" />
     <Compile Include="eFuelType.cs" />
     <Compile Include="ElectricEngine.cs" />
     <Compile Include="eLicenseType.cs" />

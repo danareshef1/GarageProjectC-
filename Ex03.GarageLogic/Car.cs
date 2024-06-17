@@ -15,8 +15,8 @@ namespace Ex03.GarageLogic
         private const eFuelType k_FuelType = eFuelType.Octan95;
         private const float k_MaxFuelAmountInLiter = 45f;
         private const float k_MaxBatteryTime = 3.5f;
-        private readonly int r_MinDoorAmount = 2;
-        private readonly int r_MaxDoorAmount = 5;
+        private const int k_MinDoorAmount = 2;
+        private const int k_MaxDoorAmount = 5;
         private eCarColor m_CarColor;
         private int m_HowManyDoors;
 
@@ -43,9 +43,9 @@ namespace Ex03.GarageLogic
 
             if (int.TryParse(m_SpecieficDetailsForEachKind[k_HowManyDoorsIndex], out doorsNum))
             {
-                if (doorsNum > r_MinDoorAmount || doorsNum < r_MaxDoorAmount)
+                if (doorsNum < k_MinDoorAmount || doorsNum > k_MaxDoorAmount)
                 {
-                     throw new ValueOutOfRangeException(r_MaxDoorAmount, r_MinDoorAmount);
+                     throw new ValueOutOfRangeException(k_MaxDoorAmount, k_MinDoorAmount);
                 }
                 else
                 {
@@ -57,9 +57,9 @@ namespace Ex03.GarageLogic
                   throw new FormatException("Door amount should be a number.");
             }
 
-            if (eCarColor.TryParse(m_SpecieficDetailsForEachKind[k_CarColorIndex], out carColor))
+            if (Enum.IsDefined(typeof(eCarColor),m_SpecieficDetailsForEachKind[k_CarColorIndex]))
             {
-                m_CarColor = carColor;
+              //  m_CarColor = 
             }
             else
             {
@@ -69,7 +69,8 @@ namespace Ex03.GarageLogic
 
         public override string[] SpecificData()
         {
-            return new string[] { "Car Color (Black, White, Black, Yellow)", "How Many Doors (2-5)" };
+            return new string[] {$"How Many Doors from ({k_MinDoorAmount} - {k_MaxDoorAmount})",
+                $"Car Color, options are ( {eCarColor.White}, {eCarColor.Red}, {eCarColor.Yellow}, {eCarColor.Black})" };
         }
 
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ex03.GarageLogic.Vehicle;
 
 namespace Ex03.GarageLogic
 {
@@ -19,7 +20,7 @@ namespace Ex03.GarageLogic
         public string ModelName { get { return m_ModelName; } set { m_ModelName = value; } }
         public string LicenseNumber { get { return m_LicenseNumber; } }
         public List<string> SpecieficDetailsForEachKind
-        { get { return m_SpecieficDetailsForEachKind; } set { 
+        { get { return m_SpecieficDetailsForEachKind; } set {
                 m_SpecieficDetailsForEachKind = value;
                 CheckAndInsertSpecificData();
             } }
@@ -30,25 +31,23 @@ namespace Ex03.GarageLogic
             {
                 return m_Tires;
             }
-            set
-            {
-                if (!IsNumberOfTiresMatchVehicle(value))
-                {
-                    throw new ArgumentException("Invalid number of tires according to the vehicle");
-                }
-                IsTiresPressureMatchVehicleMax(value);
-                m_Tires = value;
-
-            }
         }
 
         public Engine Engine { get { return m_Engine; } set { m_Engine = value; } }
 
         public Vehicle(string i_LicenseNumber)
-        { 
+        {
             m_LicenseNumber = i_LicenseNumber;
         }
 
+        public void AddNewTireToTireList(string i_ManufacturerName, float i_TirePressure)
+        {
+            Tire newTire = new Tire();
+            newTire.TirePressure = i_TirePressure;
+            IsTiresPressureMatchVehicleMax(newTire);
+            newTire.ManufacturerName = i_ManufacturerName;
+            m_Tires.Add(newTire);
+        }
         public class Tire
         {
             private string m_ManufacturerName;
@@ -75,23 +74,29 @@ namespace Ex03.GarageLogic
 
         public abstract eFuelType FuelType { get; }
 
+        public void checkIfTireNumberMatchVehicle()
+        {
+            if (!IsNumberOfTiresMatchVehicle(m_Tires))
+            {
+                throw new ArgumentException("Invalid number of tires according to the vehicle");
+            }
+        }
         protected bool IsNumberOfTiresMatchVehicle(List<Tire> i_Tires)
         {
             return i_Tires.Count == NumberOfTires;
         }
-        protected void IsTiresPressureMatchVehicleMax(List<Tire> i_Tires) //check
+        protected void IsTiresPressureMatchVehicleMax(Tire i_Tire) //check
         {
-            foreach (Tire tire in i_Tires)
-            {
-                if (tire.MaxTirePressue != MaxTireAirPressure)
+                if (i_Tire.TirePressure != MaxTireAirPressure)
                 {
                     throw new ArgumentException("Tire pressure is not in maximum pressure");
                 }
-            }
         }
 
         public abstract void CheckAndInsertSpecificData();
 
         public abstract string[] SpecificData();
     }
+
+
 }
