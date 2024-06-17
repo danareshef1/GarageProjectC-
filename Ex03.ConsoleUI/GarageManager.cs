@@ -27,7 +27,7 @@ namespace Ex03.ConsoleUI
             {
                 PresentGarageMenu();
                 eMenuOptions userInput = (eMenuOptions)int.Parse(Console.ReadLine());
-                MenuChoice(userInput,stayInTheGarage);
+                MenuChoice(userInput, ref stayInTheGarage);
             }
 
         }
@@ -47,7 +47,7 @@ namespace Ex03.ConsoleUI
 (8) Exit");
         }
 
-        public void MenuChoice(eMenuOptions i_UserInput, bool io_Exit)
+        public void MenuChoice(eMenuOptions i_UserInput, ref bool io_Exit)
         {
             try
             {
@@ -429,12 +429,9 @@ your choice: ");
         public void ChangeVehicleStatus()
         {
             checkIfGarageIsEmpty();
-
             bool notValid = true;
 
-            bool emptyGrage = IsGrageEmpty();
-
-            while (notValid && !emptyGrage)
+            while (notValid)
             {
                 try
                 {
