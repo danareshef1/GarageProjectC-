@@ -124,6 +124,7 @@ namespace Ex03.GarageLogic
         public abstract void CheckAndInsertSpecificData();
 
         public abstract string[] SpecificData();
+ 
     }
 
 

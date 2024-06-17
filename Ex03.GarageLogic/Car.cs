@@ -63,7 +63,10 @@ namespace Ex03.GarageLogic
             {
                   throw new FormatException("Door amount should be a number.");
             }
-            if (Enum.TryParse<eCarColor>(m_SpecieficDetailsForEachKind[k_CarColorIndex], out carColor))
+
+            string colorOfCar = ConvertInputToEnumFormat(m_SpecieficDetailsForEachKind[k_CarColorIndex]);
+
+            if (Enum.TryParse<eCarColor>(colorOfCar, out carColor))
             {
                 m_CarColor = carColor;
             }
@@ -73,6 +76,15 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public string ConvertInputToEnumFormat(string i_Input)
+        {
+            string sentence = i_Input.ToLower();
+
+            sentence = sentence.Substring(1);
+            string firstLetter = i_Input[0].ToString().ToUpper();
+
+            return firstLetter + sentence;
+        }
         public override string[] SpecificData()
         {
             return new string[] {$"How Many Doors from ({k_MinDoorAmount} - {k_MaxDoorAmount})",

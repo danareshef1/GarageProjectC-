@@ -45,6 +45,7 @@ namespace Ex03.ConsoleUI
         {
             try
             {
+                Console.WriteLine();
                 switch (i_UserInput)
                 {
                     case eMenuOptions.AddNewVehicle:
@@ -72,7 +73,7 @@ namespace Ex03.ConsoleUI
                         io_Exit = false;
                         break;
                     default:
-                        throw new ArgumentException("Your choice is not fro the menu");
+                        throw new ArgumentException("Your choice is not from the menu");
                 }
             }
             catch (Exception ex)
@@ -351,7 +352,6 @@ your choice: ");
         }
         public eVehicleStatus ChooseFilter()
         {
-
             Console.Write("By which status you would like to filter by? ");
             return getVehicleStatus();
         }
@@ -360,7 +360,7 @@ your choice: ");
             Console.WriteLine("Here are all the cars we have in the garage right now in the status you chose:");
             foreach (var vehicle in r_Garage.Vehicles)
             {
-                if (vehicle.Value.CarStatus == i_CarStatus)
+                if (vehicle.Value.VehicleStatus == i_CarStatus)
                 {
                     Console.WriteLine(vehicle.Key);
                 }
@@ -523,23 +523,25 @@ your choice: ");
 
                         Console.WriteLine("The vehicle you chose: {0}", vehicle.LicenseNumber);
                         Console.WriteLine("Here are all the details about this vehicle:");
-                        Console.WriteLine(vehicle.ModelName);
+                        Console.WriteLine("Owner name: {0}", r_Garage.Vehicles[vehicleLicense].OwnerName);
+                        Console.WriteLine("Owner phone number: {0}", r_Garage.Vehicles[vehicleLicense].OwnerPhoneNumber);
+                        Console.WriteLine("Vehicle status: {0}", r_Garage.Vehicles[vehicleLicense].VehicleStatus);
+                        Console.WriteLine("Model name: {0}", vehicle.ModelName);
+                        Console.WriteLine("Tires manufacture name: {0}", vehicle.Tires[0].ManufacturerName);
+                        Console.WriteLine("Tire pressure for each tire");
                         foreach (var detail in vehicle.Tires)
                         {
-                            Console.WriteLine(detail);
+                            Console.WriteLine(detail.TirePressure);
                         }
 
-                        Console.WriteLine(vehicle.Engine);
-                        Console.WriteLine(vehicle.FuelType);
-                        Console.WriteLine(vehicle.PrecentOfRemainingEnergy);
+                        Console.WriteLine("Fuel type: {0}", vehicle.FuelType);
+                        Console.WriteLine("Precent OfRemaining Energy: {0}", vehicle.PrecentOfRemainingEnergy);
+                        Console.WriteLine("Speciefic details for the vehicle");
                         foreach (var detail in vehicle.SpecieficDetailsForEachKind)
                         {
                             Console.WriteLine(detail);
                         }
-
-                        Console.WriteLine(r_Garage.Vehicles[vehicleLicense].OwnerName);
-                        Console.WriteLine(r_Garage.Vehicles[vehicleLicense].OwnerPhoneNumber);
-                        Console.WriteLine(r_Garage.Vehicles[vehicleLicense].CarStatus);
+                        Console.WriteLine();
                         notValid = false;
                     }
                     else

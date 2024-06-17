@@ -18,7 +18,7 @@ namespace Ex03.GarageLogic
 
             foreach (KeyValuePair<string, VehicleDataInGarage> vehicle in m_Vehicles)
             {
-                if (vehicle.Value.CarStatus == i_StatusToPresentBy)
+                if (vehicle.Value.VehicleStatus == i_StatusToPresentBy)
                 {
                     vehiclesByStatus[vehicle.Key] = vehicle.Value;
                 }
@@ -32,7 +32,7 @@ namespace Ex03.GarageLogic
 
             if (CheckIfTheVehicleIsInGarage(i_LicenseNumber))
             {
-                m_Vehicles[i_LicenseNumber].CarStatus = i_NewCarStatus;
+                m_Vehicles[i_LicenseNumber].VehicleStatus = i_NewCarStatus;
             }
             else
             {
@@ -93,7 +93,7 @@ namespace Ex03.GarageLogic
 
         public void ChangeVehicleStatusToInRepair(string i_LicenseNumber)
         {
-            m_Vehicles[i_LicenseNumber].CarStatus = eVehicleStatus.InRepair;
+            m_Vehicles[i_LicenseNumber].VehicleStatus = eVehicleStatus.InRepair;
         }
 
     }
