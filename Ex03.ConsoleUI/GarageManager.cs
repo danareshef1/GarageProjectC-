@@ -273,7 +273,126 @@ your choice: ");
             {
                 throw new FormatException("Value should be a number.");
             }
+        }
 
+
+        /// 3
+        public void ChangeVehicleStatus()
+        {
+            string vehicleLicense = GetLicenseNumberFromUser();
+
+            eCarStatus vehicleStatus = GetVehicleStatusFromTheUser(vehicleLicense);
+
+            r_Garage.ChangeVehicleStatus(vehicleLicense, vehicleStatus);
+        }
+
+        public string GetLicenseNumberFromUser()
+        {
+            Console.Write("Please Enter your vehicle license number: ");
+            string vehicleLicense = Console.ReadLine();
+
+            return vehicleLicense;
+        }
+
+        public eCarStatus GetVehicleStatusFromTheUser(string i_LicenseNumber)
+        {
+            Console.WriteLine("Please enter the new status for the car:");
+            string vehicleStatus = Console.ReadLine();
+
+            eCarStatus chosenCarStatus;
+            checkIfCarStatus(vehicleStatus, out chosenCarStatus);
+
+            return chosenCarStatus;
+        }
+
+        private void checkIfCarStatus(string i_CarStatus, out eCarStatus o_UserInput)
+        {
+            if (!eCarStatus.TryParse(i_CarStatus, out o_UserInput))
+            {
+                throw new FormatException("should be a valid car status");
+            }
+        }
+
+        /// 4
+        public void InfalteTiresToMax()
+        {
+            string vehicleLicense = GetLicenseNumberFromUser();
+
+            r_Garage.InfaltionToMax(vehicleLicense);
+        }
+
+        /// 5
+
+        public void AddFuelToVehicle()
+        {
+            string vehicleLicense = GetLicenseNumberFromUser();
+
+            Console.WriteLine("Please enter your fuel type:");
+            string fuelType = Console.ReadLine();
+
+            eFuelType vehicleFuleType;
+            checkIfFuelType(fuelType, out vehicleFuleType);
+            Console.WriteLine("Please enter how much fuel you want to add:");
+            string fuelAmount = Console.ReadLine();
+
+            float vehicleFuelAmount;
+            checkIfNumber(fuelAmount, out vehicleFuelAmount);
+            r_Garage.FuelingVehicle(vehicleLicense, vehicleFuleType, vehicleFuelAmount);
+        }
+        private void checkIfFuelType(string i_FuelType, out eFuelType o_UserInput)
+        {
+            if (!eFuelType.TryParse(i_FuelType, out o_UserInput))
+            {
+                throw new FormatException("should be a valid fuel type");
+            }
+        }
+
+
+        /// 6
+        
+        public void ChargeYourVhicle()
+        {
+            string carLicense = GetLicenseNumberFromUser();
+
+            Console.WriteLine("Please enter the time you want to charge in minutes:");
+            string minuesAmount = Console.ReadLine();
+
+            float minutesToCharge;
+            checkIfNumber(minuesAmount, out minutesToCharge);
+            float hoursToCharge = ConvertMinutesToHours(minutesToCharge);
+
+            r_Garage.ChargeVehicle(carLicense, hoursToCharge);
+        }
+        public float ConvertMinutesToHours(float i_Minutes)
+        {
+            return i_Minutes / 60;
+        }
+
+        /// 7
+        
+        public void PresentAllVehicleDetails(string i_LicenseNumber)
+        {
+            Vehicle vehicle = r_Garage.Vehicles[i_LicenseNumber].Vehicle;
+
+            Console.WriteLine("The vehicle you chose: {0}", vehicle.LicenseNumber);
+            Console.WriteLine("Here are all the details about this vehicle:");
+            Console.WriteLine(vehicle.ModelName);
+            foreach (var detail in vehicle.Tires)
+            {
+                Console.WriteLine(detail);
+            }
+
+            Console.WriteLine(vehicle.Engine);
+            Console.WriteLine(vehicle.FuelType);
+            Console.WriteLine(vehicle.PrecentOfRemainingEnergy);
+            foreach (var detail in vehicle.SpecieficDetailsForEachKind)
+            {
+                Console.WriteLine(detail);
+            }
+
+            Console.WriteLine(r_Garage.Vehicles[i_LicenseNumber].OwnerName);
+            Console.WriteLine(r_Garage.Vehicles[i_LicenseNumber].OwnerPhoneNumber);
+            Console.WriteLine(r_Garage.Vehicles[i_LicenseNumber].CarStatus);
         }
     }
 }
