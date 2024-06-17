@@ -9,8 +9,8 @@ namespace Ex03.ConsoleUI
 {
     public class GarageManager
     {
-        private Garage m_Garage = new Garage();
-        private VehicleBuilder m_VehicleBuilder = new VehicleBuilder();
+        private readonly Garage r_Garage = new Garage();
+        private readonly VehicleBuilder r_VehicleBuilder = new VehicleBuilder();
 
         public void GarageMenu()
         {
@@ -25,13 +25,14 @@ namespace Ex03.ConsoleUI
         }
         public void GetVehicle()
         {
+            List<string> specificData = new List<string>();
             Console.Write("Please Enter your car license: ");
             string carLicense = Console.ReadLine();
 
-            Vehicle vehicle = m_Garage.CheckIfTheVehicleIsInGarage(carLicense);
+            Vehicle vehicle = r_Garage.CheckIfTheVehicleIsInGarage(carLicense);
             if (vehicle != null)
             {
-                m_Garage.ChangeVehicleStatusToInRepair(carLicense);
+                r_Garage.ChangeVehicleStatusToInRepair(carLicense);
             }
             else
             {
@@ -44,15 +45,23 @@ namespace Ex03.ConsoleUI
                 Console.Write("Please enter the owner phone: ");
                 string vehicleOwnerPhone = Console.ReadLine();
 
-                VehicleBuilder.eVehicleType vehicleType = m_VehicleBuilder.CheckWhichkVehicleType(vehicleModel);
-                Vehicle newVehicle = m_VehicleBuilder.CreateObject(vehicleType, carLicense);
-                m_Garage.AddVehicle(newVehicle, vehicleOwnerName, vehicleOwnerPhone);
-               // newVehicle.SpecificData =; 
+                VehicleBuilder.eVehicleType vehicleType = r_VehicleBuilder.CheckWhichkVehicleType(vehicleModel);
+                Vehicle newVehicle = r_VehicleBuilder.CreateObject(vehicleType, carLicense);
+                r_Garage.AddVehicle(newVehicle, vehicleOwnerName, vehicleOwnerPhone);
+
+                for (int i = 0; i < newVehicle.SpecificData().Length; i++)
+                {
+                    Console.Write("please enter {i} ", newVehicle.SpecificData()[i]);
+                    specificData.Add(Console.ReadLine());
+                }
+                newVehicle.SpecieficDetailsForEachKind = specificData;
+
+
+                Console.Write("Please enter the owner phone: ");
+
+
             }
 
         }
-
-
-
     }
 }

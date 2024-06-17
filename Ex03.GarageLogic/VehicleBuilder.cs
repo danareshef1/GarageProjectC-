@@ -8,8 +8,7 @@ namespace Ex03.GarageLogic
 {
     public class VehicleBuilder
     {
-        private readonly string[] r_VehiclesTypes = {"Fuel car", "Fuel motorcycle", "Electric car",
-                                                    "Electric motorcycle","Truck"};
+
         public enum eVehicleType
         {
             ElectricCar,
@@ -70,7 +69,8 @@ namespace Ex03.GarageLogic
                     vehicle = new Truck(i_LicenseNumber);
                     vehicle.Engine = new FuelEngine(vehicle.MaxFuelAmount);
                     break;
-            //    default: throw new ValueOutOfRangeException();
+               default:
+                        throw new FormatException("Vehicle type is not valid.");
             }
             return vehicle;
         }

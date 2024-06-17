@@ -45,7 +45,7 @@ namespace Ex03.GarageLogic
             {
                 if (doorsNum > r_MinDoorAmount || doorsNum < r_MaxDoorAmount)
                 {
-                    //  throw new ValueOutOfRangeException("Amount of doors is not valid.");
+                     throw new ValueOutOfRangeException(r_MaxDoorAmount, r_MinDoorAmount);
                 }
                 else
                 {

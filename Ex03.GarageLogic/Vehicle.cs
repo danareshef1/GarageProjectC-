@@ -18,6 +18,12 @@ namespace Ex03.GarageLogic
         public float PrecentOfRemainingEnergy { get { return m_PrecentOfRemainingEnergy; } set { m_PrecentOfRemainingEnergy = value; } }
         public string ModelName { get { return m_ModelName; } set { m_ModelName = value; } }
         public string LicenseNumber { get { return m_LicenseNumber; } }
+        public List<string> SpecieficDetailsForEachKind
+        { get { return m_SpecieficDetailsForEachKind; } set { 
+                m_SpecieficDetailsForEachKind = value;
+                CheckAndInsertSpecificData();
+            } }
+
         public List<Tire> Tires
         {
             get
