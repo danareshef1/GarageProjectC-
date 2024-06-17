@@ -27,7 +27,7 @@ namespace Ex03.GarageLogic
                 }
                 else
                 {
-                    //throw new ValueOutOfRangeException("Amount of fuel is bigger than the max capacity.");
+                    throw new ValueOutOfRangeException(r_MaxEnergy, 0);
                 }
             }
         }

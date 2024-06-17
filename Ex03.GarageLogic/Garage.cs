@@ -36,7 +36,7 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                throw new FormatException("There is no such vehicle in the garage");
+                throw new ArgumentException("There is no such vehicle in the garage");
             }
         }
 
@@ -52,19 +52,33 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                throw new FormatException("There is no such vehicle in the garage");
+                throw new ArgumentException("There is no such vehicle in the garage");
             }
         }
 
 
         public void FuelingVehicle(string i_LicenseNumber, eFuelType i_FuelType, float i_FuelAmount)
         {
-            m_Vehicles[i_LicenseNumber].Vehicle.Engine.FillEngine(i_FuelAmount, i_FuelType);
+            if (CheckIfTheVehicleIsInGarage(i_LicenseNumber))
+            {
+                m_Vehicles[i_LicenseNumber].Vehicle.Engine.FillEngine(i_FuelAmount, i_FuelType);
+            }
+            else
+            {
+                throw new ArgumentException("There is no such vehicle in the garage");
+            }
         }
 
         public void ChargeVehicle(string i_LicenseNumber, float i_HoursToCharge)
         {
-            m_Vehicles[i_LicenseNumber].Vehicle.Engine.FillEngine(i_HoursToCharge, eFuelType.None);
+            if (CheckIfTheVehicleIsInGarage(i_LicenseNumber))
+            {
+                m_Vehicles[i_LicenseNumber].Vehicle.Engine.FillEngine(i_HoursToCharge, eFuelType.None);
+            }
+            else
+            {
+                throw new ArgumentException("There is no such vehicle in the garage");
+            }
         }
 
         public bool CheckIfTheVehicleIsInGarage(string i_LicenseNumber)

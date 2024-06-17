@@ -20,10 +20,17 @@ namespace Ex03.GarageLogic
         public string ModelName { get { return m_ModelName; } set { m_ModelName = value; } }
         public string LicenseNumber { get { return m_LicenseNumber; } }
         public List<string> SpecieficDetailsForEachKind
-        { get { return m_SpecieficDetailsForEachKind; } set {
+        { 
+            get 
+            { 
+                return m_SpecieficDetailsForEachKind;
+            }
+            set 
+            {
                 m_SpecieficDetailsForEachKind = value;
                 CheckAndInsertSpecificData();
-            } }
+            }
+        }
 
         public List<Tire> Tires
         {
@@ -59,7 +66,14 @@ namespace Ex03.GarageLogic
             public float MaxTirePressue { get { return m_MaxTirePressure; } set { m_MaxTirePressure = value; } }
             public void Infaltion(float i_HowManyAirToAdd)
             {
-                //ToDo - change and check valid 
+                if(m_TirePressure + i_HowManyAirToAdd < m_MaxTirePressure)
+                {
+                    m_TirePressure += i_HowManyAirToAdd;
+                }
+                else
+                {
+                    throw new ValueOutOfRangeException(m_MaxTirePressure, 0);
+                }
             }
 
         }
@@ -85,7 +99,7 @@ namespace Ex03.GarageLogic
         {
             return i_Tires.Count == NumberOfTires;
         }
-        protected void IsTiresPressureMatchVehicleMax(Tire i_Tire) //check
+        protected void IsTiresPressureMatchVehicleMax(Tire i_Tire) 
         {
                 if (i_Tire.TirePressure != MaxTireAirPressure)
                 {

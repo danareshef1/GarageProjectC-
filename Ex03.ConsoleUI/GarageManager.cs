@@ -309,7 +309,7 @@ your choice: ");
         {
             if (!eVehicleStatus.TryParse(i_CarStatus, out o_UserInput))
             {
-                throw new FormatException("should be a valid car status");
+                throw new ArgumentException("should be a valid car status");
             }
         }
 
@@ -343,7 +343,7 @@ your choice: ");
         {
             if (!eFuelType.TryParse(i_FuelType, out o_UserInput))
             {
-                throw new FormatException("should be a valid fuel type");
+                throw new ArgumentException("should be a valid fuel type");
             }
         }
 
