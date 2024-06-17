@@ -29,9 +29,8 @@ namespace Ex03.GarageLogic
 
         public void ChangeVehicleStatus(string i_LicenseNumber, eVehicleStatus i_NewCarStatus)
         {
-            Vehicle vehicle = CheckIfTheVehicleIsInGarage(i_LicenseNumber);
 
-            if (vehicle != null)
+            if (CheckIfTheVehicleIsInGarage(i_LicenseNumber))
             {
                 m_Vehicles[i_LicenseNumber].CarStatus = i_NewCarStatus;
             }
@@ -43,9 +42,8 @@ namespace Ex03.GarageLogic
 
         public void InfaltionToMax(string i_LicenseNumber)
         {
-            Vehicle vehicle = CheckIfTheVehicleIsInGarage(i_LicenseNumber);
 
-            if (vehicle != null)
+            if (CheckIfTheVehicleIsInGarage(i_LicenseNumber))
             {
                 foreach (Vehicle.Tire tire in m_Vehicles[i_LicenseNumber].Vehicle.Tires)
                 {

@@ -281,7 +281,7 @@ your choice: ");
         {
             string vehicleLicense = GetLicenseNumberFromUser();
 
-            eCarStatus vehicleStatus = GetVehicleStatusFromTheUser(vehicleLicense);
+            eVehicleStatus vehicleStatus = GetVehicleStatusFromTheUser(vehicleLicense);
 
             r_Garage.ChangeVehicleStatus(vehicleLicense, vehicleStatus);
         }
@@ -294,20 +294,20 @@ your choice: ");
             return vehicleLicense;
         }
 
-        public eCarStatus GetVehicleStatusFromTheUser(string i_LicenseNumber)
+        public eVehicleStatus GetVehicleStatusFromTheUser(string i_LicenseNumber)
         {
             Console.WriteLine("Please enter the new status for the car:");
             string vehicleStatus = Console.ReadLine();
 
-            eCarStatus chosenCarStatus;
+            eVehicleStatus chosenCarStatus;
             checkIfCarStatus(vehicleStatus, out chosenCarStatus);
 
             return chosenCarStatus;
         }
 
-        private void checkIfCarStatus(string i_CarStatus, out eCarStatus o_UserInput)
+        private void checkIfCarStatus(string i_CarStatus, out eVehicleStatus o_UserInput)
         {
-            if (!eCarStatus.TryParse(i_CarStatus, out o_UserInput))
+            if (!eVehicleStatus.TryParse(i_CarStatus, out o_UserInput))
             {
                 throw new FormatException("should be a valid car status");
             }
