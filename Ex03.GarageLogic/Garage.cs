@@ -29,16 +29,32 @@ namespace Ex03.GarageLogic
 
         public void ChangeVehicleStatus(string i_LicenseNumber, eCarStatus i_NewCarStatus)
         {
-            //ToDo = check if no vehicle in the garage
-            m_Vehicles[i_LicenseNumber].CarStatus = i_NewCarStatus;
+            Vehicle vehicle = CheckIfTheVehicleIsInGarage(i_LicenseNumber);
+
+            if (vehicle != null)
+            {
+                m_Vehicles[i_LicenseNumber].CarStatus = i_NewCarStatus;
+            }
+            else
+            {
+                throw new FormatException("There is no such vehicle in the garage");
+            }
         }
 
         public void InfaltionToMax(string i_LicenseNumber)
         {
-            //ToDo = check if no vehicle in the garage
-            foreach (Vehicle.Tire tire in m_Vehicles[i_LicenseNumber].Vehicle.Tires)
+            Vehicle vehicle = CheckIfTheVehicleIsInGarage(i_LicenseNumber);
+
+            if (vehicle != null)
             {
-                tire.Infaltion(tire.MaxTirePressue);
+                foreach (Vehicle.Tire tire in m_Vehicles[i_LicenseNumber].Vehicle.Tires)
+                {
+                    tire.Infaltion(tire.MaxTirePressue);
+                }
+            }
+            else
+            {
+                throw new FormatException("There is no such vehicle in the garage");
             }
         }
 
@@ -48,9 +64,9 @@ namespace Ex03.GarageLogic
             m_Vehicles[i_LicenseNumber].Vehicle.Engine.FillEngine(i_FuelAmount, i_FuelType);
         }
 
-        public void ChargeVehicle(string i_LicenseNumber, float i_MinutesToCharge)
+        public void ChargeVehicle(string i_LicenseNumber, float i_HoursToCharge)
         {
-            m_Vehicles[i_LicenseNumber].Vehicle.Engine.FillEngine(i_MinutesToCharge, eFuelType.None);
+            m_Vehicles[i_LicenseNumber].Vehicle.Engine.FillEngine(i_HoursToCharge, eFuelType.None);
         }
 
         public Vehicle CheckIfTheVehicleIsInGarage(string i_LicenseNumber)
