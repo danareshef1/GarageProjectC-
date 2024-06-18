@@ -17,6 +17,11 @@ namespace Ex03.GarageLogic
         protected List<string> m_SpecificDetailsForVehicle = new List<string>();
         private float m_PrecentOfRemainingEnergy;
 
+        public Vehicle(string i_LicenseNumber)
+        {
+            m_LicenseNumber = i_LicenseNumber;
+        }
+
         public float PrecentOfRemainingEnergy
         {
             get
@@ -62,11 +67,6 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public void CalculatePrecentRemainingEnergy()
-        {
-            m_PrecentOfRemainingEnergy = m_Engine.EnergyRemaining / m_Engine.MaxEnergy * 100;
-        }
-
         public List<Tire> Tires
         {
             get
@@ -87,9 +87,9 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public Vehicle(string i_LicenseNumber)
+        public void CalculatePrecentRemainingEnergy()
         {
-            m_LicenseNumber = i_LicenseNumber;
+            m_PrecentOfRemainingEnergy = m_Engine.EnergyRemaining / m_Engine.MaxEnergy * 100;
         }
 
         public void AddNewTireToTireList(string i_ManufacturerName, float i_TirePressure)

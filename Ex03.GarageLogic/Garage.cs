@@ -46,7 +46,7 @@ namespace Ex03.GarageLogic
         {
             foreach (Tire tire in r_Vehicles[i_LicenseNumber].Vehicle.Tires)
             {
-                tire.Infaltion(tire.MaxTirePressure - tire.TirePressure);
+                tire.Inflation(tire.MaxTirePressure - tire.TirePressure);
             }
         }
 
@@ -57,7 +57,7 @@ namespace Ex03.GarageLogic
 
         public void ChargeVehicle(string i_LicenseNumber, float i_HoursToCharge)
         {
-            r_Vehicles[i_LicenseNumber].Vehicle.Engine.FillEngine(i_HoursToCharge, eFuelType.None);
+            r_Vehicles[i_LicenseNumber].Vehicle.Engine.FillEngine(i_HoursToCharge);
         }
 
         public void CheckIfTheVehicleIsInGarage(string i_LicenseNumber)

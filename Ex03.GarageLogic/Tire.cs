@@ -55,7 +55,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public void Infaltion(float i_HowManyAirToAdd)
+        public void Inflation(float i_HowManyAirToAdd)
         {
             if (m_TirePressure + i_HowManyAirToAdd <= m_MaxTirePressure)
             {
