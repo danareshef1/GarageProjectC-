@@ -1,6 +1,7 @@
 ﻿using Ex03.GarageLogic;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,14 +17,15 @@ namespace Ex03.ConsoleUI
         public void StartGarageWork()
         {
             bool stayInTheGarage = true;
+
             Console.WriteLine("Welcome to our garage!");
             while (stayInTheGarage)
             {
                 PresentGarageMenu();
                 eMenuOptions userInput = (eMenuOptions)int.Parse(Console.ReadLine());
+
                 MenuChoice(userInput, ref stayInTheGarage);
             }
-
         }
         public void PresentGarageMenu()
         {
@@ -41,7 +43,6 @@ namespace Ex03.ConsoleUI
 (8) Exit");
             Console.Write("Your choice is: ");
         }
-
         public void MenuChoice(eMenuOptions i_UserInput, ref bool io_Exit)
         {
             try
@@ -81,7 +82,6 @@ namespace Ex03.ConsoleUI
             {
                 Console.WriteLine("Error: {0}. Please try again.", ex.Message);
             }
-
         }
         private void printEnumOptions<T>()
         {
@@ -90,7 +90,6 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine("({0}) {1}", i + 1, Enum.GetName(typeof(T), i + 1));
             }
         }
-
         private void checkIfNumber(string i_UserInput, out float o_UserInput)
         {
             if (!float.TryParse(i_UserInput, out o_UserInput))
@@ -101,6 +100,7 @@ namespace Ex03.ConsoleUI
         private void isValidChoice(string i_UserInput, int i_MinOption, int i_MaxOption)
         {
             int userInput;
+
             if (int.TryParse(i_UserInput, out userInput))
             {
                 if (userInput < i_MinOption || userInput > i_MaxOption)
@@ -113,11 +113,11 @@ namespace Ex03.ConsoleUI
                 throw new FormatException("Value should be a number.");
             }
         }
-
         ///1
         public void GetVehicleAndAddToTheGarage()
         {
             string vehicleLicense = GetLicenseNumberFromUser();
+
             if (r_Garage.Vehicles.ContainsKey(vehicleLicense))
             {
                 Console.WriteLine("Vehicle license {0} is already exist in the garage!", vehicleLicense);
@@ -133,25 +133,23 @@ namespace Ex03.ConsoleUI
         private void printOptionalVehicleTypes()
         {
             Console.WriteLine("Choose a vehicle type option:");
-
             for (int i = 0; i < r_VehicleBuilder.VehicleOptionalTypes.Length; i++)
             {
                 Console.WriteLine("({0}) {1}", i + 1, r_VehicleBuilder.VehicleOptionalTypes[i]);
             }
             Console.WriteLine("Your choice is: ");
-
         }
-
         private void getNewVehicle(string i_CarLicense)
         {
             bool notValid = true;
-            printOptionalVehicleTypes();
 
+            printOptionalVehicleTypes();
             while (notValid)
             {
                 try
                 {
                     string ownerVehicleType = Console.ReadLine();
+
                     isValidChoice(ownerVehicleType, 1, r_VehicleBuilder.VehicleOptionalTypes.Length);
                     VehicleBuilder.eVehicleType vehicleType = (VehicleBuilder.eVehicleType)int.Parse(ownerVehicleType);
                     Vehicle newVehicle = r_VehicleBuilder.CreateVehicleObject(vehicleType, i_CarLicense);
@@ -178,7 +176,6 @@ namespace Ex03.ConsoleUI
             {
                 try
                 {
-
                     Console.WriteLine(@"Do you want to add tire air pressure of all the tires together?
 (1) yes
 (2) no
@@ -201,6 +198,7 @@ your choice: ");
         {
             Console.Write("Please enter tire manufacturer name: ");
             string tireManufacturerName = Console.ReadLine();
+
             return tireManufacturerName;
         }
         private bool isGetAllTirePressureTogether(string i_UserTirePressureChoice)
@@ -239,11 +237,13 @@ your choice: ");
                 try
                 {
                     List<string> specificData = new List<string>();
+
                     for (int i = 0; i < i_NewVehicle.SpecificData().Length; i++)
                     {
                         Console.Write("please enter {0}: ", i_NewVehicle.SpecificData()[i]);
                         specificData.Add(Console.ReadLine());
                     }
+
                     i_NewVehicle.SpecieficDetailsForEachKind = specificData;
                     notValid = false;
                 }
@@ -260,16 +260,18 @@ your choice: ");
 
             Console.Write("Please enter the owner phone: ");
             string vehicleOwnerPhone = Console.ReadLine();
+
             r_Garage.AddVehicle(i_NewVehicle, vehicleOwnerName, vehicleOwnerPhone);
         }
         private void setModel(Vehicle i_NewVehicle)
         {
             Console.Write("Please enter the vehicle model: ");
             string vehicleModel = Console.ReadLine();
+
             r_Garage.Vehicles[i_NewVehicle.LicenseNumber].Vehicle.ModelName = vehicleModel;
         }
         private void setTiresPressure(Vehicle i_Vehicle,
-                                  bool i_IsGetAllTirePressureTogether, string i_ManufacturerName)
+                                      bool i_IsGetAllTirePressureTogether, string i_ManufacturerName)
         {
             bool notValid = true;
 
@@ -306,16 +308,15 @@ your choice: ");
                 }
             }
         }
-
         ///2
         public void PresentLicenseNumbersInTheGarage()
         {
-            checkIfGarageIsEmpty();
-            presentAllVehiclesInTheGarage();
             bool notValid = true;
 
+            checkIfGarageIsEmpty(out notValid);
             while (notValid)
             {
+                presentAllVehiclesInTheGarage();
                 try
                 {
                     Console.WriteLine(@"Do you want to filter them by status?
@@ -323,6 +324,7 @@ your choice: ");
 (2) no");
                     Console.WriteLine("Your choice: ");
                     string filterBYChoice = Console.ReadLine();
+                                        Console.WriteLine();
 
                     isValidChoice(filterBYChoice, 1, 2);
                     if (int.Parse(filterBYChoice) == 1)
@@ -338,19 +340,20 @@ your choice: ");
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
                     Console.WriteLine();
                 }
-
-
             }
         }
-        private void checkIfGarageIsEmpty()
+        private void checkIfGarageIsEmpty(out bool o_NotValid)
         {
             bool notValid = true;
+            o_NotValid = true;
+
             while (notValid)
             {
                 try
                 {
                     if (r_Garage.Vehicles.Count == 0)
                     {
+                        o_NotValid = false;
                         notValid = false;
                         throw new ArgumentException("There are no vehicles in the garage");
                     }
@@ -359,6 +362,7 @@ your choice: ");
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                    Console.WriteLine();
                 }
             }
         }
@@ -367,10 +371,10 @@ your choice: ");
             Console.WriteLine("Here are all the cars we have in the garage right now:");
             printVeihcles(r_Garage.Vehicles);
         }
-
         public eVehicleStatus ChooseFilter()
         {
             Console.WriteLine("By which status you would like to filter by? ");
+
             return getVehicleStatus();
         }
         private void PresentLicenseNumbersInTheGarageFiltered(eVehicleStatus i_CarStatus)
@@ -378,16 +382,14 @@ your choice: ");
             Dictionary<string, VehicleDataInGarage> newListSortedByStatus = r_Garage.GetLicenseNumberListByStatus(i_CarStatus);
             if (newListSortedByStatus.Count == 0)
             {
-                Console.WriteLine("There is no vehicles in the garage in {0} status", i_CarStatus);
+                Console.WriteLine("There are no vehicles in the garage in {0} status", i_CarStatus);
             }
             else
             {
                 Console.WriteLine("Here are all the vehicles we have in the garage right now in {0} status:", i_CarStatus);
                 printVeihcles(newListSortedByStatus);
             }
-
         }
-
         private void printVeihcles(Dictionary<string, VehicleDataInGarage> i_Vehicles)
         {
             int i = 1;
@@ -398,62 +400,65 @@ your choice: ");
             }
             Console.WriteLine(" ");
         }
-
         private eVehicleStatus getVehicleStatus()
         {
             printEnumOptions<eVehicleStatus>();
             string whichStatus = Console.ReadLine();
 
             isValidChoice(whichStatus, 1, Enum.GetValues(typeof(eVehicleStatus)).Length);
+
             return (eVehicleStatus)int.Parse(whichStatus);
         }
-
         /// 3
         public void ChangeVehicleStatus()
         {
-            checkIfGarageIsEmpty();
             bool notValid = true;
-            string vehicleLicense = GetLicenseNumberFromUser();
-            checkIfVehicleIsInTheGarage(vehicleLicense);
 
-            while (notValid)
+            checkIfGarageIsEmpty(out notValid);
+            if (notValid)
             {
-                try
-                {
-                    eVehicleStatus vehicleStatus = getVehicleStatus();
+                string vehicleLicense = GetLicenseNumberFromUser();
 
-                    r_Garage.ChangeVehicleStatus(vehicleLicense, vehicleStatus);
-                    Console.WriteLine("Vehicle with {0} license - vehicle status changed to {1} successfully", vehicleLicense, vehicleStatus);
-                    Console.WriteLine();
-                    notValid = false;
-                }
-                catch (Exception ex)
+                checkIfVehicleIsInTheGarage(vehicleLicense, out notValid);
+                while (notValid)
                 {
-                    Console.WriteLine("Error: {0}. Please try again.", ex.Message);
-                    Console.WriteLine();
-                }
+                    try
+                    {
+                        eVehicleStatus vehicleStatus = getVehicleStatus();
 
+                        r_Garage.ChangeVehicleStatus(vehicleLicense, vehicleStatus);
+                        Console.WriteLine("Vehicle with {0} license - vehicle status changed to {1} successfully", vehicleLicense, vehicleStatus);
+                        Console.WriteLine();
+                        notValid = false;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                        Console.WriteLine();
+                    }
+                }
             }
         }
-
-        private void checkIfVehicleIsInTheGarage(string i_VehicleLicense)
+        private void checkIfVehicleIsInTheGarage(string i_VehicleLicense, out bool o_NotValid)
         {
             bool isVehicleInTheGarage = false;
+            o_NotValid = true;
+
             while (!isVehicleInTheGarage)
             {
                 try
                 {
-                    r_Garage.CheckIfTheVehicleIsInGarage(i_VehicleLicense);
                     isVehicleInTheGarage = true;
+                    r_Garage.CheckIfTheVehicleIsInGarage(i_VehicleLicense);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
                     Console.WriteLine();
+                    o_NotValid = false;
                 }
             }
         }
-
         public string GetLicenseNumberFromUser()
         {
             Console.Write("Please Enter your vehicle license number: ");
@@ -461,7 +466,6 @@ your choice: ");
 
             return vehicleLicense;
         }
-
         public eVehicleStatus GetVehicleStatusFromTheUser()
         {
             Console.Write("Please enter the new status for the car: ");
@@ -469,114 +473,131 @@ your choice: ");
             string whichStatus = Console.ReadLine();
 
             isValidChoice(whichStatus, 1, Enum.GetValues(typeof(eVehicleStatus)).Length);
+
             return (eVehicleStatus)int.Parse(whichStatus);
         }
-
         /// 4
         public void InfalteTiresToMax()
         {
-            checkIfGarageIsEmpty();
             bool notValid = true;
-            string vehicleLicense = GetLicenseNumberFromUser();
 
-            checkIfVehicleIsInTheGarage(vehicleLicense);
-            while (notValid)
+            checkIfGarageIsEmpty(out notValid);
+            if (notValid)
             {
-                try
+                string vehicleLicense = GetLicenseNumberFromUser();
+
+                checkIfVehicleIsInTheGarage(vehicleLicense, out notValid);
+                while (notValid)
                 {
-                    r_Garage.InfaltionToMax(vehicleLicense);
-                    Console.WriteLine("Vehicle with {0} license - the tires were successfully inflated", vehicleLicense);
-                    notValid = false;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error: {0}. Please try again.", ex.Message);
-                    Console.WriteLine();
+                    try
+                    {
+                        r_Garage.InfaltionToMax(vehicleLicense);
+                        Console.WriteLine("Vehicle with {0} license - the tires were successfully inflated", vehicleLicense);
+                        Console.WriteLine();
+                        notValid = false;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                        Console.WriteLine();
+                    }
                 }
             }
         }
-
         /// 5
         public void AddFuelToVehicle()
         {
-            checkIfGarageIsEmpty();
-            bool notValid = true;
-            string vehicleLicense = GetLicenseNumberFromUser();
+            bool notValid;
 
-            checkIfVehicleIsInTheGarage(vehicleLicense);
-            try
+            checkIfGarageIsEmpty(out notValid);
+            if (notValid)
             {
-                checkIfEngineMatchTheType<FuelEngine>(vehicleLicense);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine();
-                notValid = false;
-            }
-            while (notValid)
-            {
+                string vehicleLicense = GetLicenseNumberFromUser();
+
+                checkIfVehicleIsInTheGarage(vehicleLicense, out notValid);
                 try
                 {
-                    string fuelType;
-                    float vehicleFuelAmount = userInputForFueling(out fuelType);
-                    r_Garage.FuelingVehicle(vehicleLicense, (eFuelType)int.Parse(fuelType), vehicleFuelAmount);
-                    Console.WriteLine("Vehicle with {0} license - added {1} fuel successfully", vehicleLicense, vehicleFuelAmount);
-                    notValid = false;
+                    checkIfEngineMatchTheType<FuelEngine>(vehicleLicense, notValid);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                    Console.WriteLine(ex.Message);
                     Console.WriteLine();
+                    notValid = false;
+                }
+                while (notValid)
+                {
+                    try
+                    {
+                        string fuelType;
+                        float vehicleFuelAmount = userInputForFueling(out fuelType, vehicleLicense);
+                        r_Garage.FuelingVehicle(vehicleLicense, (eFuelType)int.Parse(fuelType), vehicleFuelAmount);
+                        Console.WriteLine("Vehicle with {0} license - added {1} fuel successfully", vehicleLicense, vehicleFuelAmount);
+                        Console.WriteLine();
+                        notValid = false;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                        Console.WriteLine();
+                    }
                 }
             }
         }
-        private float userInputForFueling(out string o_FuelType)
+
+        private float userInputForFueling(out string o_FuelType, string i_VehicleLicense)
         {
-            Console.WriteLine("Please choose your fuel type: ");
+            Console.WriteLine(@"Please choose your fuel type: 
+Pay attention that you fuel type is {0}", r_Garage.Vehicles[i_VehicleLicense].Vehicle.FuelType);
             printEnumOptions<eFuelType>();
              o_FuelType = Console.ReadLine();
             isValidChoice(o_FuelType, 1, Enum.GetValues(typeof(eFuelType)).Length - 1);
 
-            Console.Write("Please enter how much fuel you want to add: ");
+            Console.Write("Please enter how much fuel you want to add:");
             string fuelAmount = Console.ReadLine();
             float vehicleFuelAmount;
 
             checkIfNumber(fuelAmount, out vehicleFuelAmount);
+
             return vehicleFuelAmount;
         }
+
+
         /// 6
         public void ChargeYourVehicle()
         {
-            checkIfGarageIsEmpty();
             bool notValid = true;
-            string vehicleLicense = GetLicenseNumberFromUser();
+            checkIfGarageIsEmpty(out notValid);
+            if (notValid)
+            {
+                string vehicleLicense = GetLicenseNumberFromUser();
 
-            checkIfVehicleIsInTheGarage(vehicleLicense);
-            try
-            {
-                checkIfEngineMatchTheType<ElectricEngine>(vehicleLicense);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine();
-                notValid = false;
-            }
-
-            while (notValid)
-            {
+                checkIfVehicleIsInTheGarage(vehicleLicense, out notValid);
                 try
                 {
-                    float hoursToCharge = userInputForCharging();
-                    r_Garage.ChargeVehicle(vehicleLicense, hoursToCharge);
-                    Console.WriteLine("Vehicle with {0} license - added {1} battery hours successfully", vehicleLicense, hoursToCharge);
-                    notValid = false;
+                    checkIfEngineMatchTheType<ElectricEngine>(vehicleLicense, notValid);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                    Console.WriteLine(ex.Message);
                     Console.WriteLine();
+                    notValid = false;
+                }
+                while (notValid)
+                {
+                    try
+                    {
+                        float hoursToCharge = userInputForCharging();
+                        r_Garage.ChargeVehicle(vehicleLicense, hoursToCharge);
+                        Console.WriteLine("Vehicle with {0} license - added {1} battery hours successfully", vehicleLicense, hoursToCharge);
+                        Console.WriteLine();
+                        notValid = false;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                        Console.WriteLine();
+                    }
                 }
             }
         }
@@ -590,13 +611,15 @@ your choice: ");
             checkIfNumber(minuesAmount, out minutesToCharge);
             return ConvertMinutesToHours(minutesToCharge);          
         }
-        private void checkIfEngineMatchTheType<T>(string i_VehicleLicense)
+        private void checkIfEngineMatchTheType<T>(string i_VehicleLicense, bool i_NotValid)
         {
-            if (r_Garage.Vehicles[i_VehicleLicense].Vehicle.Engine.GetType() != typeof(T))
+            if (i_NotValid)
             {
-                throw new ArgumentException("You cant do this action with your engine type");
+                if (r_Garage.Vehicles[i_VehicleLicense].Vehicle.Engine.GetType() != typeof(T))
+                {
+                    throw new ArgumentException("You cant do this action with your engine type");
+                }
             }
-
         }
 
         public float ConvertMinutesToHours(float i_Minutes)
@@ -607,33 +630,46 @@ your choice: ");
         /// 7
         public void PresentAllVehicleDetails()
         {
-            checkIfGarageIsEmpty();
-            string vehicleLicense = GetLicenseNumberFromUser();
+            bool notValid = true;
+            checkIfGarageIsEmpty(out notValid);
 
-            checkIfVehicleIsInTheGarage(vehicleLicense);
-            Vehicle vehicle = r_Garage.Vehicles[vehicleLicense].Vehicle;
-
-            Console.WriteLine("The vehicle you chose: {0}", vehicle.LicenseNumber);
-            Console.WriteLine("Here are all the details about this vehicle:");
-            Console.WriteLine("Owner name: {0}", r_Garage.Vehicles[vehicleLicense].OwnerName);
-            Console.WriteLine("Owner phone number: {0}", r_Garage.Vehicles[vehicleLicense].OwnerPhoneNumber);
-            Console.WriteLine("Vehicle status: {0}", r_Garage.Vehicles[vehicleLicense].VehicleStatus);
-            Console.WriteLine("Model name: {0}", vehicle.ModelName);
-            Console.WriteLine("Tires manufacture name: {0}", vehicle.Tires[0].ManufacturerName);
-            Console.WriteLine("Tire pressure for each tire");
-            foreach (var detail in vehicle.Tires)
+            if (notValid)
             {
-                Console.WriteLine(detail.TirePressure);
-            }
+                try
+                {
+                    string vehicleLicense = GetLicenseNumberFromUser();
 
-            Console.WriteLine("Fuel type: {0}", vehicle.FuelType);
-            Console.WriteLine("Precent OfRemaining Energy: {0}", vehicle.PrecentOfRemainingEnergy);
-            Console.WriteLine("Speciefic details for the vehicle");
-            foreach (var detail in vehicle.SpecieficDetailsForEachKind)
-            {
-                Console.WriteLine(detail);
+                    checkIfVehicleIsInTheGarage(vehicleLicense, out notValid);
+                    Vehicle vehicle = r_Garage.Vehicles[vehicleLicense].Vehicle;
+
+                    Console.WriteLine("The vehicle you chose: {0}", vehicle.LicenseNumber);
+                    Console.WriteLine("Here are all the details about this vehicle:");
+                    Console.WriteLine("Owner name: {0}", r_Garage.Vehicles[vehicleLicense].OwnerName);
+                    Console.WriteLine("Owner phone number: {0}", r_Garage.Vehicles[vehicleLicense].OwnerPhoneNumber);
+                    Console.WriteLine("Vehicle status: {0}", r_Garage.Vehicles[vehicleLicense].VehicleStatus);
+                    Console.WriteLine("Model name: {0}", vehicle.ModelName);
+                    Console.WriteLine("Tires manufacture name: {0}", vehicle.Tires[0].ManufacturerName);
+                    Console.WriteLine("Tire pressure for each tire");
+                    foreach (var detail in vehicle.Tires)
+                    {
+                        Console.WriteLine(detail.TirePressure);
+                    }
+
+                    Console.WriteLine("Fuel type: {0}", vehicle.FuelType);
+                    Console.WriteLine("Precent Of Remaining Energy: {0}", vehicle.PrecentOfRemainingEnergy);
+                    Console.WriteLine("Speciefic details for the vehicle");
+                    foreach (var detail in vehicle.SpecieficDetailsForEachKind)
+                    {
+                        Console.WriteLine(detail);
+                    }
+                    Console.WriteLine();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine();
+                }
             }
-            Console.WriteLine();
         }
     }
 }

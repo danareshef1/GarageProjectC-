@@ -42,9 +42,7 @@ namespace Ex03.GarageLogic
         }
         public void FuelingVehicle(string i_LicenseNumber, eFuelType i_FuelType, float i_FuelAmount)
         {
-
-                m_Vehicles[i_LicenseNumber].Vehicle.Engine.FillEngine(i_FuelAmount, i_FuelType);
-            
+            m_Vehicles[i_LicenseNumber].Vehicle.Engine.FillEngine(i_FuelAmount, i_FuelType);
         }
 
         public void ChargeVehicle(string i_LicenseNumber, float i_HoursToCharge)

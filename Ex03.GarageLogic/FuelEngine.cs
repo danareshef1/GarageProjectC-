@@ -26,7 +26,6 @@ namespace Ex03.GarageLogic
                 throw new ArgumentException("The Fuel type you want to add not match the engine fuel type.");
             }
             m_EnergyRemaining += i_HowMuchToAdd;
-
         }
     }
 }
