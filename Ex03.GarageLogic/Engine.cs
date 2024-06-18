@@ -21,7 +21,7 @@ namespace Ex03.GarageLogic
             get { return m_EnergyRemaining; }
             set
             {
-                if (ValueIsUnderMax(value))
+                if (ValueIsUnderMax(value) && value > 0)
                 {
                     m_EnergyRemaining = value;
                 }

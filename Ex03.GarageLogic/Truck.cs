@@ -43,7 +43,7 @@ namespace Ex03.GarageLogic
 
         private void checkIsMoveHazard()
         {
-            string isMoveHazard = ConvertInputToEnumFormat(SpecieficDetailsForEachKind[k_IsMoveHazardMaterialsIndex]);
+            string isMoveHazard = ConvertInputToEnumFormat(SpecieficDetailsForVehicle[k_IsMoveHazardMaterialsIndex]);
             if (isMoveHazard == "Yes")
             {
                 m_IsMoveHazardMaterials = true;
@@ -62,7 +62,7 @@ namespace Ex03.GarageLogic
         private void checkCargoCapacity()
         {
             float cargoCapacity;
-            if (float.TryParse(m_SpecieficDetailsForEachKind[m_CargoCapacityIndex], out cargoCapacity))
+            if (float.TryParse(m_SpecificDetailsForVehicle[m_CargoCapacityIndex], out cargoCapacity))
             {
                 if (cargoCapacity < 0)
                 {

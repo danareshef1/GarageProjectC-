@@ -14,28 +14,48 @@ namespace Ex03.GarageLogic
         private string m_LicenseNumber;
         private List<Tire> m_Tires = new List<Tire>();
         protected Engine m_Engine;
-        protected List<string> m_SpecieficDetailsForEachKind = new List<string>();
+        protected List<string> m_SpecificDetailsForVehicle = new List<string>();
         private float m_PrecentOfRemainingEnergy;
 
-        public float PrecentOfRemainingEnergy { get { return m_PrecentOfRemainingEnergy; } set { m_PrecentOfRemainingEnergy = value; } }
-        public string ModelName { get { return m_ModelName; } set { m_ModelName = value; } }
+        public float PrecentOfRemainingEnergy
+        {
+            get
+            { 
+                return m_PrecentOfRemainingEnergy; 
+            }
+            set
+            {
+                m_PrecentOfRemainingEnergy = value;
+            }
+        }
+        public string ModelName
+        {
+            get
+            {
+                return m_ModelName;
+            }
+            set
+            {
+                m_ModelName = value;
+            }
+        }
         public string LicenseNumber { get { return m_LicenseNumber; } }
-        public List<string> SpecieficDetailsForEachKind
+        public List<string> SpecieficDetailsForVehicle
         { 
             get 
             { 
-                return m_SpecieficDetailsForEachKind;
+                return m_SpecificDetailsForVehicle;
             }
             set 
             {
-                m_SpecieficDetailsForEachKind = value;
+                m_SpecificDetailsForVehicle = value;
                 CheckAndInsertSpecificData();
             }
         }
 
-        public void calculatePrecentRemainingEnergy()
+        public void CalculatePrecentRemainingEnergy()
         {
-            m_PrecentOfRemainingEnergy = m_Engine.EnergyRemaining / m_Engine.MaxEnergy;
+            m_PrecentOfRemainingEnergy = m_Engine.EnergyRemaining / m_Engine.MaxEnergy * 100;
         }
         public List<Tire> Tires
         {
@@ -45,7 +65,17 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public Engine Engine { get { return m_Engine; } set { m_Engine = value; } }
+        public Engine Engine
+        {
+            get
+            {
+                return m_Engine;
+            }
+            set
+            {
+                m_Engine = value;
+            }
+        }
 
         public Vehicle(string i_LicenseNumber)
         {
@@ -55,6 +85,7 @@ namespace Ex03.GarageLogic
         public void AddNewTireToTireList(string i_ManufacturerName, float i_TirePressure)
         {
             Tire newTire = new Tire(i_ManufacturerName, i_TirePressure, MaxTireAirPressure);
+
             IsLowerThanTireAirPressureeMax(newTire);
             newTire.ManufacturerName = i_ManufacturerName;
             m_Tires.Add(newTire);
@@ -86,8 +117,7 @@ namespace Ex03.GarageLogic
                     throw new ValueOutOfRangeException(m_MaxTirePressure, 0);
                 }
             }
- 
-        }
+         }
 
         public abstract float MaxTireAirPressure { get; }
 
@@ -100,15 +130,12 @@ namespace Ex03.GarageLogic
 
         public abstract eFuelType FuelType { get; }
 
-        public bool checkIfTireNumberMatchVehicle()
+        public void CheckIfTireNumberMatchVehicle()
         {
-            bool isTireNumberMatch = true;
             if (!IsNumberOfTiresMatchVehicle(m_Tires))
             {
-                isTireNumberMatch = false;
                 throw new ArgumentException("Invalid number of tires according to the vehicle");
             }
-            return isTireNumberMatch;
         }
         protected bool IsNumberOfTiresMatchVehicle(List<Tire> i_Tires)
         {
@@ -116,7 +143,7 @@ namespace Ex03.GarageLogic
         }
         protected void IsLowerThanTireAirPressureeMax(Tire i_Tire) 
         {
-                if (i_Tire.TirePressure > MaxTireAirPressure)
+                if (i_Tire.TirePressure > MaxTireAirPressure || i_Tire.TirePressure < 0)
                 {
                     throw new ValueOutOfRangeException(MaxTireAirPressure,0);
                 }
@@ -136,5 +163,4 @@ namespace Ex03.GarageLogic
             return firstLetter + sentence;
         }
     }
-
 }

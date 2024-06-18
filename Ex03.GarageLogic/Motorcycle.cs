@@ -50,8 +50,10 @@ namespace Ex03.GarageLogic
         private void checkLicenseType()
         {
             eLicenseType licenseType;
+            string specialData = m_SpecificDetailsForVehicle[k_LicenseTypeIndex];
 
-            if (eLicenseType.TryParse(m_SpecieficDetailsForEachKind[k_LicenseTypeIndex], out licenseType))
+            if (eLicenseType.TryParse(specialData, out licenseType)
+                && !int.TryParse(specialData, out int result))
             {
                 m_LicenseType = licenseType;
             }
@@ -65,7 +67,7 @@ namespace Ex03.GarageLogic
         {
             int engineCapacity;
 
-            if (int.TryParse(m_SpecieficDetailsForEachKind[k_EngineCapacityIndex], out engineCapacity))
+            if (int.TryParse(m_SpecificDetailsForVehicle[k_EngineCapacityIndex], out engineCapacity))
             {
                 if (engineCapacity < 0)
                 {

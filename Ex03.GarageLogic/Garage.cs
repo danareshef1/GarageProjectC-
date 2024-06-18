@@ -28,9 +28,11 @@ namespace Ex03.GarageLogic
 
         public void ChangeVehicleStatus(string i_LicenseNumber, eVehicleStatus i_NewCarStatus)
         {
-
-                m_Vehicles[i_LicenseNumber].VehicleStatus = i_NewCarStatus;
-
+            if(i_NewCarStatus == Vehicles[i_LicenseNumber].VehicleStatus)
+            {
+                throw new ArgumentException("You chose your current status!");
+            }
+            m_Vehicles[i_LicenseNumber].VehicleStatus = i_NewCarStatus;
         }
 
         public void InfaltionToMax(string i_LicenseNumber)
@@ -49,7 +51,6 @@ namespace Ex03.GarageLogic
         {
             m_Vehicles[i_LicenseNumber].Vehicle.Engine.FillEngine(i_HoursToCharge, eFuelType.None);
         }
-
         public void CheckIfTheVehicleIsInGarage(string i_LicenseNumber)
         {
             if (!m_Vehicles.ContainsKey(i_LicenseNumber))
@@ -57,17 +58,9 @@ namespace Ex03.GarageLogic
                 throw new ArgumentException("There is no such vehicle in the garage");
             }
         }
-
         public void AddVehicle(Vehicle i_Vehicle, string i_OwnerName, string i_OwnerPhoneNumber)
         {
             m_Vehicles[i_Vehicle.LicenseNumber] = new VehicleDataInGarage(i_Vehicle, i_OwnerName, i_OwnerPhoneNumber);
         }
-
-        public void ChangeVehicleStatusToInRepair(string i_LicenseNumber)
-        {
-            m_Vehicles[i_LicenseNumber].VehicleStatus = eVehicleStatus.InRepair;
-        }
-
     }
-
 }

@@ -20,7 +20,6 @@ namespace Ex03.GarageLogic
         private eCarColor m_CarColor;
         private int m_HowManyDoors;
 
-
         public eCarColor CarColor { get { return m_CarColor; } }
         public int HowManyDoors { get { return m_HowManyDoors; } }
 
@@ -53,7 +52,7 @@ namespace Ex03.GarageLogic
         {
             int doorsNum;
 
-            if (int.TryParse(m_SpecieficDetailsForEachKind[k_HowManyDoorsIndex], out doorsNum))
+            if (int.TryParse(m_SpecificDetailsForVehicle[k_HowManyDoorsIndex], out doorsNum))
             {
                 if (doorsNum < k_MinDoorAmount || doorsNum > k_MaxDoorAmount)
                 {
@@ -73,10 +72,10 @@ namespace Ex03.GarageLogic
         private void checkCarColor()
         {
             eCarColor carColor;
+            string colorOfCar = ConvertInputToEnumFormat(m_SpecificDetailsForVehicle[k_CarColorIndex]);
 
-            string colorOfCar = ConvertInputToEnumFormat(m_SpecieficDetailsForEachKind[k_CarColorIndex]);
-
-            if (Enum.TryParse<eCarColor>(colorOfCar, out carColor))
+            if (Enum.TryParse<eCarColor>(colorOfCar, out carColor) && 
+                !int.TryParse(colorOfCar , out int result))
             {
                 m_CarColor = carColor;
             }

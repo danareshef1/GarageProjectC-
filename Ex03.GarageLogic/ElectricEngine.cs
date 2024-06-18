@@ -12,7 +12,7 @@ namespace Ex03.GarageLogic
         { }
         public override void FillEngine(float i_HowMuchToAdd, eFuelType i_WhatToAdd)
         {
-            if (i_HowMuchToAdd + m_EnergyRemaining > r_MaxEnergy)
+            if (i_HowMuchToAdd + m_EnergyRemaining > r_MaxEnergy || i_HowMuchToAdd < 0)
             {
                 throw new ValueOutOfRangeException(r_MaxEnergy, 0);
             }
