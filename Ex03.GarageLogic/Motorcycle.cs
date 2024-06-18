@@ -71,6 +71,10 @@ namespace Ex03.GarageLogic
                 {
                     throw new ArgumentException("The engine capacity should be positive");
                 }
+                else
+                {
+                    m_EngineCapacity = engineCapacity;
+                }
             }
             else
             {

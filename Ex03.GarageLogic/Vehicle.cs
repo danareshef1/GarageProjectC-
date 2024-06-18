@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using static Ex03.GarageLogic.Vehicle;
@@ -76,7 +77,7 @@ namespace Ex03.GarageLogic
             public float MaxTirePressure { get { return m_MaxTirePressure; } set { m_MaxTirePressure = value; } }
             public void Infaltion(float i_HowManyAirToAdd)
             {
-                if(m_TirePressure + i_HowManyAirToAdd < m_MaxTirePressure)
+                if(m_TirePressure + i_HowManyAirToAdd <= m_MaxTirePressure)
                 {
                     m_TirePressure += i_HowManyAirToAdd;
                 }
@@ -85,7 +86,7 @@ namespace Ex03.GarageLogic
                     throw new ValueOutOfRangeException(m_MaxTirePressure, 0);
                 }
             }
-
+ 
         }
 
         public abstract float MaxTireAirPressure { get; }

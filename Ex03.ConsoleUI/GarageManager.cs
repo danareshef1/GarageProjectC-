@@ -117,21 +117,19 @@ namespace Ex03.ConsoleUI
         ///1
         public void GetVehicleAndAddToTheGarage()
         {
-            string carLicense = GetLicenseNumberFromUser();
-
-            if (r_Garage.CheckIfTheVehicleIsInGarage(carLicense))
+            string vehicleLicense = GetLicenseNumberFromUser();
+            if (r_Garage.Vehicles.ContainsKey(vehicleLicense))
             {
-                Console.WriteLine("Vehicle license {0} is already exist in the garage!", carLicense);
-                r_Garage.ChangeVehicleStatusToInRepair(carLicense);
+                Console.WriteLine("Vehicle license {0} is already exist in the garage!", vehicleLicense);
+                r_Garage.ChangeVehicleStatusToInRepair(vehicleLicense);
             }
             else
             {
-                getNewVehicle(carLicense);
-                Console.WriteLine("Vehicle with {0} license added to the garage successfully! ", carLicense);
+                getNewVehicle(vehicleLicense);
+                Console.WriteLine("Vehicle with {0} license added to the garage successfully! ", vehicleLicense);
                 Console.WriteLine();
             }
         }
-
         private void printOptionalVehicleTypes()
         {
             Console.WriteLine("Choose a vehicle type option:");
@@ -415,14 +413,13 @@ your choice: ");
         {
             checkIfGarageIsEmpty();
             bool notValid = true;
+            string vehicleLicense = GetLicenseNumberFromUser();
+            checkIfVehicleIsInTheGarage(vehicleLicense);
 
             while (notValid)
             {
                 try
                 {
-                    string vehicleLicense = GetLicenseNumberFromUser();
-
-                    r_Garage.CheckIfTheVehicleIsInGarage(vehicleLicense);
                     eVehicleStatus vehicleStatus = getVehicleStatus();
 
                     r_Garage.ChangeVehicleStatus(vehicleLicense, vehicleStatus);
@@ -436,6 +433,24 @@ your choice: ");
                     Console.WriteLine();
                 }
 
+            }
+        }
+
+        private void checkIfVehicleIsInTheGarage(string i_VehicleLicense)
+        {
+            bool isVehicleInTheGarage = false;
+            while (!isVehicleInTheGarage)
+            {
+                try
+                {
+                    r_Garage.CheckIfTheVehicleIsInGarage(i_VehicleLicense);
+                    isVehicleInTheGarage = true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error: {0}. Please try again.", ex.Message);
+                    Console.WriteLine();
+                }
             }
         }
 
@@ -462,13 +477,13 @@ your choice: ");
         {
             checkIfGarageIsEmpty();
             bool notValid = true;
+            string vehicleLicense = GetLicenseNumberFromUser();
 
+            checkIfVehicleIsInTheGarage(vehicleLicense);
             while (notValid)
             {
                 try
                 {
-                    string vehicleLicense = GetLicenseNumberFromUser();
-
                     r_Garage.InfaltionToMax(vehicleLicense);
                     Console.WriteLine("Vehicle with {0} license - the tires were successfully inflated", vehicleLicense);
                     notValid = false;
@@ -486,34 +501,29 @@ your choice: ");
         {
             checkIfGarageIsEmpty();
             bool notValid = true;
+            string vehicleLicense = GetLicenseNumberFromUser();
 
+            checkIfVehicleIsInTheGarage(vehicleLicense);
+            try
+            {
+                checkIfEngineMatchTheType<FuelEngine>(vehicleLicense);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine();
+                notValid = false;
+            }
             while (notValid)
             {
                 try
                 {
-                    string vehicleLicense = GetLicenseNumberFromUser();
-                    if (r_Garage.Vehicles[vehicleLicense].Vehicle.Engine.GetType() == typeof(FuelEngine))
-                    {
-                        Console.WriteLine("Please choose your fuel type: ");
-                        printEnumOptions<eFuelType>();
-                        string fuelType = Console.ReadLine();
-                        isValidChoice(fuelType, 1, Enum.GetValues(typeof(eFuelType)).Length - 1);
-
-                        Console.Write("Please enter how much fuel you want to add: ");
-                        string fuelAmount = Console.ReadLine();
-                        float vehicleFuelAmount;
-
-                        checkIfNumber(fuelAmount, out vehicleFuelAmount);
-                        r_Garage.FuelingVehicle(vehicleLicense, (eFuelType)int.Parse(fuelType), vehicleFuelAmount);
-                        Console.WriteLine("Vehicle with {0} license - added {1} fuel successfully", vehicleLicense, vehicleFuelAmount);
-                    }
-                    else
-                    {
-                        throw new ArgumentException("You cant add fuel to a vehicle that have electirc engine.");
-                    }
+                    string fuelType;
+                    float vehicleFuelAmount = userInputForFueling(out fuelType);
+                    r_Garage.FuelingVehicle(vehicleLicense, (eFuelType)int.Parse(fuelType), vehicleFuelAmount);
+                    Console.WriteLine("Vehicle with {0} license - added {1} fuel successfully", vehicleLicense, vehicleFuelAmount);
                     notValid = false;
                 }
-
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
@@ -521,34 +531,46 @@ your choice: ");
                 }
             }
         }
+        private float userInputForFueling(out string o_FuelType)
+        {
+            Console.WriteLine("Please choose your fuel type: ");
+            printEnumOptions<eFuelType>();
+             o_FuelType = Console.ReadLine();
+            isValidChoice(o_FuelType, 1, Enum.GetValues(typeof(eFuelType)).Length - 1);
 
+            Console.Write("Please enter how much fuel you want to add: ");
+            string fuelAmount = Console.ReadLine();
+            float vehicleFuelAmount;
+
+            checkIfNumber(fuelAmount, out vehicleFuelAmount);
+            return vehicleFuelAmount;
+        }
         /// 6
         public void ChargeYourVehicle()
         {
             checkIfGarageIsEmpty();
             bool notValid = true;
+            string vehicleLicense = GetLicenseNumberFromUser();
+
+            checkIfVehicleIsInTheGarage(vehicleLicense);
+            try
+            {
+                checkIfEngineMatchTheType<ElectricEngine>(vehicleLicense);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine();
+                notValid = false;
+            }
 
             while (notValid)
             {
                 try
                 {
-                    string vehicleLicense = GetLicenseNumberFromUser();
-                    if (r_Garage.Vehicles[vehicleLicense].Vehicle.Engine.GetType() == typeof(ElectricEngine))
-                    {
-                        Console.Write("Please enter the time you want to charge in minutes:");
-                        string minuesAmount = Console.ReadLine();
-
-                        float minutesToCharge;
-                        checkIfNumber(minuesAmount, out minutesToCharge);
-                        float hoursToCharge = ConvertMinutesToHours(minutesToCharge);
-
-                        r_Garage.ChargeVehicle(vehicleLicense, hoursToCharge);
-                        Console.WriteLine("Vehicle with {0} license - added {1} battery minutes successfully", vehicleLicense, minutesToCharge);
-                    }
-                    else
-                    {
-                        throw new ArgumentException("You cant charge vehicle that have fuel engine.");
-                    }
+                    float hoursToCharge = userInputForCharging();
+                    r_Garage.ChargeVehicle(vehicleLicense, hoursToCharge);
+                    Console.WriteLine("Vehicle with {0} license - added {1} battery hours successfully", vehicleLicense, hoursToCharge);
                     notValid = false;
                 }
                 catch (Exception ex)
@@ -558,6 +580,25 @@ your choice: ");
                 }
             }
         }
+
+        private float userInputForCharging()
+        {
+            Console.Write("Please enter the time you want to charge in minutes:");
+            string minuesAmount = Console.ReadLine();
+            float minutesToCharge;
+
+            checkIfNumber(minuesAmount, out minutesToCharge);
+            return ConvertMinutesToHours(minutesToCharge);          
+        }
+        private void checkIfEngineMatchTheType<T>(string i_VehicleLicense)
+        {
+            if (r_Garage.Vehicles[i_VehicleLicense].Vehicle.Engine.GetType() != typeof(T))
+            {
+                throw new ArgumentException("You cant do this action with your engine type");
+            }
+
+        }
+
         public float ConvertMinutesToHours(float i_Minutes)
         {
             return i_Minutes / 60f;
@@ -567,53 +608,32 @@ your choice: ");
         public void PresentAllVehicleDetails()
         {
             checkIfGarageIsEmpty();
-            bool notValid = true;
+            string vehicleLicense = GetLicenseNumberFromUser();
 
-            while (notValid)
+            checkIfVehicleIsInTheGarage(vehicleLicense);
+            Vehicle vehicle = r_Garage.Vehicles[vehicleLicense].Vehicle;
+
+            Console.WriteLine("The vehicle you chose: {0}", vehicle.LicenseNumber);
+            Console.WriteLine("Here are all the details about this vehicle:");
+            Console.WriteLine("Owner name: {0}", r_Garage.Vehicles[vehicleLicense].OwnerName);
+            Console.WriteLine("Owner phone number: {0}", r_Garage.Vehicles[vehicleLicense].OwnerPhoneNumber);
+            Console.WriteLine("Vehicle status: {0}", r_Garage.Vehicles[vehicleLicense].VehicleStatus);
+            Console.WriteLine("Model name: {0}", vehicle.ModelName);
+            Console.WriteLine("Tires manufacture name: {0}", vehicle.Tires[0].ManufacturerName);
+            Console.WriteLine("Tire pressure for each tire");
+            foreach (var detail in vehicle.Tires)
             {
-                try
-                {
-                    string vehicleLicense = GetLicenseNumberFromUser();
-
-                    if (r_Garage.CheckIfTheVehicleIsInGarage(vehicleLicense))
-                    {
-                        Vehicle vehicle = r_Garage.Vehicles[vehicleLicense].Vehicle;
-
-                        Console.WriteLine("The vehicle you chose: {0}", vehicle.LicenseNumber);
-                        Console.WriteLine("Here are all the details about this vehicle:");
-                        Console.WriteLine("Owner name: {0}", r_Garage.Vehicles[vehicleLicense].OwnerName);
-                        Console.WriteLine("Owner phone number: {0}", r_Garage.Vehicles[vehicleLicense].OwnerPhoneNumber);
-                        Console.WriteLine("Vehicle status: {0}", r_Garage.Vehicles[vehicleLicense].VehicleStatus);
-                        Console.WriteLine("Model name: {0}", vehicle.ModelName);
-                        Console.WriteLine("Tires manufacture name: {0}", vehicle.Tires[0].ManufacturerName);
-                        Console.WriteLine("Tire pressure for each tire");
-                        foreach (var detail in vehicle.Tires)
-                        {
-                            Console.WriteLine(detail.TirePressure);
-                        }
-
-                        Console.WriteLine("Fuel type: {0}", vehicle.FuelType);
-                        Console.WriteLine("Precent OfRemaining Energy: {0}", vehicle.PrecentOfRemainingEnergy);
-                        Console.WriteLine("Speciefic details for the vehicle");
-                        foreach (var detail in vehicle.SpecieficDetailsForEachKind)
-                        {
-                            Console.WriteLine(detail);
-                        }
-                        Console.WriteLine();
-                        notValid = false;
-                    }
-                    else
-                    {
-                        throw new ArgumentException("There is no such vehicle in the garage");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error: {0}. Please try again.", ex.Message);
-                    Console.WriteLine();
-                }
-
+                Console.WriteLine(detail.TirePressure);
             }
+
+            Console.WriteLine("Fuel type: {0}", vehicle.FuelType);
+            Console.WriteLine("Precent OfRemaining Energy: {0}", vehicle.PrecentOfRemainingEnergy);
+            Console.WriteLine("Speciefic details for the vehicle");
+            foreach (var detail in vehicle.SpecieficDetailsForEachKind)
+            {
+                Console.WriteLine(detail);
+            }
+            Console.WriteLine();
         }
     }
 }

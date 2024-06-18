@@ -28,57 +28,36 @@ namespace Ex03.GarageLogic
 
         public void ChangeVehicleStatus(string i_LicenseNumber, eVehicleStatus i_NewCarStatus)
         {
-            if (CheckIfTheVehicleIsInGarage(i_LicenseNumber))
-            {
+
                 m_Vehicles[i_LicenseNumber].VehicleStatus = i_NewCarStatus;
-            }
-            else
-            {
-                throw new ArgumentException("There is no such vehicle in the garage");
-            }
+
         }
 
         public void InfaltionToMax(string i_LicenseNumber)
         {
-            if (CheckIfTheVehicleIsInGarage(i_LicenseNumber))
+            foreach (Vehicle.Tire tire in m_Vehicles[i_LicenseNumber].Vehicle.Tires)
             {
-                foreach (Vehicle.Tire tire in m_Vehicles[i_LicenseNumber].Vehicle.Tires)
-                {
-                    tire.Infaltion(tire.MaxTirePressure);
-                }
-            }
-            else
-            {
-                throw new ArgumentException("There is no such vehicle in the garage");
+                tire.Infaltion(tire.MaxTirePressure - tire.TirePressure);
             }
         }
         public void FuelingVehicle(string i_LicenseNumber, eFuelType i_FuelType, float i_FuelAmount)
         {
-            if (CheckIfTheVehicleIsInGarage(i_LicenseNumber))
-            {
+
                 m_Vehicles[i_LicenseNumber].Vehicle.Engine.FillEngine(i_FuelAmount, i_FuelType);
-            }
-            else
-            {
-                throw new ArgumentException("There is no such vehicle in the garage");
-            }
+            
         }
 
         public void ChargeVehicle(string i_LicenseNumber, float i_HoursToCharge)
         {
-            if (CheckIfTheVehicleIsInGarage(i_LicenseNumber))
-            {
-                m_Vehicles[i_LicenseNumber].Vehicle.Engine.FillEngine(i_HoursToCharge, eFuelType.None);
-            }
-            else
+            m_Vehicles[i_LicenseNumber].Vehicle.Engine.FillEngine(i_HoursToCharge, eFuelType.None);
+        }
+
+        public void CheckIfTheVehicleIsInGarage(string i_LicenseNumber)
+        {
+            if (!m_Vehicles.ContainsKey(i_LicenseNumber))
             {
                 throw new ArgumentException("There is no such vehicle in the garage");
             }
-        }
-
-        public bool CheckIfTheVehicleIsInGarage(string i_LicenseNumber)
-        {
-            return (m_Vehicles.ContainsKey(i_LicenseNumber));
         }
 
         public void AddVehicle(Vehicle i_Vehicle, string i_OwnerName, string i_OwnerPhoneNumber)
