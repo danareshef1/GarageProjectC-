@@ -21,12 +21,23 @@ namespace Ex03.GarageLogic
         private int m_EngineCapacity;
 
         public Motorcycle(string i_LicenseNumber) : base(i_LicenseNumber)
-        {
+        { }
 
+        public eLicenseType LicenseType
+        {
+            get
+            {
+                return m_LicenseType;
+            }
         }
 
-        public eLicenseType LicenseType { get { return m_LicenseType; } }
-        public int EngineCapacity { get { return m_EngineCapacity; } }
+        public int EngineCapacity
+        {
+            get
+            {
+                return m_EngineCapacity;
+            }
+        }
 
         public enum eLicenseType
         {
@@ -35,11 +46,46 @@ namespace Ex03.GarageLogic
             A,
             B1
         }
-        public override eFuelType FuelType { get { return k_FuelType; } }
-        public override float MaxFuelAmount { get { return k_MaxFuelAmountInLiter; } }
-        public override float MaxBatteryTime { get { return k_MaxBatteryTime; } }
-        public override int NumberOfTires { get { return k_TireAmount; } }
-        public override float MaxTireAirPressure { get { return k_MaxAirPressure; } }
+
+        public override eFuelType FuelType
+        {
+            get
+            {
+                return k_FuelType;
+            }
+        }
+
+        public override float MaxFuelAmount
+        {
+            get
+            {
+                return k_MaxFuelAmountInLiter;
+            }
+        }
+
+        public override float MaxBatteryTime
+        {
+            get
+            {
+                return k_MaxBatteryTime;
+            }
+        }
+
+        public override int NumberOfTires
+        {
+            get
+            {
+                return k_TireAmount;
+            }
+        }
+
+        public override float MaxTireAirPressure
+        {
+            get
+            {
+                return k_MaxAirPressure;
+            }
+        }
 
         public override void CheckAndInsertSpecificData()
         {

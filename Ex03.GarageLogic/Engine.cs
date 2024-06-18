@@ -18,10 +18,13 @@ namespace Ex03.GarageLogic
 
         public float EnergyRemaining
         {
-            get { return m_EnergyRemaining; }
+            get
+            {
+                return m_EnergyRemaining;
+            }
             set
             {
-                if (ValueIsUnderMax(value) && value > 0)
+                if (valueIsUnderMax(value) && value > 0)
                 {
                     m_EnergyRemaining = value;
                 }
@@ -32,8 +35,14 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public float MaxEnergy { get { return m_EnergyRemaining; } }
-        public bool ValueIsUnderMax(float i_ValueEnergy)
+        public float MaxEnergy
+        {
+            get
+            {
+                return m_EnergyRemaining;
+            }
+        }
+        private bool valueIsUnderMax(float i_ValueEnergy)
         {
             return i_ValueEnergy < r_MaxEnergy;
         }

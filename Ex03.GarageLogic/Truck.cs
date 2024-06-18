@@ -18,22 +18,57 @@ namespace Ex03.GarageLogic
         private float m_CargoCapacity;
 
         public Truck(string i_LicenseNumber) : base(i_LicenseNumber)
-        {
-        }
+        {}
 
         public override float MaxBatteryTime => throw new NotImplementedException();
 
-        public bool IsMoveHazardMaterials { get { return m_IsMoveHazardMaterials; } }
-        public float CargoCapacity
+        public bool IsMoveHazardMaterials
         {
-            get { return m_CargoCapacity; }
+            get
+            {
+                return m_IsMoveHazardMaterials;
+            }
         }
 
+        public float CargoCapacity
+        {
+            get
+            {
+                return m_CargoCapacity;
+            }
+        }
 
-        public override eFuelType FuelType { get { return k_FuelType; } }
-        public override float MaxFuelAmount { get { return k_MaxFuelAmountInLiter; } }
-        public override int NumberOfTires { get { return k_TireAmount; } }
-        public override float MaxTireAirPressure { get { return k_MaxAirPressure; } }
+        public override eFuelType FuelType
+        {
+            get
+            {
+                return k_FuelType;
+            }
+        }
+
+        public override float MaxFuelAmount
+        {
+            get
+            {
+                return k_MaxFuelAmountInLiter;
+            }
+        }
+
+        public override int NumberOfTires
+        {
+            get
+            {
+                return k_TireAmount;
+            }
+        }
+
+        public override float MaxTireAirPressure
+        {
+            get
+            {
+                return k_MaxAirPressure;
+            }
+        }
 
         public override void CheckAndInsertSpecificData()
         {
@@ -75,11 +110,10 @@ namespace Ex03.GarageLogic
                 throw new FormatException("Capacity should be a number.");
             }
         }
+
         public override string[] SpecificData()
         {
             return new string[] { "Is MoveHazard Materials", "Cargo Capacity" };
         }
-
-
     }
 }

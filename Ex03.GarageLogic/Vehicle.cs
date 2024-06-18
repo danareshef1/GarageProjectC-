@@ -20,14 +20,15 @@ namespace Ex03.GarageLogic
         public float PrecentOfRemainingEnergy
         {
             get
-            { 
-                return m_PrecentOfRemainingEnergy; 
+            {
+                return m_PrecentOfRemainingEnergy;
             }
             set
             {
                 m_PrecentOfRemainingEnergy = value;
             }
         }
+
         public string ModelName
         {
             get
@@ -39,14 +40,22 @@ namespace Ex03.GarageLogic
                 m_ModelName = value;
             }
         }
-        public string LicenseNumber { get { return m_LicenseNumber; } }
+
+        public string LicenseNumber
+        {
+            get
+            {
+                return m_LicenseNumber;
+            }
+        }
+
         public List<string> SpecieficDetailsForVehicle
-        { 
-            get 
-            { 
+        {
+            get
+            {
                 return m_SpecificDetailsForVehicle;
             }
-            set 
+            set
             {
                 m_SpecificDetailsForVehicle = value;
                 CheckAndInsertSpecificData();
@@ -57,6 +66,7 @@ namespace Ex03.GarageLogic
         {
             m_PrecentOfRemainingEnergy = m_Engine.EnergyRemaining / m_Engine.MaxEnergy * 100;
         }
+
         public List<Tire> Tires
         {
             get
@@ -90,35 +100,7 @@ namespace Ex03.GarageLogic
             newTire.ManufacturerName = i_ManufacturerName;
             m_Tires.Add(newTire);
         }
-        public class Tire
-        {
-            private string m_ManufacturerName;
-            private float m_TirePressure;
-            private float m_MaxTirePressure;
-
-            public Tire(string i_ManufacturerName, float i_TirePressure, float i_MaxTirePressure)
-            {
-                m_ManufacturerName = i_ManufacturerName;
-                m_TirePressure = i_TirePressure;
-                m_MaxTirePressure = i_MaxTirePressure;
-            }
-
-            public string ManufacturerName { get { return m_ManufacturerName; } set { m_ManufacturerName = value; } }
-            public float TirePressure { get { return m_TirePressure; } set { m_TirePressure = value; } }
-            public float MaxTirePressure { get { return m_MaxTirePressure; } set { m_MaxTirePressure = value; } }
-            public void Infaltion(float i_HowManyAirToAdd)
-            {
-                if(m_TirePressure + i_HowManyAirToAdd <= m_MaxTirePressure)
-                {
-                    m_TirePressure += i_HowManyAirToAdd;
-                }
-                else
-                {
-                    throw new ValueOutOfRangeException(m_MaxTirePressure, 0);
-                }
-            }
-         }
-
+      
         public abstract float MaxTireAirPressure { get; }
 
         public abstract int NumberOfTires { get; }
@@ -126,7 +108,6 @@ namespace Ex03.GarageLogic
         public abstract float MaxFuelAmount { get; }
 
         public abstract float MaxBatteryTime { get; }
-
 
         public abstract eFuelType FuelType { get; }
 
@@ -141,12 +122,12 @@ namespace Ex03.GarageLogic
         {
             return i_Tires.Count == NumberOfTires;
         }
-        protected void IsLowerThanTireAirPressureeMax(Tire i_Tire) 
+        protected void IsLowerThanTireAirPressureeMax(Tire i_Tire)
         {
-                if (i_Tire.TirePressure > MaxTireAirPressure || i_Tire.TirePressure < 0)
-                {
-                    throw new ValueOutOfRangeException(MaxTireAirPressure,0);
-                }
+            if (i_Tire.TirePressure > MaxTireAirPressure || i_Tire.TirePressure < 0)
+            {
+                throw new ValueOutOfRangeException(MaxTireAirPressure, 0);
+            }
         }
 
         public abstract void CheckAndInsertSpecificData();

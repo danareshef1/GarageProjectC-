@@ -14,7 +14,19 @@ namespace Ex03.GarageLogic
             m_FuelType = i_FuelType;
 
         }
-        public eFuelType FuelType { get { return m_FuelType; } set { m_FuelType = value; } }
+
+        public eFuelType FuelType
+        {
+            get
+            {
+                return m_FuelType;
+            }
+            set
+            {
+                m_FuelType = value;
+            }
+        }
+
         public override void FillEngine(float i_HowMuchToAdd, eFuelType i_WhatToAdd)
         {
             if (i_HowMuchToAdd + m_EnergyRemaining > r_MaxEnergy || i_HowMuchToAdd < 0)
@@ -23,7 +35,7 @@ namespace Ex03.GarageLogic
             }
             if (i_WhatToAdd != m_FuelType)
             {
-                throw new ArgumentException("The Fuel type you want to add not match the engine fuel type.");
+                throw new ArgumentException("The fuel type you want to add not match the engine fuel type.");
             }
             m_EnergyRemaining += i_HowMuchToAdd;
         }

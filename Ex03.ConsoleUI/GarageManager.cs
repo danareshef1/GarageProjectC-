@@ -78,7 +78,7 @@ namespace Ex03.ConsoleUI
                         clearScreen();
                         Console.WriteLine($"Inflate tires to max:{Environment.NewLine}" +
                                           $"=============================== ");
-                        InfalteTiresToMax();
+                        InfalateTiresToMax();
                         break;
                     case eMenuOptions.AddGas:
                         clearScreen();
@@ -184,7 +184,7 @@ namespace Ex03.ConsoleUI
 
                     setPersonalInformation(newVehicle);
                     setModel(newVehicle);
-                    setSpesicifVehicleData(newVehicle);
+                    setSpecificVehicleData(newVehicle);
                     setRemainEnergy(newVehicle);
                     setTires(newVehicle);
                     notValid = false;
@@ -256,7 +256,7 @@ your choice: ");
                 }
             }
         }
-        private void setSpesicifVehicleData(Vehicle i_NewVehicle)
+        private void setSpecificVehicleData(Vehicle i_NewVehicle)
         {
             bool notValid = true;
 
@@ -398,7 +398,7 @@ your choice: ");
         private void presentAllVehiclesInTheGarage()
         {
             Console.WriteLine("Here are all the cars we have in the garage right now:");
-            printVeihcles(r_Garage.Vehicles);
+            printVehicles(r_Garage.Vehicles);
         }
         public eVehicleStatus ChooseFilter()
         {
@@ -408,7 +408,7 @@ your choice: ");
         }
         private void PresentLicenseNumbersInTheGarageFiltered(eVehicleStatus i_CarStatus)
         {
-            Dictionary<string, VehicleDataInGarage> newListSortedByStatus = r_Garage.GetLicenseNumberListByStatus(i_CarStatus);
+            Dictionary<string, VehicleDataInGarage> newListSortedByStatus = r_Garage.GetLicenseNumbersByStatus(i_CarStatus);
             if (newListSortedByStatus.Count == 0)
             {
                 Console.WriteLine("There are no vehicles in the garage in {0} status", i_CarStatus);
@@ -416,10 +416,10 @@ your choice: ");
             else
             {
                 Console.WriteLine("Here are all the vehicles we have in the garage right now in {0} status:", i_CarStatus);
-                printVeihcles(newListSortedByStatus);
+                printVehicles(newListSortedByStatus);
             }
         }
-        private void printVeihcles(Dictionary<string, VehicleDataInGarage> i_Vehicles)
+        private void printVehicles(Dictionary<string, VehicleDataInGarage> i_Vehicles)
         {
             int i = 1;
             foreach (var vehicle in i_Vehicles)
@@ -510,7 +510,7 @@ your choice: ");
             return (eVehicleStatus)int.Parse(whichStatus);
         }
         /// 4
-        public void InfalteTiresToMax()
+        public void InfalateTiresToMax()
         {
             bool notValid;
 

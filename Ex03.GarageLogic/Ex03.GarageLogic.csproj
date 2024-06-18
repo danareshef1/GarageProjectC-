@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Car.cs" />
+    <Compile Include="Tire.cs" />
     <Compile Include="ValueOutOfRangeException.cs" />
     <Compile Include="eVehicleStatus.cs" />
     <Compile Include="eFuelType.cs" />
