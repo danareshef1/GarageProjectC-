@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ex03.GarageLogic
+﻿namespace Ex03.GarageLogic
 {
     public class VehicleDataInGarage
     {
@@ -12,7 +6,6 @@ namespace Ex03.GarageLogic
         private string m_OwnerName;
         private string m_OwnerPhoneNumber;
         private eVehicleStatus m_VehicleStatus = eVehicleStatus.InRepair;
-
         public VehicleDataInGarage(Vehicle i_Vehicle, string i_OwnerName, string i_OwnerPhoneNumber)
         {
             m_Vehicle = i_Vehicle;
@@ -20,7 +13,6 @@ namespace Ex03.GarageLogic
             m_OwnerPhoneNumber = i_OwnerPhoneNumber;
             m_VehicleStatus = eVehicleStatus.InRepair;
         }
-
         public Vehicle Vehicle
         {
             get
@@ -28,7 +20,6 @@ namespace Ex03.GarageLogic
                 return m_Vehicle;
             }
         }
-
         public string OwnerName
         {
             get
@@ -36,7 +27,6 @@ namespace Ex03.GarageLogic
                 return m_OwnerName;
             }
         }
-
         public string OwnerPhoneNumber
         {
             get

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ex03.GarageLogic
+﻿namespace Ex03.GarageLogic
 {
     public class ElectricEngine : Engine
     {
@@ -16,6 +10,7 @@ namespace Ex03.GarageLogic
             {
                 throw new ValueOutOfRangeException(r_MaxEnergy, 0);
             }
+
             m_EnergyRemaining += i_HowMuchToAdd;
         }
     }

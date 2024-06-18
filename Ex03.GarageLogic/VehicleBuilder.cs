@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
@@ -18,7 +14,6 @@ namespace Ex03.GarageLogic
                 return vehicleOptionalTypes;
             }
         }
-
         public enum eVehicleType
         {
             FuelCar = 1,
@@ -27,10 +22,10 @@ namespace Ex03.GarageLogic
             ElectricMotorcycle,
             Truck
         }
-
         public Vehicle CreateVehicleObject(eVehicleType i_VehicleType, string i_LicenseNumber)
         {
             Vehicle vehicle;
+
             switch (i_VehicleType)
             {
                 case eVehicleType.ElectricCar:

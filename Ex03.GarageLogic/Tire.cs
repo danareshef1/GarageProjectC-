@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ex03.GarageLogic
+﻿namespace Ex03.GarageLogic
 {
     public class Tire
     {
         private string m_ManufacturerName;
         private float m_TirePressure;
         private float m_MaxTirePressure;
-
         public Tire(string i_ManufacturerName, float i_TirePressure, float i_MaxTirePressure)
         {
             m_ManufacturerName = i_ManufacturerName;
             m_TirePressure = i_TirePressure;
             m_MaxTirePressure = i_MaxTirePressure;
         }
-
         public string ManufacturerName
         {
             get
@@ -30,7 +22,6 @@ namespace Ex03.GarageLogic
                 m_ManufacturerName = value;
             }
         }
-
         public float TirePressure
         {
             get
@@ -42,7 +33,6 @@ namespace Ex03.GarageLogic
                 m_TirePressure = value;
             }
         }
-
         public float MaxTirePressure
         {
             get
@@ -54,7 +44,6 @@ namespace Ex03.GarageLogic
                 m_MaxTirePressure = value;
             }
         }
-
         public void Inflation(float i_HowManyAirToAdd)
         {
             if (m_TirePressure + i_HowManyAirToAdd <= m_MaxTirePressure)
@@ -68,4 +57,3 @@ namespace Ex03.GarageLogic
         }
     }
 }
-

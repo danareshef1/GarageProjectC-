@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace Ex03.GarageLogic
 {
@@ -21,7 +20,6 @@ namespace Ex03.GarageLogic
                 return m_MaxValue;
             }
         }
-
         float MinValue
         {
             get

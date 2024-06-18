@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using static Ex03.GarageLogic.Motorcycle;
 
 namespace Ex03.GarageLogic
@@ -19,10 +14,8 @@ namespace Ex03.GarageLogic
         private const float k_MaxBatteryTime = 2.5f;
         private eLicenseType m_LicenseType;
         private int m_EngineCapacity;
-
         public Motorcycle(string i_LicenseNumber) : base(i_LicenseNumber)
         { }
-
         public eLicenseType LicenseType
         {
             get
@@ -30,7 +23,6 @@ namespace Ex03.GarageLogic
                 return m_LicenseType;
             }
         }
-
         public int EngineCapacity
         {
             get
@@ -38,7 +30,6 @@ namespace Ex03.GarageLogic
                 return m_EngineCapacity;
             }
         }
-
         public enum eLicenseType
         {
             AA = 1,
@@ -46,7 +37,6 @@ namespace Ex03.GarageLogic
             A,
             B1
         }
-
         public override eFuelType FuelType
         {
             get
@@ -54,7 +44,6 @@ namespace Ex03.GarageLogic
                 return k_FuelType;
             }
         }
-
         public override float MaxFuelAmount
         {
             get
@@ -62,7 +51,6 @@ namespace Ex03.GarageLogic
                 return k_MaxFuelAmountInLiter;
             }
         }
-
         public override float MaxBatteryTime
         {
             get
@@ -70,7 +58,6 @@ namespace Ex03.GarageLogic
                 return k_MaxBatteryTime;
             }
         }
-
         public override int NumberOfTires
         {
             get
@@ -78,7 +65,6 @@ namespace Ex03.GarageLogic
                 return k_TireAmount;
             }
         }
-
         public override float MaxTireAirPressure
         {
             get
@@ -86,13 +72,11 @@ namespace Ex03.GarageLogic
                 return k_MaxAirPressure;
             }
         }
-
         public override void CheckAndInsertSpecificData()
         {
             checkLicenseType();
             checkEngineCapacity();
         }
-
         private void checkLicenseType()
         {
             eLicenseType licenseType;
@@ -108,7 +92,6 @@ namespace Ex03.GarageLogic
                 throw new FormatException("License type is not valid.");
             }
         }
-
         private void checkEngineCapacity()
         {
             int engineCapacity;

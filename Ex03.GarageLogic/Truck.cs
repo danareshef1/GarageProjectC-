@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
@@ -16,12 +12,9 @@ namespace Ex03.GarageLogic
         private const float k_MaxFuelAmountInLiter = 120f;
         private bool m_IsMoveHazardMaterials;
         private float m_CargoCapacity;
-
         public Truck(string i_LicenseNumber) : base(i_LicenseNumber)
-        {}
-
+        { }
         public override float MaxBatteryTime => throw new NotImplementedException();
-
         public bool IsMoveHazardMaterials
         {
             get
@@ -29,7 +22,6 @@ namespace Ex03.GarageLogic
                 return m_IsMoveHazardMaterials;
             }
         }
-
         public float CargoCapacity
         {
             get
@@ -37,7 +29,6 @@ namespace Ex03.GarageLogic
                 return m_CargoCapacity;
             }
         }
-
         public override eFuelType FuelType
         {
             get
@@ -45,7 +36,6 @@ namespace Ex03.GarageLogic
                 return k_FuelType;
             }
         }
-
         public override float MaxFuelAmount
         {
             get
@@ -53,7 +43,6 @@ namespace Ex03.GarageLogic
                 return k_MaxFuelAmountInLiter;
             }
         }
-
         public override int NumberOfTires
         {
             get
@@ -61,7 +50,6 @@ namespace Ex03.GarageLogic
                 return k_TireAmount;
             }
         }
-
         public override float MaxTireAirPressure
         {
             get
@@ -69,16 +57,15 @@ namespace Ex03.GarageLogic
                 return k_MaxAirPressure;
             }
         }
-
         public override void CheckAndInsertSpecificData()
         {
             checkIsMoveHazard();
             checkCargoCapacity();
         }
-
         private void checkIsMoveHazard()
         {
             string isMoveHazard = ConvertInputToEnumFormat(SpecieficDetailsForVehicle[k_IsMoveHazardMaterialsIndex]);
+
             if (isMoveHazard == "Yes")
             {
                 m_IsMoveHazardMaterials = true;
@@ -93,16 +80,17 @@ namespace Ex03.GarageLogic
                 throw new FormatException("Move hazard materials should be yes/no.");
             }
         }
-
         private void checkCargoCapacity()
         {
             float cargoCapacity;
+
             if (float.TryParse(m_SpecificDetailsForVehicle[m_CargoCapacityIndex], out cargoCapacity))
             {
                 if (cargoCapacity < 0)
                 {
                     throw new ArgumentException("The cargo capacity should be positive");
                 }
+
                 m_CargoCapacity = cargoCapacity;
             }
             else
@@ -110,7 +98,6 @@ namespace Ex03.GarageLogic
                 throw new FormatException("Capacity should be a number.");
             }
         }
-
         public override string[] SpecificData()
         {
             return new string[] { "Is MoveHazard Materials", "Cargo Capacity" };

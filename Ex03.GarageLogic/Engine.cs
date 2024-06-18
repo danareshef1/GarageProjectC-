@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ex03.GarageLogic
+﻿namespace Ex03.GarageLogic
 {
     public abstract class Engine
     {
         protected float m_EnergyRemaining;
         protected readonly float r_MaxEnergy;
-
         public Engine(float i_MaxEnergy)
         {
             r_MaxEnergy = i_MaxEnergy;
         }
-
         public float EnergyRemaining
         {
             get
@@ -34,7 +26,6 @@ namespace Ex03.GarageLogic
                 }
             }
         }
-
         public float MaxEnergy
         {
             get
@@ -47,6 +38,5 @@ namespace Ex03.GarageLogic
             return i_ValueEnergy < r_MaxEnergy;
         }
         public abstract void FillEngine(float i_HowMuchToAdd, eFuelType i_WhatToAdd = 0);
-
     }
 }

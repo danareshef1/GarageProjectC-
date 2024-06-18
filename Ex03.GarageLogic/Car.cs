@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
@@ -19,9 +15,9 @@ namespace Ex03.GarageLogic
         private const int k_MaxDoorAmount = 5;
         private eCarColor m_CarColor;
         private int m_HowManyDoors;
-
         public Car(string i_LicenseNumber) : base(i_LicenseNumber)
         {
+
         }
         public eCarColor CarColor
         {
@@ -37,7 +33,6 @@ namespace Ex03.GarageLogic
                 return m_HowManyDoors;
             }
         }
-
         public override eFuelType FuelType
         {
             get
@@ -45,7 +40,6 @@ namespace Ex03.GarageLogic
                 return k_FuelType;
             }
         }
-
         public override float MaxFuelAmount
         {
             get
@@ -53,7 +47,6 @@ namespace Ex03.GarageLogic
                 return k_MaxFuelAmountInLiter;
             }
         }
-
         public override float MaxBatteryTime
         {
             get
@@ -61,7 +54,6 @@ namespace Ex03.GarageLogic
                 return k_MaxBatteryTime;
             }
         }
-
         public override int NumberOfTires
         {
             get
@@ -69,7 +61,6 @@ namespace Ex03.GarageLogic
                 return k_TireAmount;
             }
         }
-
         public override float MaxTireAirPressure
         {
             get
@@ -77,7 +68,6 @@ namespace Ex03.GarageLogic
                 return k_MaxAirPressure;
             }
         }
-
         public enum eCarColor
         {
             Yellow = 1,
@@ -85,13 +75,11 @@ namespace Ex03.GarageLogic
             Red,
             Black
         }
-
         public override void CheckAndInsertSpecificData()
         {
             checkDoorsNum();
             checkCarColor();
         }
-
         private void checkDoorsNum()
         {
             int doorsNum;
@@ -112,7 +100,6 @@ namespace Ex03.GarageLogic
                 throw new FormatException("Door amount should be a number.");
             }
         }
-
         private void checkCarColor()
         {
             eCarColor carColor;
@@ -128,7 +115,6 @@ namespace Ex03.GarageLogic
                 throw new FormatException("Not valid color.");
             }
         }
-
         public override string[] SpecificData()
         {
             return new string[] {$"How Many Doors from ({k_MinDoorAmount} - {k_MaxDoorAmount})",
