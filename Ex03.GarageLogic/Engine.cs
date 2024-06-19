@@ -4,10 +4,12 @@
     {
         protected float m_EnergyRemaining;
         protected readonly float r_MaxEnergy;
+
         public Engine(float i_MaxEnergy)
         {
             r_MaxEnergy = i_MaxEnergy;
         }
+
         public float EnergyRemaining
         {
             get
@@ -26,17 +28,20 @@
                 }
             }
         }
+
         public float MaxEnergy
         {
             get
             {
-                return m_EnergyRemaining;
+                return r_MaxEnergy;
             }
         }
+
         private bool valueIsUnderMax(float i_ValueEnergy)
         {
             return i_ValueEnergy < r_MaxEnergy;
         }
+
         public abstract void FillEngine(float i_HowMuchToAdd, eFuelType i_WhatToAdd = 0);
     }
 }

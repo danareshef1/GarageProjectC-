@@ -5,27 +5,17 @@ namespace Ex03.GarageLogic
     public class FuelEngine : Engine
     {
         private eFuelType m_FuelType;
+
         public FuelEngine(float i_MaxEnergy, eFuelType i_FuelType = 0) : base(i_MaxEnergy)
         {
             m_FuelType = i_FuelType;
+        }
 
-        }
-        public eFuelType FuelType
-        {
-            get
-            {
-                return m_FuelType;
-            }
-            set
-            {
-                m_FuelType = value;
-            }
-        }
         public override void FillEngine(float i_HowMuchToAdd, eFuelType i_WhatToAdd)
         {
             if (i_HowMuchToAdd + m_EnergyRemaining > r_MaxEnergy || i_HowMuchToAdd < 0)
             {
-                throw new ValueOutOfRangeException(r_MaxEnergy, 0);
+                throw new ValueOutOfRangeException(r_MaxEnergy - m_EnergyRemaining, 0);
             }
 
             if (i_WhatToAdd != m_FuelType)

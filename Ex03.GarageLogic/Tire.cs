@@ -5,12 +5,14 @@
         private string m_ManufacturerName;
         private float m_TirePressure;
         private float m_MaxTirePressure;
+
         public Tire(string i_ManufacturerName, float i_TirePressure, float i_MaxTirePressure)
         {
             m_ManufacturerName = i_ManufacturerName;
             m_TirePressure = i_TirePressure;
             m_MaxTirePressure = i_MaxTirePressure;
         }
+
         public string ManufacturerName
         {
             get
@@ -22,6 +24,7 @@
                 m_ManufacturerName = value;
             }
         }
+
         public float TirePressure
         {
             get
@@ -33,6 +36,7 @@
                 m_TirePressure = value;
             }
         }
+
         public float MaxTirePressure
         {
             get
@@ -44,6 +48,7 @@
                 m_MaxTirePressure = value;
             }
         }
+
         public void Inflation(float i_HowManyAirToAdd)
         {
             if (m_TirePressure + i_HowManyAirToAdd <= m_MaxTirePressure)

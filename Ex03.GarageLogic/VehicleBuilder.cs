@@ -4,16 +4,10 @@ namespace Ex03.GarageLogic
 {
     public class VehicleBuilder
     {
-        private string[] vehicleOptionalTypes = {"Fuel car", "Fuel motorcycle",
+        private string[] m_VehicleOptionalTypes = {"Fuel car", "Fuel motorcycle",
                                                 "Electric car", "Electric motorcycle",
                                                  "Truck"};
-        public string[] VehicleOptionalTypes
-        {
-            get
-            {
-                return vehicleOptionalTypes;
-            }
-        }
+
         public enum eVehicleType
         {
             FuelCar = 1,
@@ -22,6 +16,15 @@ namespace Ex03.GarageLogic
             ElectricMotorcycle,
             Truck
         }
+
+        public string[] VehicleOptionalTypes
+        {
+            get
+            {
+                return m_VehicleOptionalTypes;
+            }
+        }
+
         public Vehicle CreateVehicleObject(eVehicleType i_VehicleType, string i_LicenseNumber)
         {
             Vehicle vehicle;
