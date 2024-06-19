@@ -6,11 +6,13 @@ namespace Ex03.ConsoleUI
 {
     public class GarageManager
     {
+        private const int k_MessagesSleepTime = 2000;
+        private const int k_GettingSleepTime = 900;
         private readonly Garage r_Garage = new Garage();
         private readonly VehicleBuilder r_VehicleBuilder = new VehicleBuilder();
-        private void clearScreen()
+        private void clearScreen(int i_SleepTime)
         {
-            System.Threading.Thread.Sleep(2000);
+            System.Threading.Thread.Sleep(i_SleepTime);
             Console.Clear();
         }
         public void StartGarageWork()
@@ -18,6 +20,7 @@ namespace Ex03.ConsoleUI
             bool stayInTheGarage = true;
 
             Console.WriteLine("Welcome to our garage!");
+            clearScreen(k_MessagesSleepTime);
             while (stayInTheGarage)
             {
                 PresentGarageMenu();
@@ -28,7 +31,6 @@ namespace Ex03.ConsoleUI
         }
         public void PresentGarageMenu()
         {
-            clearScreen();
             Console.WriteLine("Garage Menu:");
             Console.WriteLine("==============================================");
             Console.WriteLine("Choose your option:");
@@ -51,43 +53,43 @@ namespace Ex03.ConsoleUI
                 switch (i_UserInput)
                 {
                     case eMenuOptions.AddNewVehicle:
-                        clearScreen();
+                        clearScreen(k_GettingSleepTime);
                         Console.WriteLine($"Add new vehicle to the garage:{Environment.NewLine}" +
                                           $"=============================== ");
                         GetVehicleAndAddToTheGarage();
                         break;
                     case eMenuOptions.PresentAllLicense:
-                        clearScreen();
+                        clearScreen(k_GettingSleepTime);
                         Console.WriteLine($"Present all vehicles in the garage:{Environment.NewLine}" +
                                           $"=============================== ");
                         PresentLicenseNumbersInTheGarage();
                         break;
                     case eMenuOptions.ChangeVehicleStatus:
-                        clearScreen();
+                        clearScreen(k_GettingSleepTime);
                         Console.WriteLine($"Change vehicle status:{Environment.NewLine}" +
                                           $"=============================== ");
                         ChangeVehicleStatus();
                         break;
                     case eMenuOptions.InfalteTires:
-                        clearScreen();
+                        clearScreen(k_GettingSleepTime);
                         Console.WriteLine($"Inflate tires to max:{Environment.NewLine}" +
                                           $"=============================== ");
                         InfalateTiresToMax();
                         break;
                     case eMenuOptions.AddGas:
-                        clearScreen();
+                        clearScreen(k_GettingSleepTime);
                         Console.WriteLine($"Add fuel:{Environment.NewLine}" +
                                           $"=============================== ");
                         AddFuelToVehicle();
                         break;
                     case eMenuOptions.ChargeBattery:
-                        clearScreen();
+                        clearScreen(k_GettingSleepTime);
                         Console.WriteLine($"Add battery:{Environment.NewLine}" +
                                           $"=============================== ");
                         ChargeYourVehicle();
                         break;
                     case eMenuOptions.PresentFullDetails:
-                        clearScreen();
+                        clearScreen(k_GettingSleepTime);
                         Console.WriteLine($"Present full vehicle details:{Environment.NewLine}" +
                                           $"=============================== ");
                         PresentAllVehicleDetails();
@@ -148,9 +150,9 @@ namespace Ex03.ConsoleUI
             else
             {
                 getNewVehicle(vehicleLicense);
-                clearScreen();
-                Console.WriteLine("Vehicle with {0} license added to the garage successfully! ", vehicleLicense);
                 Console.WriteLine();
+                Console.WriteLine("Vehicle with {0} license added to the garage successfully! ", vehicleLicense);
+                clearScreen(k_MessagesSleepTime);
             }
         }
         private void printOptionalVehicleTypes()
@@ -303,13 +305,9 @@ your choice: ");
             {
                 try
                 {
-                    float tireAirPressuerNumber;
-
-                    Console.Write("Please enter tires air pressure: ");
                     if (i_IsGetAllTirePressureTogether)
                     {
-                        checkIfNumber(Console.ReadLine(), out tireAirPressuerNumber);
-                        setAllTiresTogether(i_Vehicle, i_ManufacturerName, tireAirPressuerNumber);
+                        setAllTiresTogether(i_Vehicle, i_ManufacturerName);
                     }
                     else
                     {
@@ -326,9 +324,11 @@ your choice: ");
                 }
             }
         }
-        private void setAllTiresTogether(Vehicle i_Vehicle, string i_ManufacturerName,
-                                        float tireAirPressuerNumber)
+        private void setAllTiresTogether(Vehicle i_Vehicle, string i_ManufacturerName)
         {
+            float tireAirPressuerNumber;
+            Console.Write("Please enter tires air pressure: ");
+            checkIfNumber(Console.ReadLine(), out tireAirPressuerNumber);
             for (int i = 0; i < i_Vehicle.NumberOfTires; i++)
             {
                 i_Vehicle.AddNewTireToTireList(i_ManufacturerName, tireAirPressuerNumber);
@@ -337,7 +337,7 @@ your choice: ");
         private void setTiresSeparate(Vehicle i_Vehicle, string i_ManufacturerName)
         {
             float tireAirPressuerNumber;
-
+            Console.WriteLine("Please enter tires air pressure: ");
             for (int i = 0; i < i_Vehicle.NumberOfTires; i++)
             {
                 Console.Write("Please enter tire number {0} pressure: ", i + 1);
@@ -348,16 +348,17 @@ your choice: ");
         public void PresentLicenseNumbersInTheGarage()
         {
             bool notValid;
+            string checkIfFilter;
 
             checkIfGarageIsEmpty(out notValid);
+            presentAllVehiclesInTheGarage();
             while (notValid)
             {
-                presentAllVehiclesInTheGarage();
                 try
                 {
-                    string filterByChoice = checkIfWantToFilter();
+                     checkIfWantToFilter(out checkIfFilter);
 
-                    if (int.Parse(filterByChoice) == 1)
+                    if (int.Parse(checkIfFilter) == 1)
                     {
                         eVehicleStatus chosenStatus;
                         chosenStatus = ChooseFilter();
@@ -365,26 +366,30 @@ your choice: ");
                     }
 
                     notValid = false;
+                    clearScreen(k_MessagesSleepTime);
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
                     Console.WriteLine();
                 }
+
             }
         }
-        private string checkIfWantToFilter()
+        private void checkIfWantToFilter(out string o_CheckIfFilter)
         {
             Console.WriteLine(@"Do you want to filter them by status?
 (1) yes
 (2) no");
-            Console.WriteLine("Your choice: ");
-            string filterByChoice = Console.ReadLine();
+            Console.Write("Your choice: ");
+             o_CheckIfFilter = Console.ReadLine();
 
             Console.WriteLine();
-            isValidChoice(filterByChoice, 1, 2);
-
-            return filterByChoice;
+            isValidChoice(o_CheckIfFilter, 1, 2);
         }
         private void checkIfGarageIsEmpty(out bool o_NotValid)
         {
@@ -429,7 +434,8 @@ your choice: ");
 
             if (newListSortedByStatus.Count == 0)
             {
-                Console.WriteLine("There are no vehicles in the garage in {0} status", i_CarStatus);
+                throw new ArgumentException("There are no vehicles in the garage in this status," +
+                                            "let's try again...");
             }
             else
             {
@@ -477,10 +483,9 @@ your choice: ");
                         eVehicleStatus vehicleStatus = GetVehicleStatusFromTheUserForChange();
 
                         r_Garage.ChangeVehicleStatus(vehicleLicense, vehicleStatus);
-                        clearScreen();
+                        Console.WriteLine();
                         Console.WriteLine("Vehicle with {0} license - vehicle status changed to {1} successfully",
                                           vehicleLicense, vehicleStatus);
-                        Console.WriteLine();
                         notValid = false;
                     }
                     catch (Exception ex)
@@ -538,9 +543,9 @@ your choice: ");
                     try
                     {
                         r_Garage.InfaltionToMax(vehicleLicense);
-                        clearScreen();
-                        Console.WriteLine("Vehicle with {0} license - the tires were successfully inflated", vehicleLicense);
                         Console.WriteLine();
+                        Console.WriteLine("Vehicle with {0} license - the tires were successfully inflated", vehicleLicense);
+                        clearScreen(k_MessagesSleepTime);
                         notValid = false;
                     }
                     catch (Exception ex)
@@ -580,11 +585,11 @@ your choice: ");
                         float vehicleFuelAmount = userInputForFueling(out fuelType, vehicleLicense);
 
                         r_Garage.FuelingVehicle(vehicleLicense, (eFuelType)int.Parse(fuelType), vehicleFuelAmount);
-                        clearScreen();
+                        Console.WriteLine();
                         Console.WriteLine("Vehicle with {0} license - added {1} fuel successfully", vehicleLicense, vehicleFuelAmount);
                         Console.WriteLine("Your current amount of fuel is {0}",
                                            r_Garage.Vehicles[vehicleLicense].Vehicle.Engine.EnergyRemaining);
-                        Console.WriteLine();
+                        clearScreen(k_MessagesSleepTime);
                         notValid = false;
                     }
                     catch (Exception ex)
@@ -601,7 +606,7 @@ your choice: ");
 Pay attention that you fuel type is {0}", r_Garage.Vehicles[i_VehicleLicense].Vehicle.FuelType);
             printEnumOptions<eFuelType>();
             o_FuelType = Console.ReadLine();
-            isValidChoice(o_FuelType, 1, Enum.GetValues(typeof(eFuelType)).Length - 1);
+            isValidChoice(o_FuelType, 1, Enum.GetValues(typeof(eFuelType)).Length);
             Console.Write("Please enter how much fuel you want to add:");
             string fuelAmount = Console.ReadLine();
             float vehicleFuelAmount;
@@ -638,11 +643,11 @@ Pay attention that you fuel type is {0}", r_Garage.Vehicles[i_VehicleLicense].Ve
                         float hoursToCharge = userInputForCharging();
 
                         r_Garage.ChargeVehicle(vehicleLicense, hoursToCharge);
-                        clearScreen();
+                        Console.WriteLine();
                         Console.WriteLine("Vehicle with {0} license - added {1} battery hours successfully", vehicleLicense, hoursToCharge);
                         Console.WriteLine("Your current amount of battery is {0}",
                                            r_Garage.Vehicles[vehicleLicense].Vehicle.Engine.EnergyRemaining);
-                        Console.WriteLine();
+                        clearScreen(k_MessagesSleepTime);
                         notValid = false;
                     }
                     catch (Exception ex)
@@ -684,41 +689,34 @@ Pay attention that you fuel type is {0}", r_Garage.Vehicles[i_VehicleLicense].Ve
             checkIfGarageIsEmpty(out notValid);
             if (notValid)
             {
-                try
+                string vehicleLicense = GetLicenseNumberFromUser();
+
+                checkIfVehicleIsInTheGarage(ref vehicleLicense);
+                Vehicle vehicle = r_Garage.Vehicles[vehicleLicense].Vehicle;
+
+                Console.WriteLine("The vehicle you chose: {0}", vehicle.LicenseNumber);
+                Console.WriteLine("Here are all the details about this vehicle:");
+                Console.WriteLine("Owner name: {0}", r_Garage.Vehicles[vehicleLicense].OwnerName);
+                Console.WriteLine("Owner phone number: {0}", r_Garage.Vehicles[vehicleLicense].OwnerPhoneNumber);
+                Console.WriteLine("Vehicle status: {0}", r_Garage.Vehicles[vehicleLicense].VehicleStatus);
+                Console.WriteLine("Model name: {0}", vehicle.ModelName);
+                Console.WriteLine("Tires manufacture name: {0}", vehicle.Tires[0].ManufacturerName);
+                Console.WriteLine("Tire pressure for each tire");
+                foreach (var detail in vehicle.Tires)
                 {
-                    string vehicleLicense = GetLicenseNumberFromUser();
-
-                    checkIfVehicleIsInTheGarage(ref vehicleLicense);
-                    Vehicle vehicle = r_Garage.Vehicles[vehicleLicense].Vehicle;
-
-                    Console.WriteLine("The vehicle you chose: {0}", vehicle.LicenseNumber);
-                    Console.WriteLine("Here are all the details about this vehicle:");
-                    Console.WriteLine("Owner name: {0}", r_Garage.Vehicles[vehicleLicense].OwnerName);
-                    Console.WriteLine("Owner phone number: {0}", r_Garage.Vehicles[vehicleLicense].OwnerPhoneNumber);
-                    Console.WriteLine("Vehicle status: {0}", r_Garage.Vehicles[vehicleLicense].VehicleStatus);
-                    Console.WriteLine("Model name: {0}", vehicle.ModelName);
-                    Console.WriteLine("Tires manufacture name: {0}", vehicle.Tires[0].ManufacturerName);
-                    Console.WriteLine("Tire pressure for each tire");
-                    foreach (var detail in vehicle.Tires)
-                    {
-                        Console.WriteLine(detail.TirePressure);
-                    }
-
-                    Console.WriteLine("Fuel type: {0}", vehicle.FuelType);
-                    Console.WriteLine("Precent Of Remaining Energy: {0}%", vehicle.PrecentOfRemainingEnergy);
-                    Console.WriteLine("Speciefic details for the vehicle");
-                    foreach (var detail in vehicle.SpecieficDetailsForVehicle)
-                    {
-                        Console.WriteLine(detail);
-                    }
-
-                    Console.WriteLine();
+                    Console.Write(detail.TirePressure + " ");
                 }
-                catch (Exception ex)
+
+                Console.WriteLine();
+                Console.WriteLine("Fuel type: {0}", vehicle.FuelType);
+                Console.WriteLine("Precent Of Remaining Energy: {0}%", vehicle.PrecentOfRemainingEnergy);
+                Console.WriteLine("Speciefic details for the vehicle");
+                foreach (var detail in vehicle.SpecieficDetailsForVehicle)
                 {
-                    Console.WriteLine(ex.Message);
-                    Console.WriteLine();
+                    Console.WriteLine(detail);
                 }
+
+                clearScreen(k_MessagesSleepTime);
             }
         }
     }
