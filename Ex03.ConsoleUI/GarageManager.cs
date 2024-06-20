@@ -51,18 +51,18 @@ namespace Ex03.ConsoleUI
 
         private void presentGarageMenu()
         {
-            Console.WriteLine("Garage Menu:");
-            Console.WriteLine("==============================================");
-            Console.WriteLine("Choose your option:");
-            Console.WriteLine(@"(1) Add new vehicle to the garage
+            Console.WriteLine(@"Garage Menu:
+==============================================
+Choose your option:
+(1) Add new vehicle to the garage
 (2) Present all the license numbers in the garage
 (3) Change vehicle status
 (4) Infalte your vehicle's tires
 (5) Add gas to your vehicle - if you have a vehicle on fuel
 (6) Charge your vehicle - if you have an electric vehicle
 (7) Present full details about a vehicle
-(8) Exit");
-            Console.Write("Your choice is: ");
+(8) Exit
+Your choice is: ");
         }
 
         private void menuChoice(eMenuOptions i_UserInput, ref bool io_Exit)
@@ -231,7 +231,6 @@ your choice: ");
                     setTiresPressure(i_NewVehicle, isGetAllTirePressureTogether(userTirePressureChoice), manufacturerName);
                     notValid = false;
                 }
-
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error: {0}. Please try again.", ex.Message);
@@ -414,8 +413,8 @@ your choice: ");
         {
             Console.WriteLine(@"Do you want to filter them by status?
 (1) yes
-(2) no");
-            Console.Write("Your choice: ");
+(2) no
+Your choice: ");
             o_CheckIfFilter = Console.ReadLine();
             Console.WriteLine();
             isValidChoice(o_CheckIfFilter, 1, 2);
@@ -628,9 +627,8 @@ your choice: ");
                         r_Garage.FuelingVehicle(vehicleLicense, (eFuelType)int.Parse(fuelType), vehicleFuelAmount);
                         r_Garage.Vehicles[vehicleLicense].Vehicle.CalculatePrecentRemainingEnergy();
                         Console.WriteLine();
-                        Console.WriteLine("Vehicle with {0} license - added {1} fuel successfully", vehicleLicense, vehicleFuelAmount);
-                        Console.WriteLine("Your current amount of fuel is {0}",
-                                           r_Garage.Vehicles[vehicleLicense].Vehicle.Engine.EnergyRemaining);
+                        Console.WriteLine(@"Vehicle with {0} license - added {1} fuel successfully
+Your current amount of fuel is {2}", vehicleLicense, vehicleFuelAmount, r_Garage.Vehicles[vehicleLicense].Vehicle.Engine.EnergyRemaining);
                         notValid = false;
                     }
                     catch (Exception ex)
@@ -744,23 +742,25 @@ Pay attention that you fuel type is {0}", r_Garage.Vehicles[i_VehicleLicense].Ve
                 checkIfVehicleIsInTheGarage(ref vehicleLicense);
                 Vehicle vehicle = r_Garage.Vehicles[vehicleLicense].Vehicle;
 
-                Console.WriteLine("The vehicle you chose: {0}", vehicle.LicenseNumber);
-                Console.WriteLine("Here are all the details about this vehicle:");
-                Console.WriteLine("Owner name: {0}", r_Garage.Vehicles[vehicleLicense].OwnerName);
-                Console.WriteLine("Owner phone number: {0}", r_Garage.Vehicles[vehicleLicense].OwnerPhoneNumber);
-                Console.WriteLine("Vehicle status: {0}", r_Garage.Vehicles[vehicleLicense].VehicleStatus);
-                Console.WriteLine("Model name: {0}", vehicle.ModelName);
-                Console.WriteLine("Tires manufacture name: {0}", vehicle.Tires[0].ManufacturerName);
-                Console.WriteLine("Tire pressure for each tire");
+                Console.WriteLine(@"The vehicle you chose: {0}
+Here are all the details about this vehicle:
+Owner name: {1}
+Owner phone number: {2}
+Vehicle status: {3}
+Model name: {4}
+Tires manufacture name: {5}
+Tire pressure for each tire", 
+                vehicle.LicenseNumber, r_Garage.Vehicles[vehicleLicense].OwnerName, r_Garage.Vehicles[vehicleLicense].OwnerPhoneNumber,
+                r_Garage.Vehicles[vehicleLicense].VehicleStatus, vehicle.ModelName, vehicle.Tires[0].ManufacturerName);
                 foreach (var tire in vehicle.Tires)
                 {
                     Console.Write(tire.TirePressure + " ");
                 }
 
                 Console.WriteLine();
-                Console.WriteLine("Fuel type: {0}", vehicle.FuelType);
-                Console.WriteLine("Precent Of Remaining Energy: {0}%", vehicle.PrecentOfRemainingEnergy);
-                Console.WriteLine("Speciefic details for the vehicle");
+                Console.WriteLine(@"Fuel type: {0}
+Precent Of Remaining Energy: {1}%
+Speciefic details for the vehicle", vehicle.FuelType, vehicle.PrecentOfRemainingEnergy);
                 int index = 0;
 
                 foreach (var detail in vehicle.SpecieficDetailsForVehicle)
